@@ -1,0 +1,95 @@
+.icon {
+  display: inline-block;
+}
+
+.icon.arrow_up_right {
+  width: 11px;
+  height: 11px;
+  background: url('../img/icon/arrow_up_right.svg') no-repeat center / contain;
+}
+
+.icon.long_arrow_right {
+  width: 415px;
+  height: 24px;
+  background: url('../img/icon/long_arrow_right.svg') no-repeat center / contain;
+}
+
+
+.icon.book {
+  width: 22px;
+  height: 18px;
+  background: url('../img/icon/book.svg') no-repeat center / contain;
+}
+
+.icon.discord {
+  width: 24px;
+  height: 18px;
+  background: url('../img/icon/discord.svg') no-repeat center / contain;
+}
+
+.icon.twitter {
+  width: 23px;
+  height: 19px;
+  background: url('../img/icon/twitter.svg') no-repeat center / contain;
+}
+
+.icon.logo_icon {
+  width: 51px;
+  height: 51px;
+  background: url('../img/icon/logo_icon.svg') no-repeat center / contain;
+}
+
+.icon.logo_icon_white {
+  width: 51px;
+  height: 51px;
+  background: url('../img/icon/logo_icon_white.svg') no-repeat center / contain;
+}
+
+.icon.menu_burger {
+  width: 20px;
+  height: 14px;
+  background: url('../img/icon/menu_burger.svg') no-repeat center / contain;
+}
+
+.icon.menu_close {
+  width: 16px;
+  height: 16px;
+  background: url('../img/icon/menu_close.svg') no-repeat center / contain;
+}
+
+.icon.mouse {
+  width: 27px;
+  height: 39px;
+  background: url('../img/icon/mouse.svg') no-repeat center / contain;
+}
+
+.icon.opensea {
+  width: 36px;
+  height: 36px;
+  background: url('../img/icon/opensea.svg') no-repeat center / contain;
+}
+
+.icon.quixotic {
+  width: 36px;
+  height: 36px;
+  background: url('../img/icon/quixotic.svg') no-repeat center / contain;
+}
+
+.icon.banane {
+  width: 64px;
+  height: 68px;
+  background: url('../img/icon/banane.svg') no-repeat center / contain;
+}
+
+
+
+/* DELETE SCROLL BAR */
+.noScrollBar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.noScrollBar::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}

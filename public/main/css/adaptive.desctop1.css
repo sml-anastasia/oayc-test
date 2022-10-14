@@ -1,0 +1,704 @@
+
+
+@media (min-width:34.7222vw) {
+  /* FONTS */
+  /* Text size */
+  .m-16 {
+    font-size: 1.1111vw;
+  }
+  
+  .b-16 {
+    font-size: 1.1111vw;
+  }
+  .b-18 {
+    font-size: 1.2500vw;
+  }
+  .b-24 {
+    font-size: 1.6667vw;
+  }
+  .b-40 {
+    font-size: 2.7778vw;
+  }
+  .b-30 {
+    font-size: 2.0833vw;
+  }
+  .b-70 {
+    font-size: 4.8611vw;
+  }
+  .b-72 {
+    font-size: 5.0000vw;
+  }
+  .b-96 {
+    font-size: 6.6667vw;
+  }
+  .b-128 {
+    font-size: 8.8889vw;
+  }
+  .b-135 {
+    font-size: 9.3750vw;
+  }
+  .b-178 {
+    font-size: 12.3611vw;
+  }
+  .b-180 {
+    font-size: 12.5000vw;
+  }
+  .b-184 {
+    font-size: 12.7778vw;
+  }
+  .b-200 {
+    font-size: 13.8889vw;
+  }
+  .b-220 {
+    font-size: 15.2778vw;
+  }
+  .b-245 {
+    font-size: 17.0139vw;
+  }
+  
+  /* Text stroke */
+  .text-stroke {
+    -webkit-text-stroke: 0.2083vw var(--red_light);
+  }
+  
+  .text-stroke_1px {
+    -webkit-text-stroke: 0.0694vw var(--red_light);
+  }  
+  /* FONTS END */
+
+
+  /* COMPONENTS */
+  .icon.arrow_up_right {
+    width: 0.7639vw;
+    height: 0.7639vw;
+  }
+  
+  .icon.long_arrow_right {
+    width: 28.8194vw;
+    height: 1.6667vw;
+  }
+  
+  
+  .icon.book {
+    width: 1.5278vw;
+    height: 1.2500vw;
+  }
+  
+  .icon.discord {
+    width: 1.6667vw;
+    height: 1.2500vw;
+  }
+  
+  .icon.twitter {
+    width: 1.5972vw;
+    height: 1.3194vw;
+  }
+  
+  .icon.logo_icon {
+    width: 3.5417vw;
+    height: 3.5417vw;
+  }
+  
+  .icon.logo_icon_white {
+    width: 3.5417vw;
+    height: 3.5417vw;
+  }
+  
+  .icon.menu_burger {
+    width: 1.3889vw;
+    height: 0.9722vw;
+  }
+  
+  .icon.menu_close {
+    width: 1.1111vw;
+    height: 1.1111vw;
+  }
+  
+  .icon.mouse {
+    width: 1.8750vw;
+    height: 2.7083vw;
+  }
+  
+  .icon.opensea {
+    width: 2.5000vw;
+    height: 2.5000vw;
+  }
+  
+  .icon.quixotic {
+    width: 2.5000vw;
+    height: 2.5000vw;
+  }
+  
+  .icon.banane {
+    width: 4.4444vw;
+    height: 4.7222vw;
+  }
+  
+  /* COMPONENTS END */
+
+
+  /* Varriables */
+  :root {
+    --min_height: calc(100vw / 1.777);
+  }
+
+  body {
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+
+  .container {
+    width: 84.7222vw;
+    padding: 0 1.3889vw;
+  }
+
+  /* PRELOADER */
+  .preloader .logo_icon_white {
+    top: 2.7778vw;
+    left: calc(50% - 3.5417vw / 2);
+    width: 3.5417vw;
+    height: 3.5417vw;
+  }
+
+  .preloader_status {
+    top: calc(50vh - 12.5000vw / 2);
+    left: calc(50vw - 12.5000vw / 2);
+
+    width: 12.5000vw;
+    height: 12.5000vw;
+    margin-bottom: 1.7361vw;
+  }
+
+  .preloader_status .icon {
+    width: calc(4.4444vw * 0.85);
+    height: calc(4.7222vw * 0.85);
+    margin-bottom: 1.3889vw;
+  }
+
+  .preloader_text {
+    bottom: -2.7778vw;
+
+    width: 100%;
+  }
+  /* PRELOADER END */
+
+  /* HEADER */
+
+  .header__up {
+    height: 3.4722vw;
+    margin-top: 2.7778vw;
+  }
+
+  .header__down {
+    bottom: 0;
+    height: 5.2778vw;
+    margin-bottom: 2.7778vw;
+  }
+
+  header .container {
+    height: 100%;
+  }
+
+  /* header up */
+  .header_logo_icon {
+    width: 3.5417vw;
+    height: 3.5417vw;
+  }
+
+  .quixotic {
+    height: 3.4722vw;
+    padding: 0.5556vw;
+    margin-right: 2.0833vw;
+    border-radius: 3.4722vw;
+    /* cursor: pointer; */
+  }
+
+  .quixotic > .icon {
+    margin: 0;
+  }
+  .quixotic > .b-16 {
+    text-align: center;
+    width: 12.5000vw;
+  }
+
+  .menu {
+    width: 3.4722vw;
+    height: 3.4722vw;
+    border-radius: 3.4722vw;
+    /* cursor: pointer; */
+  }
+
+  /* header down */
+  .header__down_block__slogan {
+    width: 16.1111vw;
+    height: 5.2778vw;
+  }
+
+  .header__down_block__mouse {
+    position: relative;
+
+    width: 13.1944vw;
+    height: 4.8611vw;
+  }
+
+  .header__down_block__mouse .icon {
+    width: 2.5000vw;
+    height: 2.5000vw;
+    margin-bottom: 1.3194vw;
+  }
+
+  .header__down_block__social {
+    min-width: 16.1111vw;
+  }
+
+  .header__down_block__social__icon {
+    width: 3.4722vw;
+    height: 3.4722vw;
+    margin-left: 0.9722vw;
+    border-radius: 3.4722vw;
+  }
+
+  /* HEADER END */
+
+  /* MENU */
+  .menu_block {
+    width: 81.2500vw;
+    height: calc(100vh - 7.6389vw);
+    min-height: 54.8611vw;
+    padding: 4.5139vw 5.5556vw;
+    margin: 0 auto;
+    margin-top: 7.6389vw;
+    padding-bottom: 10.2083vw;
+    border-radius: 1.7361vw 1.7361vw 0.0000vw 0.0000vw;
+  }
+  .menu_block::after {
+    top: 43.7500vw;
+
+    width: 100%;
+    height: 0.2778vw;
+  }
+
+  .menu__up_content {
+    margin-bottom: 5.2083vw;
+  }
+
+  .menu__up_content .close {
+    width: 3.4722vw;
+    height: 3.4722vw;
+    background-color: var(--red);
+    border-radius: 3.4722vw;
+  }
+
+  .menu__navigations__nav a {
+    height: 3.7500vw;
+    padding-right: 4.1667vw;
+    margin-bottom: 2.0833vw;
+  }
+  .menu__navigations__nav a:last-child {
+    margin: 0;
+  }
+
+  .menu__navigations__nav span {
+    line-height: 3.7500vw;
+  }
+
+  .join_us {
+    width: 3.4722vw;
+    height: auto;
+    padding: 0.4861vw;
+    padding-top: 6.5972vw;
+
+    border-radius: 3.4722vw;
+  }
+
+  .join_us_icon {
+    width: 2.5000vw;
+    height: 2.5000vw;
+    margin-top: 0.5556vw;
+    background-color: var(--gray);
+    border-radius: 2.5000vw;
+  }
+  .join_us_icon .icon {
+    width: 1.2500vw;
+    height: 1.2500vw;
+  }
+
+  .join_us .b-16 {
+    top: 3.8194vw;
+    left: -0.9722vw;
+  }
+
+  .privacy_policy .b-16 {
+    line-height: 0.9722vw;
+    height: 0.9722vw;
+  }
+
+  .privacy_policy .flex {
+    margin-bottom: 0.8333vw;
+  }
+
+  .privacy_policy .icon.arrow_up_right {
+    margin-right: 1.7361vw;
+  }
+  /* MENU END */
+
+  /* MAIN SECTION */
+  .main {
+    height: 100vh;
+  }
+
+  .main__monkey {
+    position: absolute;
+    top: 9.0278vw;
+    right: 0;
+    width: 24.2361vw;
+    height: 32.7778vw;
+  }
+
+  .main__text_up {
+    line-height: 11.2500vw;
+    margin-bottom: 1.3888vw;
+  }
+
+  .main__text_down {
+    line-height: 7.2917vw;
+  }
+  /* MAIN SECTION END */
+
+  /* LORE */
+  .lore {
+    height: 100vh;
+    min-height: var(--min_height);
+  }
+
+  .lore__text {
+  }
+
+  .lore__inverted_commas {
+    height: 4.1667vw;
+    margin-bottom: 2.0833vw;
+  }
+
+  .lore__description {
+    margin-bottom: 1.7361vw;
+  }
+  .lore__description p {
+    width: 30.6944vw;
+    margin-right: 4.1667vw;
+  }
+  .lore__description p:last-child {
+    width: 46.3889vw;
+    margin: 0;
+  }
+
+  .lore__title {
+    line-height: 100%;
+  }
+
+  /* LORE END */
+
+  /* CARDS */
+
+  .card_wrapper,
+  .card_title {
+    width: 100%;
+    height: var(--min_height);
+    min-height: 100vh;
+    padding: 0 9.0278vw;
+    padding-top: 9.0278vw;
+  }
+
+  .card_wrapper.empty {
+    height: calc(var(--min_height) / 2);
+  }
+
+  .card_title {
+    padding: 0;
+  }
+
+  .card {
+    padding: 5.5556vw;
+    border-radius: 1.7361vw 1.7361vw 0.0000vw 0.0000vw;
+  }
+
+  .card_info {
+    width: 33.3333vw;
+    margin-right: 9.3750vw;
+  }
+
+  .card_info_title {
+    margin-bottom: 4.1667vw;
+  }
+
+  .card_info_label {
+    margin-bottom: 4.1667vw;
+  }
+
+  .card_image {
+    width: 27.5694vw;
+    height: 30.5556vw;
+  }
+
+  .card_image span {
+    width: 27.5694vw;
+    height: 5.3472vw;
+  }
+
+  .card_image img {
+    width: 19.4444vw;
+    height: 19.4444vw;
+  }
+  /* CARDS END */
+
+  /* SUPPLY AND MINT */
+  .supply_and_mint {
+    width: 100%;
+    height: 100vh;
+    min-height: var(--min_height);
+    padding-top: 16.3194vw;
+  }
+
+  .supply_and_mint__text_track {
+    width: 100%;
+    height: 11.9444vw;
+    margin-bottom: 1.5278vw;
+  }
+  .supply_and_mint__text_track p {
+    white-space: nowrap;
+    line-height: 11.9444vw;
+    min-width: 60%;
+  }
+
+  .supply_and_mint__monkey {
+    position: absolute;
+    left: calc(100vw / 2 - 32.5000vw / 2);
+    bottom: 0;
+    width: 32.5000vw;
+    height: 41.6667vw;
+  }
+  /* SUPPLY AND MINT END */
+
+  /* SOCIALS */
+  .socials {
+    height: 100vh;
+    min-height: var(--min_height);
+    padding-top: 19.6528vw;
+  }
+
+  .socials > .flex {
+    margin-bottom: 9.7222vw;
+  }
+
+  .socials__title {
+    display: inline-block;
+    max-width: 31.9444vw;
+    margin-right: 4.8611vw;
+  }
+
+  .socials__title .b-96 {
+    line-height: 4.6528vw;
+
+    height: 4.6528vw;
+    margin-bottom: 1.3889vw;
+  }
+
+  .socials__social_network {
+    margin-right: 4.8611vw;
+  }
+
+  .socials__social_network__icon {
+    width: 4.6528vw;
+    height: 4.6528vw;
+    margin-bottom: 1.3889vw;
+    background-color: var(--red);
+    border-radius: 4.6528vw;
+    /* cursor: pointer; */
+  }
+
+  .socials__social_network__icon .icon {
+    width: 2.0833vw;
+    height: 2.0833vw;
+  }
+
+  .socials__text {
+    max-width: 13.8889vw;
+  }
+
+  .socials__marquee {
+    white-space: nowrap;
+    width: 100%;
+    height: 6.2500vw;
+  }
+
+  .socials__marquee span {
+    line-height: 95%;
+    justify-content: 6.2500vw;
+    height: 100%;
+  }
+  /* SOCIALS END */
+
+  /* ROADMAP */
+  .roadmap {
+    height: 100vh;
+    min-height: var(--min_height);
+    padding-top: 6.2500vw;
+    /* overflow-x: auto; */
+  }
+
+  .roadmap__sticky {
+    height: var(--min_height);
+    min-height: var(--min_height);
+  }
+
+  .roadmap__wrapper {
+    height: 16.6667vw;
+    margin-right: 100vw;
+  }
+
+  .roadmap_title {
+    line-height: 11.9444vw;
+    padding-left: 100vw;
+    margin-right: 7.2917vw;
+  }
+
+  .roadmap__stage__info {
+    margin-right: 0.8333vw;
+  }
+
+  .roadmap__stage_name {
+    line-height: 3.4722vw;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 2.2222vw;
+  }
+
+  .roadmap__stage_description {
+    padding-left: 1em;
+  }
+
+  .roadmap__stage__progress {
+    width: 12.5000vw;
+    height: 11.8750vw;
+    transform: translateX(0.5556vw);
+  }
+  .roadmap__stage__progress img {
+    width: 12.5694vw;
+    height: 12.0139vw;
+  }
+  /* ROADMAP END */
+
+  /* TEAM */
+  .team {
+    height: 93.0556vw;
+    padding-top: 20.8333vw;
+  }
+
+  .team_title {
+    margin-bottom: 3.4722vw;
+  }
+
+  .team_title p {
+  }
+  .team_title p:first-child {
+    margin-bottom: 2.7778vw;
+  }
+
+  .team_title span {
+    display: inline-block;
+  }
+
+  .team_title .b-180 {
+    line-height: 8.6806vw;
+  }
+  .team_title .b-135 {
+    line-height: 8.6806vw;
+    margin-left: 15.6250vw;
+    margin-right: 2.0833vw;
+  }
+
+  .team_title .b-245 {
+    line-height: 11.8056vw;
+  }
+  .team_title .b-184 {
+    line-height: 12.7778vw;
+    margin-left: 2.0833vw;
+  }
+
+  .team__carousel__item {
+    width: 27.7778vw;
+    padding-right: 1.3889vw;
+  }
+
+  .team__carousel__item:last-child {
+    padding-right: 27.7778vw;
+  }
+
+  .team__carousel__item .image_wrapper {
+    width: 31.7361vw;
+    height: 19.5833vw;
+    margin-bottom: 1.7361vw;
+  }
+
+  .team__carousel__item .b-24 {
+    margin-bottom: 0.6944vw;
+  }
+  /* TEAM END */
+
+  /* END */
+  .end__slogan {
+    width: 83.0556vw;
+    height: 38.5417vw;
+  }
+  .end__slogan path {
+    stroke-width: 3;
+  }
+  /* END END */
+
+
+
+  /* ANIMATE */
+
+  /* HEADER */
+  header.start_animate .quixotic > .b-16 {
+    width: 12.5000vw;
+  }
+  /* HEADER END */
+
+
+
+  /* MAIN BLOCK */
+  .main__text_up { height: 11.1111vw; }
+  .main__text_down { height: 14.5833vw; }
+
+  .main__text_up.start_animate span { height: 11.1111vw; }
+  .main__text_down.start_animate span { height: 14.5833vw; }
+
+  /* MAIN BLOCK END */
+
+
+
+  /* MENU ANIMATE */
+  .menu__up_content .b-30 {
+    width: 6.2500vw;
+  }
+
+
+  .menu__navigations__nav a:hover .text-stroke_1px {
+    -webkit-text-stroke: 0.0694vw var(--gray);
+  }
+
+
+  .join_us {
+    padding-top: 0.4861vw;
+  }
+
+  .menu_wrapper.open .join_us {
+    padding-top: 6.5972vw;
+  }
+  .menu_wrapper.open .join_us .b-16 {
+    height: 1.1111vw;
+  }
+
+  /* MENU ANIMATE END */
+  /* ANIMATE END*/
+}

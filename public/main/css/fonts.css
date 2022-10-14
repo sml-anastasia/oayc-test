@@ -1,0 +1,219 @@
+/* Fonts */
+
+  /* Rubik */
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-Light.ttf") format("truetype");
+    font-weight: 300;
+  }
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-LightItalic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-Regular.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-Italic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-Medium.ttf") format("truetype");
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-MediumItalic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-SemiBoldItalic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-Bold.ttf") format("truetype");
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-BoldItalic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-ExtraBold.ttf") format("truetype");
+    font-weight: 800;
+  }
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-ExtraBoldItalic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: 800;
+  }
+
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-Black.ttf") format("truetype");
+    font-weight: 900;
+  }
+  @font-face {
+    font-family: "Rubik";
+    src: url("../fonts/Rubik/static/Rubik-BlackItalic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: 900;
+  }
+
+  .font-Rubik { font-family: "Rubik" !important; }
+
+  body {
+    font-family: "Rubik";
+    font-style: italic;
+  }
+
+  .italic {
+    font-style: italic;
+  }
+/* Text size */
+
+.m-16 {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 144%;
+}
+
+.b-16 {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 90%;
+}
+.b-18 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 90%;
+}
+.b-24 {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 90%;
+}
+.b-26 {
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 90%;
+}
+.b-40 {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 90%;
+}
+.b-42 {
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 90%;
+}
+.b-30 {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 90%;
+}
+.b-70 {
+  font-weight: 700;
+  font-size: 70px;
+  line-height: 90%;
+}
+.b-72 {
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 90%;
+}
+.b-96 {
+  font-weight: 700;
+  font-size: 96px;
+  line-height: 90%;
+}
+.b-120 {
+  font-weight: 700;
+  font-size: 120px;
+  line-height: 90.5%;
+}
+.b-128 {
+  font-weight: 700;
+  font-size: 128px;
+  line-height: 90.5%;
+}
+.b-135 {
+  font-weight: 700;
+  font-size: 135px;
+  line-height: 90%;
+}
+.b-178 {
+  font-weight: 700;
+  font-size: 178px;
+  line-height: 90%;
+}
+.b-180 {
+  font-weight: 700;
+  font-size: 180px;
+  line-height: 90%;
+}
+.b-184 {
+  font-weight: 700;
+  font-size: 184px;
+  line-height: 90%;
+}
+.b-200 {
+  font-weight: 700;
+  font-size: 200px;
+  line-height: 90%;
+}
+.b-220 {
+  font-weight: 700;
+  font-size: 220px;
+  line-height: 90%;
+}
+.b-245 {
+  font-weight: 700;
+  font-size: 245px;
+  line-height: 90%;
+}
+
+/* Text stroke */
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 3px var(--red_light);
+}
+
+.text-stroke_1px {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--red_light);
+}
+
+
+/* Text color */
+.f-red { color: var(--red); }
+.f-milk { color: var(--milk); }
+.f-gray { color: var(--gray); }
+.f-white { color: var(--white); }
+.f-black { color: var(--black); }
