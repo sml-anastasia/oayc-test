@@ -1,0 +1,7 @@
+version: "3"
+services:
+  oayc-front:
+    build:
+      context: .
+    ports:
+      - "80:80"
