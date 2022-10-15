@@ -18,8 +18,9 @@ const MintView = () => {
         abi: NFTContactABI,
         functionName: 'info',
         staleTime: 10000,
-        watch: true
+        watch: true,
     });
+
     const {bananaCount: goldenBananaCount, mintGoldenBanana} = useGoldenBananaMint();
     const {bananaCount: silverBananaCount, mintSilverBanana} = useSilverBananaMint(saleInfo?.pricePerTokenWl);
     const {publicMint, tokenNum, setTokenNum} = usePublicMint(saleInfo?.pricePerTokenPublic);

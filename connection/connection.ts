@@ -6,10 +6,11 @@ import { Abi } from "abitype";
 
 export const defaultConnector = new InjectedConnector();
 
-export const OPToken = "0xD0537Bc7e07338174B85e81e61Aa9126d96De502";
-export const NFTContract = "0x4c2ab59953EBF2536326064fFEAf3409365088b6";
-export const goldenBananaContract = "0xc03Ca7Aa072C119393F5Ff294c1abedd4B7f1f71";
-export const silverBananaContract = "0x8603588485b548A43DC17E9F5809EE73E15A8C94";
+export const OPToken = "0x4200000000000000000000000000000000000042";
+
+export const NFTContract = "0x0deaAc29d8A3d4EbBAAa3eCd3cC97C9deF00f720";
+export const goldenBananaContract = "0xA4921a23AF154eDd14926a9F50e74cd2A1EFF0C4";
+export const silverBananaContract = "0xA89EcbF1a89A9B6501F3651e2725fDc46C6AF20c";
 
 export const NFTContactABI = OaycNFT.abi as Abi;
 export const goldenBananaContactABI = Banana.abi as Abi;
