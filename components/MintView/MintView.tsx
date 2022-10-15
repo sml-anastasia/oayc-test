@@ -17,8 +17,7 @@ const MintView = () => {
         address: NFTContract,
         abi: NFTContactABI,
         functionName: 'info',
-        staleTime: 10000,
-        watch: true,
+        staleTime: 10000
     });
 
     const {bananaCount: goldenBananaCount, mintGoldenBanana} = useGoldenBananaMint();
