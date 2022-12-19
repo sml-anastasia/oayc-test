@@ -1,6 +1,8 @@
 {
   "/_app": "pages/_app.js",
+  "/mint": "pages/mint.html",
+  "/moayc": "pages/moayc.html",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/moayc": "pages/moayc.js"
+  "/404": "pages/404.html"
 }

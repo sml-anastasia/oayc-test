@@ -58,7 +58,7 @@ const ArrowSurround = ({
                            ...rest
                        }: React.HTMLAttributes<HTMLDivElement> & ArrowSurroundProps) => {
     return (
-        <StyledArrowsIcon>
+        <StyledArrowsIcon {...rest}>
             <TopArrow/>
             {sideArrows ? <InnerLayer>
                 <LeftArrow/>

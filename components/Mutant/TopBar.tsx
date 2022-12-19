@@ -13,7 +13,7 @@ const StyledTopBar = styled.div`
   margin-top: 16px;
   padding: 0 20px;
 
-  @media screen and ${device.tablet} {
+  @media screen and ${device.tabletL} {
     margin-top: 43px;
     padding: 0 136px;
   }
@@ -25,9 +25,13 @@ const StyledLogo = styled.div`
   background-size: 100% 100%;
   width: 39px;
   height: 46px;
-  @media screen and ${device.tablet} {
+  @media screen and ${device.tabletL} {
     width: 57px;
     height: 68px;
+  }
+  
+  &:hover {
+    cursor: pointer;
   }
 
 
@@ -51,7 +55,7 @@ const MoaycText = styled.div<{ connected: boolean }>`
   font-size: 24px;
 
 
-  @media screen and ${device.tablet} {
+  @media screen and ${device.tabletL} {
     display: flex;
     font-size: 70px;
   }
@@ -64,7 +68,7 @@ const CenterContainer = styled.div`
   align-items: center;
 
 
-  @media screen and ${device.tablet} {
+  @media screen and ${device.tabletL} {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -103,7 +107,7 @@ const TopBar = () => {
 
     return (
         <StyledTopBar>
-            <StyledLogo/>
+            <StyledLogo onClick={() => window.location.assign("/")}/>
             {isConnected &&
                 <CenterContainer>
                     <AccountAddress>{accountAddress}</AccountAddress>

@@ -11,7 +11,7 @@ const StyledFooter = styled.div`
   margin-bottom: 54px;
   padding: 0 20px;
 
-  @media screen and ${device.tablet} {
+  @media screen and ${device.tabletL} {
     margin-bottom: 90px;
     padding: 0 135px;
   }
