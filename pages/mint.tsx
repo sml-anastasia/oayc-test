@@ -2,11 +2,11 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Button from "../components/Button/Button";
 import Image from "next/image";
-import UserDetails from "../components/UserDetails/UserDetails";
-import ConnectWalletButton from "../components/ConnectWalletButton/ConnectWalletButton";
+import UserDetails from "../components/Mint/UserDetails/UserDetails";
+import ConnectWalletButton from "../components/Mint/ConnectWalletButton/ConnectWalletButton";
 import { useAccount } from "wagmi";
-import MintView from "../components/MintView/MintView";
-import Footer from "../components/Footer/Footer";
+import MintView from "../components/Mint/MintView/MintView";
+import Footer from "../components/Mint/Footer/Footer";
 import React from "react";
 import Link from "next/link";
 
