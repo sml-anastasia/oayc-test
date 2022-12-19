@@ -5,7 +5,7 @@ exports.id = 888;
 exports.ids = [888];
 exports.modules = {
 
-/***/ 6233:
+/***/ 233:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -19,13 +19,13 @@ __webpack_require__.d(__webpack_exports__, {
 // EXTERNAL MODULE: external "react/jsx-runtime"
 var jsx_runtime_ = __webpack_require__(997);
 // EXTERNAL MODULE: external "wagmi"
-var external_wagmi_ = __webpack_require__(8906);
+var external_wagmi_ = __webpack_require__(906);
 ;// CONCATENATED MODULE: external "wagmi/providers/public"
 const public_namespaceObject = require("wagmi/providers/public");
 ;// CONCATENATED MODULE: external "@wagmi/core/chains"
 const chains_namespaceObject = require("@wagmi/core/chains");
 // EXTERNAL MODULE: ./connection/connection.ts + 2 modules
-var connection = __webpack_require__(1207);
+var connection = __webpack_require__(207);
 ;// CONCATENATED MODULE: external "wagmi/providers/alchemy"
 const alchemy_namespaceObject = require("wagmi/providers/alchemy");
 ;// CONCATENATED MODULE: ./pages/_app.tsx
@@ -66,7 +66,7 @@ function MyApp({ Component , pageProps  }) {
 
 /***/ }),
 
-/***/ 2534:
+/***/ 534:
 /***/ ((module) => {
 
 module.exports = require("@wagmi/core");
@@ -80,7 +80,7 @@ module.exports = require("react/jsx-runtime");
 
 /***/ }),
 
-/***/ 8906:
+/***/ 906:
 /***/ ((module) => {
 
 module.exports = require("wagmi");
@@ -94,7 +94,7 @@ module.exports = require("wagmi");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [207], () => (__webpack_exec__(6233)));
+var __webpack_exports__ = __webpack_require__.X(0, [207], () => (__webpack_exec__(233)));
 module.exports = __webpack_exports__;
 
 })();
