@@ -28,6 +28,33 @@
 /* PRELOADER END */
 
 
+/* BUTTONS */
+.button:hover .button_decoration_left {
+  animation: buttonDecorationLeft .5s linear;
+}
+
+@keyframes buttonDecorationLeft {
+  0% { transform: rotateZ(0) translate3d(0, 0, 0) scale(1); }
+  33% { transform: rotateZ(-20deg) translate3d(9px, 9px, 0); }
+  66% { transform: rotateZ(0) translate3d(0, 0, 0) scale(1.1); }
+  100% { transform: rotateZ(0) translate3d(0, 0, 0) scale(1); }
+}
+
+.button:hover .button_decoration_right {
+  animation: buttonDecorationRight .5s linear;
+}
+
+@keyframes buttonDecorationRight {
+  0% { transform: rotateZ(0) translate3d(0, 0, 0) scale(1); }
+  33% { transform: rotateZ(20deg) translate3d(-9px, 9px, 0); }
+  66% { transform: rotateZ(0) translate3d(0, 0, 0) scale(1.1); }
+  100% { transform: rotateZ(0) translate3d(0, 0, 0) scale(1); }
+}
+
+
+/* BUTTONS END */
+
+
 /* LINK */
 .header__down_block__social__icon,
 .join_us_icon,
@@ -77,6 +104,18 @@ header.start_animate .quixotic {
 header.start_animate .quixotic > .b-16 {
   width: 180px;
 }
+
+.quixotic,
+.quixotic .color_gray {
+  transition: var(--transition);
+}
+.quixotic:hover {
+  background-color: var(--gray);
+}
+.quixotic:hover .color_gray {
+  color: #DFDBCF;
+}
+
 
 
 header .menu > * {
@@ -139,11 +178,17 @@ header.start_animate .menu {
   height: 0;
   padding-left: 0.2em;
   transform: translateX(-0.2em);
-  transition: 1s height .25s var(--animation_function);
+  transition: 
+    1s height .25s var(--animation_function),
+    var(--transition_3) opacity;
+}
+
+.main__text_down span {
+  opacity: 0;
 }
 
 .main__text_up.start_animate span { height: 160px; }
-.main__text_down.start_animate span { height: 210px; }
+.main__text_down.start_animate span { height: 210px; opacity: 1; }
 
 
 .main__monkey {
@@ -281,6 +326,23 @@ header.start_animate .menu {
 /* MENU ANIMATE END */
 
 
+/* CARDS */
+.card__title {
+  line-height: 100%;
+  overflow: hidden;
+}
+.card__title > * {
+  display: block;
+  transition: .5s transform cubic-bezier(.165,.84,.44,1);
+  transform: translateY(-100%);
+}
+
+.card__title.visible > * {
+  transform: translateY(0%);
+}
+/* CARDS */
+
+
 /* LORE */
 .lore__title {
   line-height: 100%;
@@ -298,6 +360,58 @@ header.start_animate .menu {
 /* LORE END */
 
 
+/* BUBBLE */
+.bubble_name {
+  transition: var(--transition) linear 3s;
+}
+
+.bubble_liquid svg {
+  transition: 3s cubic-bezier(.2, .6, .8, .4);
+  /* transform: translateY(100%); */
+  position: relative;
+
+  top: 100%;
+}
+
+.bubble:hover {}
+
+.bubble:hover .bubble_name,
+.bubble.active .bubble_name {
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.bubble:hover .bubble_description,
+.bubble.active .bubble_description {
+  opacity: 1;
+  transition: var(--transition) linear 3s;
+}
+
+.bubble:hover .bubble_liquid svg,
+.bubble.active .bubble_liquid svg {
+  /* transform: translateY(0%); */
+  top: 0%;
+  transition: 3s cubic-bezier(.2, .6, .8, .4) var(--transition);
+}
+/* BUBBLE */
+
+
+/* MINT */
+.mint__liquid {
+  transform-origin: top;
+  transition: 
+    var(--transition) transform var(--animation_function),
+    var(--transition_3) opacity;
+  transform: scaleY(0.4) translateY(-10%);
+  opacity: 0;
+}
+.mint__liquid.animate {
+  transform: scaleY(1) translateY(0%);
+  opacity: 1;
+}
+/* MINT */
+
+
 /* MARQUEE */
 .socials__marquee > * {
   display: block;
@@ -306,8 +420,6 @@ header.start_animate .menu {
 
 @keyframes marquee {
   0% { transform: translateX(0%); }
-  /* 50% { transform: translateX(-100%); } */
   100% { transform: translateX(-100%); }
 }
-
 /* MARQUEE END */

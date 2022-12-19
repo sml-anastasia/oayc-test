@@ -1,0 +1,38 @@
+/* SCROLL BAR */
+html.green {
+  --scrollbar_bar: #87CC00;
+  --scrollbar_bg: #191919;
+  --scrollbar_hover: #77b102;
+}
+
+
+/* BG */
+.green body {
+  background-color: var(--dark);
+}
+
+/* CURSOR */
+.green #cursor {
+  border-color: var(--green_light);
+}
+
+
+/* HEADER DOWN */
+.green .header__down_block__slogan {
+  background-image: url('../img/title_text_green.svg');
+}
+
+.green .header__down_block__social__icon {
+  background: var(--green_gradient);
+}
+.green .header__down_block__social__icon .icon {
+  filter: brightness(0.25);
+}
+
+.green .header__down_block__mouse .down {
+  filter: brightness(2);
+}
+
+
+.green {}
+

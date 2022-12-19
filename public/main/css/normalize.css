@@ -7,11 +7,9 @@
 a {
   color: inherit;
   text-decoration: none;
-  cursor: none;
 }
 button {
   border: 0;
-  cursor: none;
 }
 
 /* input:focus-visible {
@@ -41,9 +39,15 @@ input[type="number"]:focus {
 
 /* Custom scroll bar */
 
+html {
+  --scrollbar_bar: #FF0420;
+  --scrollbar_bg: #F0EBDF;
+  --scrollbar_hover: #ca0018;
+}
+
 
 html, body {
-  scrollbar-color: #FF0420 #F0EBDF; /* «цвет ползунка» «цвет полосы скроллбара» */
+  scrollbar-color: var(--scrollbar_bar) var(--scrollbar_bg); /* «цвет ползунка» «цвет полосы скроллбара» */
   /* scrollbar-width: auto | thin | none;  */ /* толщина */
 }
 
@@ -52,19 +56,19 @@ html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   width: 10px; /* ширина для вертикального скролла */
   height: 10px; /* высота для горизонтального скролла */
-  background-color: #F0EBDF;
+  background-color: var(--scrollbar_bg);
 }
 
 /* ползунок скроллбара */
 html::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
-  background-color: #FF0420;
+  background-color: var(--scrollbar_bar);
   border-radius: 9em;
 }
 
 html::-webkit-scrollbar-thumb:hover,
 body::-webkit-scrollbar-thumb:hover {
-  background-color: #ca0018;
+  background-color: var(--scrollbar_hover);
 }
 
 
@@ -72,16 +76,16 @@ body::-webkit-scrollbar-thumb:hover {
 .blueScrollBar::-webkit-scrollbar {
   width: 10px; /* ширина для вертикального скролла */
   height: 10px; /* высота для горизонтального скролла */
-  background-color: #F0EBDF;
+  background-color: var(--scrollbar_bg);
 }
 
 /* ползунок скроллбара */
 .blueScrollBar::-webkit-scrollbar-thumb {
-  background-color: #FF0420;
+  background-color: var(--scrollbar_bar);
   border-radius: 9em;
 }
 
 .blueScrollBar::-webkit-scrollbar-thumb:hover {
-  background-color: #ca0018;
+  background-color: var(--scrollbar_hover);
 }
 

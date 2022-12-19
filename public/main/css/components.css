@@ -82,6 +82,210 @@
 }
 
 
+/* BUTTON */
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 169px;
+  height: 50px;
+  background: #545454;
+  border-radius: 25px;
+}
+
+.button::before {
+  content: "";
+  position: absolute;top: 0;left: 0;
+  display: block;width: 100%;height: 100%;
+  background: inherit;
+  border-radius: inherit;
+  z-index: 2;
+}
+
+.button_content {
+  position: relative;
+  z-index: 3;
+}
+
+.button_droplet_1 {
+  position: absolute;
+  top: 44px;
+  left: 76px;
+  width: 29px;
+  height: 52px;
+  background: url('../img//buttons/droplet_1.svg') no-repeat center / contain;
+}
+.button_droplet_2 {
+  position: absolute;
+  top: 19px;
+  left: 115px;
+  width: 54px;
+  height: 61px;
+  background: url('../img//buttons/droplet_2.svg') no-repeat center / contain;
+}
+.button_droplet_3 {
+  position: absolute;
+  top: 8px;
+  left: 9px;
+  width: 54px;
+  height: 60px;
+  background: url('../img//buttons/droplet_3.svg') no-repeat center / contain;
+}
+.button_droplet_4 {
+  position: absolute;
+  top: 8px;
+  left: 95px;
+  width: 41px;
+  height: 73px;
+  background: url('../img//buttons/droplet_4.svg') no-repeat center / contain;
+}
+
+.button_decoration_left {
+  position: absolute;
+  bottom: 0;
+  left: -17px;
+  width: 52px;
+  height: 60px;
+  background: url('../img/buttons/decoration_left.svg') no-repeat center / contain;
+}
+.button_decoration_right {
+  position: absolute;
+  bottom: 0;
+  right: -19px;
+  width: 52px;
+  height: 60px;
+  background: url('../img/buttons/decoration_right.svg') no-repeat center / contain;
+}
+
+/* State */
+.button.red {
+  background: var(--red);
+}
+.button.red .button_droplet_1 {
+  background-image: url('../img/buttons/droplet_1_red.svg');
+}
+.button.red .button_droplet_2 {
+  background-image: url('../img/buttons/droplet_2_red.svg');
+}
+.button.red .button_droplet_3 {
+  background-image: url('../img/buttons/droplet_3_red.svg');
+}
+.button.red .button_droplet_4 {
+  background-image: url('../img/buttons/droplet_4_red.svg');
+}
+.button.red .button_decoration_left {
+  background-image: url('../img/buttons/decoration_left_red.svg');
+}
+.button.red .button_decoration_right {
+  background-image: url('../img/buttons/decoration_right_red.svg');
+}
+
+
+.button.green {
+  background: var(--green_gradient);
+}
+.button.green .button_droplet_1 {
+  background-image: url('../img/buttons/droplet_1_green.svg');
+}
+.button.green .button_droplet_2 {
+  background-image: url('../img/buttons/droplet_2_green.svg');
+}
+.button.green .button_droplet_3 {
+  background-image: url('../img/buttons/droplet_3_green.svg');
+}
+.button.green .button_droplet_4 {
+  background-image: url('../img/buttons/droplet_4_green.svg');
+}
+.button.green .button_decoration_left {
+  background-image: url('../img/buttons/decoration_left_green.svg');
+}
+.button.green .button_decoration_right {
+  background-image: url('../img/buttons/decoration_right_green.svg');
+}
+/* BUTTON END */
+
+
+/* GRADIENT BORDER */
+.gradient_border {
+  position: relative;
+  background: var(--green_gradient);
+}
+.gradient_border::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  background: var(--dark);
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.gradient_border > * {
+  position: relative;
+  z-index: 2;
+}
+/* GRADIENT BORDER */
+
+
+/* BUBBLE */
+.bubble {
+  --size: 120px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: var(--size);
+  height: var(--size);
+  padding: 2px;
+  border-radius: var(--size);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.bubble_name {
+  transition: var(--transition)
+}
+
+.bubble_description {
+  position: absolute;
+  top: 0;left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;height: 100%;
+  z-index: 2;
+  transition: var(--transition);
+  opacity: 0;
+}
+.bubble_description p {
+  line-height: 130%;
+  text-align: center;
+  display: inline-block;
+  max-width: 160px;
+}
+
+.bubble_liquid {
+  position: absolute;
+  z-index: 1;
+  top: -20%;left: 0;
+  width: 100%;height: 120%;
+}
+.bubble_liquid svg {
+  width: 100%;
+  height: 100%;
+}
+
+.bubble_liquid rect {
+  height: 100%;
+}
+/* BUBBLE END */
+
 
 /* DELETE SCROLL BAR */
 .noScrollBar {

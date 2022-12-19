@@ -471,15 +471,15 @@ header .container {
   margin-right: 135px;
 }
 
-.card_info_title {
+.card_info__title {
   margin-bottom: 65px;
 }
 
-.card_info_label {
+.card_info__label {
   margin-bottom: 65px;
 }
 
-.card_image {
+.card_info__image {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -489,7 +489,7 @@ header .container {
   height: 440px;
 }
 
-.card_image span {
+.card_info__image span {
   position: absolute;
   top: 0;
   left: 0;
@@ -498,13 +498,13 @@ header .container {
   height: 77px;
   background: url('../img/up_bracket.svg') no-repeat center / contain;
 }
-.card_image span:nth-child(2) {
+.card_info__image span:nth-child(2) {
   top: auto;
   bottom: 0;
   background: url('../img/down_bracket.svg') no-repeat center / contain;
 }
 
-.card_image img {
+.card_info__image img {
   width: 231px;
   height: 231px;
   object-fit: contain;

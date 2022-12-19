@@ -35,7 +35,6 @@ const Mint: NextPage = () => {
                 </div>
 
 
-
                 <div className="d-flex flex-column align-self-center align-items-center mt-5">
                     {!isConnected ? <ConnectWalletButton/> : <MintView/>}
                 </div>

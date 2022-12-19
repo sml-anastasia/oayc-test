@@ -1,0 +1,52 @@
+<div class="gradient_border bubble mutation_bubble" data-size="300">
+  <i class="b-16 color_green_gradient bubble_name">CLICK ME</i>
+  <i class="b-16 color_dark bubble_description">
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis magnam fuga aliquam reiciendis aliquid earum quo placeat sint incidunt quasi, distinctio consequatur harum architecto! Deleniti quod neque mollitia aliquid amet!
+  </i>
+  <div class="bubble_liquid">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="693" height="220" xml:space="preserve">
+      <pattern id="water" width=".25" height="1.1" patternContentUnits="objectBoundingBox">
+        <path fill="url(#gradient)" d="M0.25,1H0c0,0,0-0.659,0-0.916c0.083-0.303,0.158,0.334,0.25,0C0.25,0.327,0.25,1,0.25,1z" />
+        <!-- <path fill="url(#gradient)" d="M0.5 3.74982H0C0 3.74982 0 0.682156 0 0.168313C0.16595 -0.437503 0.315904 0.83611 0.499848 0.168313C0.499848 0.654165 0.5 3.74982 0.5 3.74982Z"/> -->
+      </pattern>
+
+      <g id="eff">
+        <rect class="water-fill" fill="url(#water)" x="-300" y="5" width="1200" height="120" opacity="0.3">
+          <animate attributeType="xml" attributeName="x" from="-300" to="0" repeatCount="indefinite" dur="3s" />
+        </rect>
+    
+        <rect class="water-fill" fill="url(#water)" y="10" width="1600" height="120" opacity="0.3">
+          <animate attributeType="xml" attributeName="x" from="-400" to="0" repeatCount="indefinite" dur="4s" />
+        </rect>
+    
+        <rect class="water-fill" fill="url(#water)" y="0" width="800" height="120" opacity="0.3">
+          <animate attributeType="xml" attributeName="x" from="-200" to="0" repeatCount="indefinite" dur="2.4s" />
+        </rect>
+    
+        <rect class="water-fill" fill="url(#water)" y="0" width="2000" height="120" opacity="0.3">
+          <animate attributeType="xml" attributeName="x" from="-500" to="0" repeatCount="indefinite" dur="3.8s" />
+        </rect>
+      </g>
+    
+      <!-- <use xlink:href="#eff" opacity="0.9" /> -->
+
+      <defs>
+        <linearGradient id="gradient" x1="-36.0259" y1="-64.2029" x2="141.73" y2="416.197" gradientUnits="userSpaceOnUse">
+        <stop offset="0.153796" stop-color="#B4D109"/>
+        <stop offset="0.684991" stop-color="#87CC00"/>
+        </linearGradient>
+        </defs>
+    </svg>
+  </div>
+  <!-- <div class="bubble_liquid">
+    <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="waveShape" d="M2.63889 25.7011C1.64934 27.0205 0.283157 28.6133 0 30.3122V298H298.5V38.0001H297C295.5 33.0001 295.5 21.5 274.5 5.99999C247.5 -4.00018 224.5 12 224.5 12C219.5 14.5 208 18 208 18C202 20 194.063 20.9498 188.167 22.7011C182.051 24.5177 175.347 25.0282 169 25.09C155.067 25.2257 140.973 24.2254 127.389 21.0345C121.103 19.5579 115.96 17.1533 110.222 14.2845C103.677 11.0118 96.6269 8.29945 89.7222 5.86778C77.1228 1.43059 62.218 1.94391 49.0556 2.42334C36.1759 2.89247 24.1429 5.9774 14 14.1456C9.78961 17.5362 5.8863 21.3712 2.63889 25.7011Z" fill="url(#paint0_linear_109_4)"/>
+      <defs>
+      <linearGradient id="paint0_linear_109_4" x1="-36.0259" y1="-64.2029" x2="141.73" y2="416.197" gradientUnits="userSpaceOnUse">
+      <stop offset="0.153796" stop-color="#B4D109"/>
+      <stop offset="0.684991" stop-color="#87CC00"/>
+      </linearGradient>
+      </defs>
+    </svg>
+  </div> -->
+</div>
