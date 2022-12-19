@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Image from "next/image";
 import MutationStatLine from "./MutationStatLine";
 import AmountSelector from "./AmountSelector";
@@ -8,17 +8,27 @@ import { useWindowSize } from "../../hooks/useScreenWidth";
 import { device } from "../../styles/device";
 import MoaycModal from "./MoaycModal";
 import Fail from "./Fail";
+import ArrowSurround from "./ArrowSurround";
 
 
-const MutationWindowContainer = styled.div`
+const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
   background: #1E2117;
   border-radius: 20px;
   padding: 28px 39px;
   display: flex;
+  justify-content: center;
+  align-items: center;
 
-  @media screen and ${device.tablet} {
-    min-width: 215px;
+  ${props => props.noContent && css`
+    width: 335px;
+    height: 332px;
+  `} @media screen and ${device.tablet} {
     padding: 23px;
+
+    ${props => props.noContent && css`
+      width: 620px;
+      height: 357px;
+    `}
   }
 `;
 
@@ -43,7 +53,7 @@ const MutantPreview = styled(Image)`
 `;
 
 
-const MintStatus = styled.div`
+const MintStatus = styled.div<{ noContent?: boolean }>`
   border: 1.5px solid #87CC01;
   border-radius: 6px;
   font-family: 'Rubik', sans-serif;
@@ -61,7 +71,14 @@ const MintStatus = styled.div`
   -webkit-text-fill-color: transparent;
 
   padding: 9.5px 36px;
-  margin-bottom: 40px;
+
+  ${props => !props.noContent && css`margin-bottom: 40px;`}
+
+
+  min-width: 257px;
+  @media screen and ${device.tablet} {
+    min-width: 215px;
+  }
 `;
 
 const MutationWindow = () => {
@@ -69,8 +86,26 @@ const MutationWindow = () => {
     const {isMobile} = useWindowSize();
     const [isOpen, setIsOpen] = useState(false);
 
+    const isSoldOut = false;
+    const isNotStarted = true;
+
+
+    if (isSoldOut || isNotStarted) {
+        return (
+            <MutationWindowContainer noContent>
+                <ArrowSurround sideArrows={!isMobile}>
+                    <MintStatus noContent>
+                        {isSoldOut && `SOLD OUT!`}
+                        {isNotStarted && `MINT IS NOT LIVE YET`}
+                    </MintStatus>
+                </ArrowSurround>
+            </MutationWindowContainer>
+        );
+    }
+
     return (
         <MutationWindowContainer>
+
             {!isMobile && <MutantPreview src={"/images/placeholder.gif"} width={311} height={311}/>}
 
             <MintMenu>

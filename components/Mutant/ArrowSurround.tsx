@@ -48,15 +48,24 @@ const RightArrow = styled.div`
 `;
 
 
-const ArrowSurround = ({children, ...rest}: React.HTMLAttributes<HTMLDivElement>) => {
+interface ArrowSurroundProps {
+    sideArrows?: boolean;
+}
+
+const ArrowSurround = ({
+                           children,
+                           sideArrows = true,
+                           ...rest
+                       }: React.HTMLAttributes<HTMLDivElement> & ArrowSurroundProps) => {
     return (
         <StyledArrowsIcon>
             <TopArrow/>
-            <InnerLayer>
+            {sideArrows ? <InnerLayer>
                 <LeftArrow/>
                 {children}
                 <RightArrow/>
-            </InnerLayer>
+            </InnerLayer> : children}
+
             <BottomArrow/>
         </StyledArrowsIcon>
     );
