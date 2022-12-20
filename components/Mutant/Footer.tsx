@@ -8,14 +8,13 @@ const StyledFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: end;
-  margin-bottom: 54px;
+  margin-bottom: 16px;
   padding: 0 20px;
 
   @media screen and ${device.tabletL} {
-    margin-bottom: 90px;
+    margin-bottom: 43px;
     padding: 0 135px;
   }
-
 `;
 
 const StyledTextContainer = styled.div`
