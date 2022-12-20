@@ -13,6 +13,7 @@ import { useMoaycStatus } from "../../hooks/useMoaycStatus";
 import { useMoaycPublicMint } from "../../hooks/useMoaycPublicMint";
 import Processing from "./Processing";
 import Success from "./Success";
+import { useMoaycWhitelistMint } from "../../hooks/useMoaycWhitelistMint";
 
 
 const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
@@ -96,27 +97,57 @@ const MutationWindow = () => {
 
     const {
         mintPublic,
-        approveOp,
-        canMint,
-        isMintSuccess,
-        isMintLoading,
-        isApproveLoading,
-        isError,
-    } = useMoaycPublicMint(saleInfo.currentPrice, selectedAmount);
+        approvePublicOp,
+        canPublicMint,
+        isPublicMintSuccess,
+        isPublicMintLoading,
+        isPublicApproveLoading,
+        isPublicError,
+    } = useMoaycPublicMint(saleInfo.currentPrice, selectedAmount, saleInfo.publicMint);
+
+    const {
+        mintWl,
+        approveWlOp,
+        canWlMint,
+        isWlMintSuccess,
+        isWlMintLoading,
+        isWlApproveLoading,
+        isWlError,
+    } = useMoaycWhitelistMint(saleInfo.currentPrice, selectedAmount, saleInfo.whitelistMint);
 
 
     useEffect(() => {
-        if (isMintSuccess) {
+        if (isPublicMintSuccess || isWlMintSuccess) {
             setIsSuccessOpen(true);
+            saleInfo.updateSaleInfo();
         }
-    }, [isMintSuccess]);
+    }, [isPublicMintSuccess, isWlMintSuccess]);
 
     useEffect(() => {
-        if (isError) {
+        if (isPublicError || isWlError) {
             setIsFailOpen(true);
         }
-    }, [isError]);
+    }, [isPublicError, isWlError]);
 
+    const isLoading = isPublicMintLoading || isPublicApproveLoading || isWlMintLoading || isWlApproveLoading;
+    const canMint = canPublicMint || canWlMint;
+
+    const handleApprove = () => {
+        if (saleInfo.publicMint) {
+            approvePublicOp?.();
+        }
+        if (saleInfo.whitelistMint) {
+            approveWlOp?.();
+        }
+    };
+    const handleMint = () => {
+        if (saleInfo.publicMint) {
+            mintPublic?.();
+        }
+        if (saleInfo.whitelistMint) {
+            mintWl?.();
+        }
+    };
 
     if (!saleInfo.saleInfo) {
         return null;
@@ -158,14 +189,14 @@ const MutationWindow = () => {
                         <AmountSelector value={selectedAmount} onChange={setSelectedAmount}/>
                         {canMint ?
                             <MoaycRectButton style={{marginTop: 11}}
-                                             onClick={() => mintPublic?.()}>Mint</MoaycRectButton>
+                                             onClick={handleMint}>Mint</MoaycRectButton>
                             :
                             <MoaycRectButton style={{marginTop: 11}}
-                                             onClick={() => approveOp?.()}>Approve</MoaycRectButton>
+                                             onClick={handleApprove}>Approve</MoaycRectButton>
                         }
                     </MintMenu>
 
-                    <MoaycModal isOpen={isMintLoading || isApproveLoading}>
+                    <MoaycModal isOpen={isLoading}>
                         <Processing/>
                     </MoaycModal>
 

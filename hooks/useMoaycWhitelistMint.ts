@@ -2,30 +2,30 @@ import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from
 import { mutantContract, mutantContractABI, OPTokenABI, tokenContract } from "../connection/connection";
 import { ethers } from "ethers";
 
-export const useMoaycPublicMint = (price: number, amount: number, enable: boolean) => {
+export const useMoaycWhitelistMint = (price: number, amount: number, enable: boolean) => {
 
     const {
         config: approveConfig,
-        isSuccess: canPublicApprove,
+        isSuccess: canWlApprove,
     } = usePrepareContractWrite({
         address: tokenContract,
         abi: OPTokenABI,
         functionName: 'approve',
         args: [mutantContract, ethers.utils.parseEther(price.toString()).mul(amount)],
-        enabled: amount > 0 && enable
+        enabled: enable
     });
 
 
     const {
-        write: approvePublicOp,
+        write: approveWlOp,
         data: approveData,
         reset: approveReset
     } = useContractWrite(approveConfig);
 
 
     const {
-        isLoading: isPublicApproveLoading,
-        isSuccess: isApproveSuccess,
+        isLoading: isWlApproveLoading,
+        isSuccess: isWlApproveSuccess,
         isError: isApproveError,
     } = useWaitForTransaction({
         hash: approveData?.hash,
@@ -41,27 +41,27 @@ export const useMoaycPublicMint = (price: number, amount: number, enable: boolea
 
     const {
         config: publicMintConfig,
-        isSuccess: canPublicMint,
+        isSuccess: canWlMint,
         refetch: refetchContractWrite
     } = usePrepareContractWrite({
         address: mutantContract,
         abi: mutantContractABI,
-        functionName: 'mintPublic',
-        args: [amount],
+        functionName: 'mintWhitelist',
+        args: [amount, []],
         enabled: enable
     });
 
 
     const {
-        write: mintPublic,
+        write: mintWl,
         data: mintPublicData,
         reset: mintPublicReset
     } = useContractWrite(publicMintConfig);
 
 
     const {
-        isLoading: isPublicMintLoading,
-        isSuccess: isPublicMintSuccess,
+        isLoading: isWlMintLoading,
+        isSuccess: isWlMintSuccess,
         isError: isMintError,
     } = useWaitForTransaction({
         hash: mintPublicData?.hash,
@@ -77,14 +77,14 @@ export const useMoaycPublicMint = (price: number, amount: number, enable: boolea
 
 
     return {
-        canPublicApprove,
-        canPublicMint,
-        isPublicApproveLoading,
-        isPublicMintLoading,
-        isPublicMintSuccess,
-        mintPublic,
-        approvePublicOp,
-        isPublicError: isApproveError || isMintError
+        canWlApprove,
+        canWlMint,
+        isWlApproveLoading,
+        isWlMintLoading,
+        isWlMintSuccess,
+        mintWl,
+        approveWlOp,
+        isWlError: isApproveError || isMintError
     };
 
 

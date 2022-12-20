@@ -15,7 +15,7 @@ export enum Status {
 
 export const useMoaycStatus = () => {
 
-    const {data: saleInfo} = useContractRead({
+    const {data: saleInfo, refetch: updateSaleInfo} = useContractRead({
         address: mutantContract,
         abi: mutantContractABI,
         functionName: 'info',
@@ -58,7 +58,8 @@ export const useMoaycStatus = () => {
         mutationPrice,
         supply: saleInfo?.supply || 0,
         minted: saleInfo?.minted || 0,
-        currentPrice: getCurrentPrice()
+        currentPrice: getCurrentPrice(),
+        updateSaleInfo
     };
 
 };
