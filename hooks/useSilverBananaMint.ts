@@ -1,10 +1,10 @@
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import {
+    bananaAbi,
     NFTContactABI,
     NFTContract,
     OPToken,
     OPTokenABI,
-    silverBananaContactABI,
     silverBananaContract
 } from "../connection/connection";
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ export const useSilverBananaMint = (price: BigNumber) => {
 
     const {data: silverBananaCount, refetch: refetchBananaCount} = useContractRead({
         address: silverBananaContract,
-        abi: silverBananaContactABI,
+        abi: bananaAbi,
         functionName: 'balanceOf',
         args: [address]
     });
@@ -31,7 +31,7 @@ export const useSilverBananaMint = (price: BigNumber) => {
 
     const {data: silverBananaId, refetch: refetchBananaId} = useContractRead({
         address: silverBananaContract,
-        abi: silverBananaContactABI,
+        abi: bananaAbi,
         functionName: 'tokenOfOwnerByIndex',
         args: [address, 0],
         enabled: bananaCount > 0

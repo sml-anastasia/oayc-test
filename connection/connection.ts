@@ -24,7 +24,7 @@ export const mutagen3Contract = "0x2AA79C491b13715932201301efFCb627878621a2";
 
 
 export const NFTContactABI = OaycNFT.abi as Abi;
-export const goldenBananaContactABI = Banana.abi as Abi;
+export const bananaAbi = Banana.abi as Abi;
 export const mutantContractABI = Mutant.abi as Abi;
 export const mutagenContractABI = Mutagen.abi as Abi;
 
