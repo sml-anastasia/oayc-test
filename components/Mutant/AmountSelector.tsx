@@ -60,25 +60,23 @@ const MinusButton = styled.div`
 `;
 
 interface AmountSelectorProps {
-    onChange?: (value: number) => void;
+    value: number;
+    onChange: (value: number) => void;
 }
 
-const AmountSelector = ({onChange}: AmountSelectorProps) => {
-    const [value, setValue] = useState(1);
+const AmountSelector = ({onChange, value}: AmountSelectorProps) => {
 
     const handlePlus = () => {
         const newValue = value + 1;
         if (newValue <= 20) {
-            setValue(newValue);
-            onChange?.(newValue);
+            onChange(newValue);
         }
     };
 
     const handleMinus = () => {
         const newValue = value - 1;
         if (newValue > 0) {
-            setValue(newValue);
-            onChange?.(newValue);
+            onChange(newValue);
         }
     };
 

@@ -8,6 +8,8 @@ import TopBar from "../components/Mutant/TopBar";
 import Footer from "../components/Mutant/Footer";
 import { useDefaultConnect } from "../hooks/useDefaultConnect";
 import MutationWindow from "../components/Mutant/MutationWindow";
+import useEagerConnect from "../hooks/useEagerConnect";
+import useChangeNetwork from "../hooks/useChangeNetwork";
 
 const Container = styled.div`
   background: #1E1E1E;
@@ -29,6 +31,8 @@ const ContentContainer = styled.div`
 
 
 const Moayc: NextPage = () => {
+    useEagerConnect();
+    useChangeNetwork();
     const {isConnected} = useAccount();
     const {connect} = useDefaultConnect();
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from "styled-components";
 import Image from "next/image";
 import MutationStatLine from "./MutationStatLine";
@@ -9,6 +9,10 @@ import { device } from "../../styles/device";
 import MoaycModal from "./MoaycModal";
 import Fail from "./Fail";
 import ArrowSurround from "./ArrowSurround";
+import { useMoaycStatus } from "../../hooks/useMoaycStatus";
+import { useMoaycPublicMint } from "../../hooks/useMoaycPublicMint";
+import Processing from "./Processing";
+import Success from "./Success";
 
 
 const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
@@ -82,21 +86,50 @@ const MintStatus = styled.div<{ noContent?: boolean }>`
 `;
 
 const MutationWindow = () => {
-
     const {isMobile} = useWindowSize();
-    const [isOpen, setIsOpen] = useState(false);
 
-    const isSoldOut = false;
-    const isNotStarted = true;
+    const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+    const [isFailOpen, setIsFailOpen] = useState(false);
+    const [selectedAmount, setSelectedAmount] = useState(1);
+
+    const saleInfo = useMoaycStatus();
+
+    const {
+        mintPublic,
+        approveOp,
+        canMint,
+        isMintSuccess,
+        isMintLoading,
+        isApproveLoading,
+        isError,
+    } = useMoaycPublicMint(saleInfo.currentPrice, selectedAmount);
 
 
-    if (isSoldOut || isNotStarted) {
+    useEffect(() => {
+        if (isMintSuccess) {
+            setIsSuccessOpen(true);
+        }
+    }, [isMintSuccess]);
+
+    useEffect(() => {
+        if (isError) {
+            setIsFailOpen(true);
+        }
+    }, [isError]);
+
+
+    if (!saleInfo.saleInfo) {
+        return null;
+    }
+
+    if (saleInfo.soldOut || saleInfo.notStarted || saleInfo.closed) {
         return (
             <MutationWindowContainer noContent>
                 <ArrowSurround sideArrows={!isMobile}>
                     <MintStatus noContent>
-                        {isSoldOut && `SOLD OUT!`}
-                        {isNotStarted && `MINT IS NOT LIVE YET`}
+                        {saleInfo.soldOut && `SOLD OUT!`}
+                        {saleInfo.notStarted && `MINT IS NOT LIVE YET`}
+                        {saleInfo.closed && `MINT IS CLOSED`}
                     </MintStatus>
                 </ArrowSurround>
             </MutationWindowContainer>
@@ -104,37 +137,55 @@ const MutationWindow = () => {
     }
 
     return (
-        <MutationWindowContainer>
+        <>
+            {!saleInfo.mutation ?
 
-            {!isMobile && <MutantPreview src={"/images/placeholder.gif"} width={311} height={311}/>}
+                <MutationWindowContainer>
 
-            <MintMenu>
-                <MintStatus>
-                    whitelist mint is live
-                </MintStatus>
-                <MutationStatLine name={"Mutants left:"} value={2999}/>
-                <MutationStatLine name={"Price:"} value={'33 $OP'}/>
-                <div style={{flexGrow: 1}}/>
-                <MutationStatLine style={{marginBottom: 8}} name={"Total:"} value={'1833 $OP'}/>
-                <AmountSelector/>
-                <MoaycRectButton style={{marginTop: 11}} onClick={() => setIsOpen(true)}>Mint</MoaycRectButton>
-            </MintMenu>
+                    {!isMobile && <MutantPreview src={"/images/placeholder.gif"} width={311} height={311}/>}
+
+                    <MintMenu>
+                        {saleInfo.whitelistMint && <MintStatus>whitelist mint is live</MintStatus>}
+                        {saleInfo.publicMint && <MintStatus>public mint is live</MintStatus>}
+
+                        <MutationStatLine name={"Mutants left:"} value={saleInfo.supply - saleInfo.minted}/>
+                        <MutationStatLine name={"Price:"} value={`${saleInfo.currentPrice} $OP`}/>
 
 
-            {/*<MoaycModal isOpen={isOpen} onClose={() => setIsOpen(false)}>*/}
-            {/*    <Processing/>*/}
-            {/*</MoaycModal>*/}
+                        <div style={{flexGrow: 1}}/>
+                        <MutationStatLine style={{marginBottom: 8}} name={"Total:"}
+                                          value={`${selectedAmount * saleInfo.currentPrice} $OP`}/>
+                        <AmountSelector value={selectedAmount} onChange={setSelectedAmount}/>
+                        {canMint ?
+                            <MoaycRectButton style={{marginTop: 11}}
+                                             onClick={() => mintPublic?.()}>Mint</MoaycRectButton>
+                            :
+                            <MoaycRectButton style={{marginTop: 11}}
+                                             onClick={() => approveOp?.()}>Approve</MoaycRectButton>
+                        }
+                    </MintMenu>
 
-            {/*<MoaycModal isOpen={isOpen} onClose={() => setIsOpen(false)}>*/}
-            {/*    <Success onClose={() => setIsOpen(false)}/>*/}
-            {/*</MoaycModal>*/}
+                    <MoaycModal isOpen={isMintLoading || isApproveLoading}>
+                        <Processing/>
+                    </MoaycModal>
 
-            <MoaycModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                <Fail onClose={() => setIsOpen(false)}/>
-            </MoaycModal>
+                    <MoaycModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
+                        <Success onClose={() => setIsSuccessOpen(false)}/>
+                    </MoaycModal>
+
+                    <MoaycModal isOpen={isFailOpen} onClose={() => setIsFailOpen(false)}>
+                        <Fail onClose={() => setIsFailOpen(false)}/>
+                    </MoaycModal>
+                </MutationWindowContainer>
+                :
+
+                <>
+                    {saleInfo.mutation && <MintStatus>mutation is live</MintStatus>}
+                </>
+            }
+        </>
 
 
-        </MutationWindowContainer>
     );
 };
 

@@ -19,7 +19,7 @@ const StyledModal = styled(Modal)`
 
 interface ModalProps {
     isOpen: boolean;
-    onClose: () => void;
+    onClose?: () => void;
 }
 
 const MoaycModal = (props: PropsWithChildren<ModalProps>) => {
@@ -35,6 +35,7 @@ const MoaycModal = (props: PropsWithChildren<ModalProps>) => {
         }}
         isOpen={props.isOpen}
         onRequestClose={props.onClose}
+        appElement={window.document.body}
     >
         {props.children}
     </StyledModal>;
