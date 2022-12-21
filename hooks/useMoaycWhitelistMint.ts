@@ -1,8 +1,13 @@
-import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
+import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { mutantContract, mutantContractABI, OPTokenABI, tokenContract } from "../connection/connection";
 import { ethers } from "ethers";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export const useMoaycWhitelistMint = (price: number, amount: number, enable: boolean) => {
+
+    const [proof, setProof] = useState([]);
+    const {address} = useAccount();
 
     const {
         config: approveConfig,
@@ -14,6 +19,17 @@ export const useMoaycWhitelistMint = (price: number, amount: number, enable: boo
         args: [mutantContract, ethers.utils.parseEther(price.toString()).mul(amount)],
         enabled: enable
     });
+
+    useEffect(() => {
+        if (enable) {
+            axios
+                .get(`/api/proof?address=${address}`)
+                .then(res => {
+                    setProof(res.data.proof);
+                })
+                .catch();
+        }
+    }, [address, enable]);
 
 
     const {
@@ -47,7 +63,7 @@ export const useMoaycWhitelistMint = (price: number, amount: number, enable: boo
         address: mutantContract,
         abi: mutantContractABI,
         functionName: 'mintWhitelist',
-        args: [amount, []],
+        args: [amount, proof],
         enabled: enable
     });
 
@@ -80,6 +96,7 @@ export const useMoaycWhitelistMint = (price: number, amount: number, enable: boo
         canWlApprove,
         canWlMint,
         isWlApproveLoading,
+        isWled: proof.length > 0,
         isWlMintLoading,
         isWlMintSuccess,
         mintWl,

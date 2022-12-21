@@ -16,7 +16,7 @@ import Success from "./Success";
 import { useMoaycWhitelistMint } from "../../hooks/useMoaycWhitelistMint";
 
 
-const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
+export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
   background: #1E2117;
   border-radius: 20px;
   padding: 28px 39px;
@@ -38,7 +38,7 @@ const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
 `;
 
 
-const MintMenu = styled.div`
+export const MintMenu = styled.div`
   min-width: 257px;
 
   height: 311px;
@@ -52,13 +52,13 @@ const MintMenu = styled.div`
   }
 `;
 
-const MutantPreview = styled(Image)`
+export const MutantPreview = styled(Image)`
   border: 1.5px solid #87CC01 !important;
   border-radius: 15px;
 `;
 
 
-const MintStatus = styled.div<{ noContent?: boolean }>`
+export const MintStatus = styled.div<{ noContent?: boolean }>`
   border: 1.5px solid #87CC01;
   border-radius: 6px;
   font-family: 'Rubik', sans-serif;

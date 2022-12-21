@@ -10,6 +10,7 @@ import { useDefaultConnect } from "../hooks/useDefaultConnect";
 import MutationWindow from "../components/Mutant/MutationWindow";
 import useEagerConnect from "../hooks/useEagerConnect";
 import useChangeNetwork from "../hooks/useChangeNetwork";
+import Placeholder from "../components/Mutant/Placeholder";
 
 const Container = styled.div`
   background: #1E1E1E;
@@ -31,10 +32,12 @@ const ContentContainer = styled.div`
 
 
 const Moayc: NextPage = () => {
-    useEagerConnect();
-    useChangeNetwork();
-    const {isConnected} = useAccount();
-    const {connect} = useDefaultConnect();
+
+    // useEagerConnect();
+    // useChangeNetwork();
+    // const {isConnected} = useAccount();
+    // const {connect} = useDefaultConnect();
+
     return (
         <>
             <Head>
@@ -44,10 +47,12 @@ const Moayc: NextPage = () => {
             <Container>
                 <TopBar/>
                 <ContentContainer>
-                    {!isConnected ?
-                        <ArrowsButton onClick={() => connect()}>Connect Wallet</ArrowsButton> :
-                        <MutationWindow/>
-                    }
+
+                    <Placeholder/>
+                    {/*{!isConnected ?*/}
+                    {/*    <ArrowsButton onClick={() => connect()}>Connect Wallet</ArrowsButton> :*/}
+                    {/*    <MutationWindow/>*/}
+                    {/*}*/}
                 </ContentContainer>
                 <Footer/>
             </Container>
