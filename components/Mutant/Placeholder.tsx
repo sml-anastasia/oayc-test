@@ -10,7 +10,7 @@ const Placeholder = () => {
         <MutationWindowContainer noContent>
             <ArrowSurround sideArrows={!isMobile}>
                 <MintStatus noContent>
-                    {`MINT IS NOT LIVE YET`}
+                    {`MUTATION IS NOT LIVE YET`}
                 </MintStatus>
             </ArrowSurround>
         </MutationWindowContainer>
