@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
 
@@ -62,13 +62,14 @@ const MinusButton = styled.div`
 interface AmountSelectorProps {
     value: number;
     onChange: (value: number) => void;
+    max?: number;
 }
 
-const AmountSelector = ({onChange, value}: AmountSelectorProps) => {
+const AmountSelector = ({onChange, value, max = 1}: AmountSelectorProps) => {
 
     const handlePlus = () => {
         const newValue = value + 1;
-        if (newValue <= 20) {
+        if (newValue <= max) {
             onChange(newValue);
         }
     };
@@ -82,12 +83,12 @@ const AmountSelector = ({onChange, value}: AmountSelectorProps) => {
 
     return (
         <StyledContainer>
-            <SelectorButton onClick={handlePlus}>
-                <PlusButton/>
-            </SelectorButton>
-            <StyledSelector> {value}</StyledSelector>
             <SelectorButton onClick={handleMinus}>
                 <MinusButton/>
+            </SelectorButton>
+            <StyledSelector> {value}</StyledSelector>
+            <SelectorButton onClick={handlePlus}>
+                <PlusButton/>
             </SelectorButton>
         </StyledContainer>
     );

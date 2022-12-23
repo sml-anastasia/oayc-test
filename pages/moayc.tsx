@@ -33,10 +33,10 @@ const ContentContainer = styled.div`
 
 const Moayc: NextPage = () => {
 
-    // useEagerConnect();
-    // useChangeNetwork();
-    // const {isConnected} = useAccount();
-    // const {connect} = useDefaultConnect();
+    useEagerConnect();
+    useChangeNetwork();
+    const {isConnected} = useAccount();
+    const {connect} = useDefaultConnect();
 
     return (
         <>
@@ -48,11 +48,11 @@ const Moayc: NextPage = () => {
                 <TopBar/>
                 <ContentContainer>
 
-                    <Placeholder/>
-                    {/*{!isConnected ?*/}
-                    {/*    <ArrowsButton onClick={() => connect()}>Connect Wallet</ArrowsButton> :*/}
-                    {/*    <MutationWindow/>*/}
-                    {/*}*/}
+                    {/*<Placeholder/>*/}
+                    {!isConnected ?
+                        <ArrowsButton onClick={() => connect()}>Connect Wallet</ArrowsButton> :
+                        <MutationWindow/>
+                    }
                 </ContentContainer>
                 <Footer/>
             </Container>

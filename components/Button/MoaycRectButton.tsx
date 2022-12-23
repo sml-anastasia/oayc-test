@@ -32,9 +32,12 @@ export const MoaycRectButton = styled.button`
   padding: 11px;
   justify-content: center;
   transition: 0.3s;
+  
+  &[disabled] {
+    opacity: 0.5;
+  }
 
-
-  &:hover {
+  &:hover:not([disabled]) {
     cursor: pointer;
     opacity: 0.5;
     filter: brightness(75%);

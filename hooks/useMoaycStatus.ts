@@ -1,4 +1,4 @@
-import { useContractRead } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 import { mutantContract, mutantContractABI } from "../connection/connection";
 import { SaleStatus } from "../components/Mint/MintView/models/SaleStatus";
 import { ethers } from "ethers";
@@ -14,6 +14,8 @@ export enum Status {
 
 
 export const useMoaycStatus = () => {
+
+    const {address} = useAccount();
 
     const {data: saleInfo, refetch: updateSaleInfo} = useContractRead({
         address: mutantContract,
@@ -59,7 +61,7 @@ export const useMoaycStatus = () => {
         supply: saleInfo?.supply || 0,
         minted: saleInfo?.minted || 0,
         currentPrice: getCurrentPrice(),
-        updateSaleInfo
+        updateSaleInfo,
     };
 
 };

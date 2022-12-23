@@ -1,8 +1,9 @@
-import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { mutantContract, mutantContractABI, OPTokenABI, tokenContract } from "../connection/connection";
 import { ethers } from "ethers";
 
 export const useMoaycPublicMint = (price: number, amount: number, enable: boolean) => {
+    const {address} = useAccount();
 
     const {
         config: approveConfig,
@@ -15,6 +16,14 @@ export const useMoaycPublicMint = (price: number, amount: number, enable: boolea
         enabled: amount > 0 && enable
     });
 
+
+    const {data: publicMints, refetch: updateSaleInfo} = useContractRead({
+        address: mutantContract,
+        abi: mutantContractABI,
+        functionName: 'publicMints',
+        args: [address],
+        staleTime: 10000
+    });
 
     const {
         write: approvePublicOp,
@@ -84,7 +93,10 @@ export const useMoaycPublicMint = (price: number, amount: number, enable: boolea
         isPublicMintSuccess,
         mintPublic,
         approvePublicOp,
-        isPublicError: isApproveError || isMintError
+        isPublicError: isApproveError || isMintError,
+        publicMints: publicMints?.toString() ?? '0',
+        publicAllocation: 10,
+        updateSaleInfo
     };
 
 

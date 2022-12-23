@@ -103,6 +103,9 @@ const MutationWindow = () => {
         isPublicMintLoading,
         isPublicApproveLoading,
         isPublicError,
+        publicMints,
+        publicAllocation,
+        updateSaleInfo: updatePublicAllocInfo
     } = useMoaycPublicMint(saleInfo.currentPrice, selectedAmount, saleInfo.publicMint);
 
     const {
@@ -113,6 +116,9 @@ const MutationWindow = () => {
         isWlMintLoading,
         isWlApproveLoading,
         isWlError,
+        whitelistMints,
+        whiteListAllocation,
+        updateSaleInfo: updateWlAllocInfo
     } = useMoaycWhitelistMint(saleInfo.currentPrice, selectedAmount, saleInfo.whitelistMint);
 
 
@@ -120,6 +126,8 @@ const MutationWindow = () => {
         if (isPublicMintSuccess || isWlMintSuccess) {
             setIsSuccessOpen(true);
             saleInfo.updateSaleInfo();
+            updateWlAllocInfo();
+            updatePublicAllocInfo();
         }
     }, [isPublicMintSuccess, isWlMintSuccess]);
 
@@ -153,6 +161,36 @@ const MutationWindow = () => {
         return null;
     }
 
+    const getAlloc = () => {
+        if (saleInfo.whitelistMint) {
+            return Number(whiteListAllocation);
+        }
+        if (saleInfo.publicMint) {
+            return Number(publicAllocation);
+        }
+        return 0;
+    }
+
+    const getMinted = () => {
+        if (saleInfo.whitelistMint) {
+            return Number(whitelistMints);
+        }
+        if (saleInfo.publicMint) {
+            return Number(publicMints);
+        }
+        return 0
+    }
+
+    const isAllocationOk = () => {
+        if (saleInfo.whitelistMint) {
+            return Number(whitelistMints) < Number(whiteListAllocation);
+        }
+        if (saleInfo.publicMint) {
+            return Number(publicMints) < Number(publicAllocation);
+        }
+        return false
+    }
+
     if (saleInfo.soldOut || saleInfo.notStarted || saleInfo.closed) {
         return (
             <MutationWindowContainer noContent>
@@ -170,28 +208,27 @@ const MutationWindow = () => {
     return (
         <>
             {!saleInfo.mutation ?
-
                 <MutationWindowContainer>
-
-                    {!isMobile && <MutantPreview src={"/images/placeholder.gif"} width={311} height={311}/>}
-
+                    {!isMobile && <MutantPreview src={"/images/placeholder.jpg"} width={311} height={311}/>}
                     <MintMenu>
                         {saleInfo.whitelistMint && <MintStatus>whitelist mint is live</MintStatus>}
                         {saleInfo.publicMint && <MintStatus>public mint is live</MintStatus>}
 
                         <MutationStatLine name={"Mutants left:"} value={saleInfo.supply - saleInfo.minted}/>
                         <MutationStatLine name={"Price:"} value={`${saleInfo.currentPrice} $OP`}/>
+                        <MutationStatLine name={"Your Allocation:"} value={`${getMinted()} / ${getAlloc()}`}/>
 
 
                         <div style={{flexGrow: 1}}/>
+
                         <MutationStatLine style={{marginBottom: 8}} name={"Total:"}
                                           value={`${selectedAmount * saleInfo.currentPrice} $OP`}/>
-                        <AmountSelector value={selectedAmount} onChange={setSelectedAmount}/>
+                        <AmountSelector value={selectedAmount} onChange={setSelectedAmount} max={getAlloc()-getMinted()}/>
                         {canMint ?
                             <MoaycRectButton style={{marginTop: 11}}
                                              onClick={handleMint}>Mint</MoaycRectButton>
                             :
-                            <MoaycRectButton style={{marginTop: 11}}
+                            <MoaycRectButton style={{marginTop: 11}} disabled={!isAllocationOk()}
                                              onClick={handleApprove}>Approve</MoaycRectButton>
                         }
                     </MintMenu>
@@ -209,9 +246,8 @@ const MutationWindow = () => {
                     </MoaycModal>
                 </MutationWindowContainer>
                 :
-
                 <>
-                    {saleInfo.mutation && <MintStatus>mutation is live</MintStatus>}
+                    {saleInfo.mutation && <MintStatus>mutation is not live yet</MintStatus>}
                 </>
             }
         </>

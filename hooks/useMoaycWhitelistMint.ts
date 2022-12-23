@@ -1,4 +1,4 @@
-import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { mutantContract, mutantContractABI, OPTokenABI, tokenContract } from "../connection/connection";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -19,6 +19,15 @@ export const useMoaycWhitelistMint = (price: number, amount: number, enable: boo
         args: [mutantContract, ethers.utils.parseEther(price.toString()).mul(amount)],
         enabled: enable
     });
+
+    const {data: whitelistMints, refetch: updateSaleInfo} = useContractRead({
+        address: mutantContract,
+        abi: mutantContractABI,
+        functionName: 'whitelistMints',
+        args: [address],
+        staleTime: 10000
+    });
+
 
     useEffect(() => {
         if (enable) {
@@ -101,7 +110,10 @@ export const useMoaycWhitelistMint = (price: number, amount: number, enable: boo
         isWlMintSuccess,
         mintWl,
         approveWlOp,
-        isWlError: isApproveError || isMintError
+        isWlError: isApproveError || isMintError,
+        whitelistMints: whitelistMints?.toString() ?? '0',
+        whiteListAllocation: proof.length > 0 ? 3 : 0,
+        updateSaleInfo
     };
 
 
