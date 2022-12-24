@@ -7,10 +7,9 @@ import styled from "styled-components";
 import TopBar from "../components/Mutant/TopBar";
 import Footer from "../components/Mutant/Footer";
 import { useDefaultConnect } from "../hooks/useDefaultConnect";
-import MutationWindow from "../components/Mutant/MutationWindow";
 import useEagerConnect from "../hooks/useEagerConnect";
 import useChangeNetwork from "../hooks/useChangeNetwork";
-import Placeholder from "../components/Mutant/Placeholder";
+import MutationWindow from "../components/Mutant/MutationWindow";
 
 const Container = styled.div`
   background: #1E1E1E;
@@ -33,10 +32,10 @@ const ContentContainer = styled.div`
 
 const Moayc: NextPage = () => {
 
-    // useEagerConnect();
-    // useChangeNetwork();
-    // const {isConnected} = useAccount();
-    // const {connect} = useDefaultConnect();
+    useEagerConnect();
+    useChangeNetwork();
+    const {isConnected} = useAccount();
+    const {connect} = useDefaultConnect();
 
     return (
         <>
@@ -47,12 +46,10 @@ const Moayc: NextPage = () => {
             <Container>
                 <TopBar/>
                 <ContentContainer>
-
-                    <Placeholder/>
-                    {/*{!isConnected ?*/}
-                    {/*    <ArrowsButton onClick={() => connect()}>Connect Wallet</ArrowsButton> :*/}
-                    {/*    <MutationWindow/>*/}
-                    {/*}*/}
+                    {!isConnected ?
+                        <ArrowsButton onClick={() => connect()}>Connect Wallet</ArrowsButton> :
+                        <MutationWindow/>
+                    }
                 </ContentContainer>
                 <Footer/>
             </Container>

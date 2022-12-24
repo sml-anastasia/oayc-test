@@ -1,16 +1,3 @@
-// import React from 'react';
-//
-// const MoaycRectButton = () => {
-//     return (
-//         <div>
-//
-//         </div>
-//     );
-// };
-//
-// export default MoaycRectButton;
-
-
 import styled from "styled-components";
 
 export const MoaycRectButton = styled.button`

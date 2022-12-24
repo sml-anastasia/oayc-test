@@ -1,9 +1,9 @@
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import {
     bananaAbi,
-    NFTContactABI,
-    NFTContract,
-    OPToken,
+    oaycContactABI,
+    oaycContract,
+    tokenContract,
     OPTokenABI,
     silverBananaContract
 } from "../connection/connection";
@@ -38,10 +38,10 @@ export const useSilverBananaMint = (price: BigNumber) => {
     });
 
     const {config: approveConfig} = usePrepareContractWrite({
-        address: OPToken,
+        address: tokenContract,
         abi: OPTokenABI,
         functionName: 'approve',
-        args: [NFTContract, price],
+        args: [oaycContract, price],
         enabled: Boolean(bananaCount)
     });
     const {write: approveWrite, data: approveData} = useContractWrite(approveConfig);
@@ -51,8 +51,8 @@ export const useSilverBananaMint = (price: BigNumber) => {
         isSuccess: mintSuccess,
         refetch: refetchContractWrite
     } = usePrepareContractWrite({
-        address: NFTContract,
-        abi: NFTContactABI as Abi,
+        address: oaycContract,
+        abi: oaycContactABI as Abi,
         functionName: 'mintSilverBanana',
         args: [silverBananaId?.toNumber()],
         enabled: Boolean(bananaCount)

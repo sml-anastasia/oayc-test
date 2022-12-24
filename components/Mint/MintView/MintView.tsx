@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContractRead } from "wagmi";
 import { SaleStatus } from "./models/SaleStatus";
-import { NFTContactABI, NFTContract } from "../../../connection/connection";
+import { oaycContactABI, oaycContract } from "../../../connection/connection";
 import MintedCounter from "./MintedCounter";
 import Button from "../../Button/Button";
 import { useGoldenBananaMint } from "../../../hooks/useGoldenBananaMint";
@@ -14,8 +14,8 @@ const MintView = () => {
 
 
     const {data: saleInfo} = useContractRead({
-        address: NFTContract,
-        abi: NFTContactABI,
+        address: oaycContract,
+        abi: oaycContactABI,
         functionName: 'info',
         staleTime: 10000
     });

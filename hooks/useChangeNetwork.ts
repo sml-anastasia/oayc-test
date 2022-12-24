@@ -1,14 +1,15 @@
 import { useNetwork, useSwitchNetwork } from 'wagmi';
 import { useEffect } from 'react';
-import { optimism, polygonMumbai } from "@wagmi/core/chains";
+import { chains } from "../connection/connection";
+
 
 const useChangeNetwork = () => {
     const {chain} = useNetwork();
     const {switchNetwork} = useSwitchNetwork();
 
     useEffect(() => {
-        if (chain?.id !== optimism.id) {
-            switchNetwork?.(optimism.id);
+        if (chain?.id !== chains[0].id) {
+            switchNetwork?.(chains[0].id);
         }
     }, [chain]);
 

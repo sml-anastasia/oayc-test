@@ -1,6 +1,6 @@
 import React from 'react';
 import ArrowSurround from "./ArrowSurround";
-import { MintStatus, MutationWindowContainer } from "./MutationWindow";
+import { MintStatus, MutationWindowContainer } from "./MutantMintWindow";
 import { useWindowSize } from "../../hooks/useScreenWidth";
 
 const Placeholder = () => {

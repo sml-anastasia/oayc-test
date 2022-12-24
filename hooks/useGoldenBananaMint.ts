@@ -1,5 +1,5 @@
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
-import { bananaAbi, goldenBananaContract, NFTContactABI, NFTContract } from "../connection/connection";
+import { bananaAbi, goldenBananaContract, oaycContactABI, oaycContract } from "../connection/connection";
 import { useEffect, useState } from "react";
 import { Abi } from "abitype";
 
@@ -30,8 +30,8 @@ export const useGoldenBananaMint = () => {
     });
 
     const {config} = usePrepareContractWrite({
-        address: NFTContract,
-        abi: NFTContactABI as Abi,
+        address: oaycContract,
+        abi: oaycContactABI as Abi,
         functionName: 'mintGoldenBanana',
         args: [goldenBananaId?.toNumber()],
         enabled: Boolean(bananaCount)

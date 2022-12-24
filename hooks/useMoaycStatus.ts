@@ -1,5 +1,5 @@
 import { useAccount, useContractRead } from "wagmi";
-import { mutantContract, mutantContractABI } from "../connection/connection";
+import { moaycContract, moaycContractABI } from "../connection/connection";
 import { SaleStatus } from "../components/Mint/MintView/models/SaleStatus";
 import { ethers } from "ethers";
 
@@ -18,8 +18,8 @@ export const useMoaycStatus = () => {
     const {address} = useAccount();
 
     const {data: saleInfo, refetch: updateSaleInfo} = useContractRead({
-        address: mutantContract,
-        abi: mutantContractABI,
+        address: moaycContract,
+        abi: moaycContractABI,
         functionName: 'info',
         staleTime: 10000
     });

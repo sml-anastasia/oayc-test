@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from "styled-components";
 import Image from "next/image";
-import MutationStatLine from "./MutationStatLine";
-import AmountSelector from "./AmountSelector";
-import { MoaycRectButton } from "../Button/MoaycRectButton";
 import { useWindowSize } from "../../hooks/useScreenWidth";
 import { device } from "../../styles/device";
-import MoaycModal from "./MoaycModal";
-import Fail from "./Fail";
-import ArrowSurround from "./ArrowSurround";
 import { useMoaycStatus } from "../../hooks/useMoaycStatus";
-import { useMoaycPublicMint } from "../../hooks/useMoaycPublicMint";
-import Processing from "./Processing";
+import Placeholder from "./Placeholder";
+import ImageSelector from "./mutation/ImageSelector";
+import { getDefaultNftMutate, NftMutate, useMoaycMutate } from "../../hooks/useMoaycMutate";
+import { MoaycRectButton } from "../Button/MoaycRectButton";
+import MoaycModal from "./MoaycModal";
 import Success from "./Success";
-import { useMoaycWhitelistMint } from "../../hooks/useMoaycWhitelistMint";
+import Fail from "./Fail";
 
 
 export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
@@ -37,22 +34,7 @@ export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
   }
 `;
 
-
-export const MintMenu = styled.div`
-  min-width: 257px;
-
-  height: 311px;
-  display: flex;
-  flex-direction: column;
-
-
-  @media screen and ${device.tablet} {
-    margin-left: 48px;
-    min-width: 215px;
-  }
-`;
-
-export const MutantPreview = styled(Image)`
+export const MutantPreview = styled.img`
   border: 1.5px solid #87CC01 !important;
   border-radius: 15px;
 `;
@@ -77,7 +59,7 @@ export const MintStatus = styled.div<{ noContent?: boolean }>`
 
   padding: 9.5px 36px;
 
-  ${props => !props.noContent && css`margin-bottom: 40px;`}
+  margin-bottom: 26px;
 
 
   min-width: 257px;
@@ -86,173 +68,96 @@ export const MintStatus = styled.div<{ noContent?: boolean }>`
   }
 `;
 
+
+const ImageSelectorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+`;
+
+
+const MutationArrow = styled.div`
+  background: url("/images/svg/mutation-arrow.svg") no-repeat center center;
+  width: 43px;
+  height: 26px;
+
+`;
+
 const MutationWindow = () => {
     const {isMobile} = useWindowSize();
 
     const [isSuccessOpen, setIsSuccessOpen] = useState(false);
     const [isFailOpen, setIsFailOpen] = useState(false);
-    const [selectedAmount, setSelectedAmount] = useState(1);
+    const [selectedNft, setSelectedNft] = useState<NftMutate>(getDefaultNftMutate());
+    const [selectedMutagen, setSelectedMutagen] = useState<NftMutate>(getDefaultNftMutate());
+
+    const nftSelected = selectedNft.id !== '-1';
+    const mutagenSelected = selectedMutagen.id !== '-1';
 
     const saleInfo = useMoaycStatus();
+    const {nfts, mutagenNfts, canMutate, handleMutate} = useMoaycMutate(saleInfo.mutation, nftSelected, selectedNft, selectedMutagen);
 
-    const {
-        mintPublic,
-        approvePublicOp,
-        canPublicMint,
-        isPublicMintSuccess,
-        isPublicMintLoading,
-        isPublicApproveLoading,
-        isPublicError,
-        publicMints,
-        publicAllocation,
-        updateSaleInfo: updatePublicAllocInfo
-    } = useMoaycPublicMint(saleInfo.currentPrice, selectedAmount, saleInfo.publicMint);
+    const availableMutagens = mutagenNfts.filter(i => i.level === selectedNft.level + 1);
 
-    const {
-        mintWl,
-        approveWlOp,
-        canWlMint,
-        isWlMintSuccess,
-        isWlMintLoading,
-        isWlApproveLoading,
-        isWlError,
-        whitelistMints,
-        whiteListAllocation,
-        updateSaleInfo: updateWlAllocInfo
-    } = useMoaycWhitelistMint(saleInfo.currentPrice, selectedAmount, saleInfo.whitelistMint);
-
-
-    useEffect(() => {
-        if (isPublicMintSuccess || isWlMintSuccess) {
-            setIsSuccessOpen(true);
-            saleInfo.updateSaleInfo();
-            updateWlAllocInfo();
-            updatePublicAllocInfo();
+    const handleSelectNft = (nft: NftMutate) => {
+        setSelectedNft(nft);
+        if (selectedMutagen.level !== nft.level + 1) {
+            setSelectedMutagen(getDefaultNftMutate());
         }
-    }, [isPublicMintSuccess, isWlMintSuccess]);
-
-    useEffect(() => {
-        if (isPublicError || isWlError) {
-            setIsFailOpen(true);
-        }
-    }, [isPublicError, isWlError]);
-
-    const isLoading = isPublicMintLoading || isPublicApproveLoading || isWlMintLoading || isWlApproveLoading;
-    const canMint = canPublicMint || canWlMint;
-
-    const handleApprove = () => {
-        if (saleInfo.publicMint) {
-            approvePublicOp?.();
-        }
-        if (saleInfo.whitelistMint) {
-            approveWlOp?.();
-        }
-    };
-    const handleMint = () => {
-        if (saleInfo.publicMint) {
-            mintPublic?.();
-        }
-        if (saleInfo.whitelistMint) {
-            mintWl?.();
-        }
-    };
+    }
 
     if (!saleInfo.saleInfo) {
         return null;
     }
 
-    const getAlloc = () => {
-        if (saleInfo.whitelistMint) {
-            return Number(whiteListAllocation);
-        }
-        if (saleInfo.publicMint) {
-            return Number(publicAllocation);
-        }
-        return 0;
-    }
-
-    const getMinted = () => {
-        if (saleInfo.whitelistMint) {
-            return Number(whitelistMints);
-        }
-        if (saleInfo.publicMint) {
-            return Number(publicMints);
-        }
-        return 0
-    }
-
-    const isAllocationOk = () => {
-        if (saleInfo.whitelistMint) {
-            return Number(whitelistMints) < Number(whiteListAllocation);
-        }
-        if (saleInfo.publicMint) {
-            return Number(publicMints) < Number(publicAllocation);
-        }
-        return false
-    }
-
-    if (saleInfo.soldOut || saleInfo.notStarted || saleInfo.closed) {
-        return (
-            <MutationWindowContainer noContent>
-                <ArrowSurround sideArrows={!isMobile}>
-                    <MintStatus noContent>
-                        {saleInfo.soldOut && `SOLD OUT!`}
-                        {saleInfo.notStarted && `MINT IS NOT LIVE YET`}
-                        {saleInfo.closed && `MINT IS CLOSED`}
-                    </MintStatus>
-                </ArrowSurround>
-            </MutationWindowContainer>
-        );
+    if (!saleInfo.mutation) {
+        return <Placeholder/>;
     }
 
     return (
-        <>
-            {!saleInfo.mutation ?
-                <MutationWindowContainer>
-                    {!isMobile && <MutantPreview src={"/images/placeholder.jpg"} width={311} height={311}/>}
-                    <MintMenu>
-                        {saleInfo.whitelistMint && <MintStatus>whitelist mint is live</MintStatus>}
-                        {saleInfo.publicMint && <MintStatus>public mint is live</MintStatus>}
+        <MutationWindowContainer>
 
-                        <MutationStatLine name={"Mutants left:"} value={saleInfo.supply - saleInfo.minted}/>
-                        <MutationStatLine name={"Price:"} value={`${saleInfo.currentPrice} $OP`}/>
-                        <MutationStatLine name={"Your Allocation:"} value={`${getMinted()} / ${getAlloc()}`}/>
+            <ImageSelectorContainer>
+                <MintStatus>1. Choose your nft</MintStatus>
+                <ImageSelector selected={selectedNft} images={nfts} onSelected={handleSelectNft}/>
+            </ImageSelectorContainer>
 
-
-                        <div style={{flexGrow: 1}}/>
-
-                        <MutationStatLine style={{marginBottom: 8}} name={"Total:"}
-                                          value={`${selectedAmount * saleInfo.currentPrice} $OP`}/>
-                        <AmountSelector value={selectedAmount} onChange={setSelectedAmount} max={getAlloc()-getMinted()}/>
-                        {canMint ?
-                            <MoaycRectButton style={{marginTop: 11}}
-                                             onClick={handleMint}>Mint</MoaycRectButton>
-                            :
-                            <MoaycRectButton style={{marginTop: 11}} disabled={!isAllocationOk()}
-                                             onClick={handleApprove}>Approve</MoaycRectButton>
-                        }
-                    </MintMenu>
-
-                    <MoaycModal isOpen={isLoading}>
-                        <Processing/>
-                    </MoaycModal>
-
-                    <MoaycModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
-                        <Success onClose={() => setIsSuccessOpen(false)}/>
-                    </MoaycModal>
-
-                    <MoaycModal isOpen={isFailOpen} onClose={() => setIsFailOpen(false)}>
-                        <Fail onClose={() => setIsFailOpen(false)}/>
-                    </MoaycModal>
-                </MutationWindowContainer>
-                :
-                <>
-                    {saleInfo.mutation && <MintStatus>mutation is not live yet</MintStatus>}
-                </>
+            {nftSelected && <>
+                <ImageSelectorContainer style={{marginLeft: 80}} >
+                    <MintStatus>2. Choose your mutagen</MintStatus>
+                    <ImageSelector selected={selectedMutagen} images={availableMutagens} onSelected={setSelectedMutagen}/>
+                </ImageSelectorContainer>
+                {mutagenSelected && <>
+                    <ImageSelectorContainer style={{marginRight: 40, marginLeft: 40}}>
+                        <MutationArrow/>
+                    </ImageSelectorContainer>
+                    <ImageSelectorContainer style={{maxWidth: 311, justifyContent: 'space-between', flexGrow: 1}}>
+                        <MutantPreview src={`https://oayc.io:3001/${selectedNft.id}.png`} width={311} height={311}/>
+                        <MoaycRectButton
+                            style={{height: 50, marginTop: 17}}
+                            disabled={!canMutate}
+                            onClick={handleMutate}
+                        >
+                            Mutate
+                        </MoaycRectButton>
+                    </ImageSelectorContainer>
+                </>}
+            </>
             }
-        </>
 
 
+            {/*<MoaycModal isOpen={isLoading}>*/}
+            {/*    <Processing/>*/}
+            {/*</MoaycModal>*/}
+
+            <MoaycModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
+                <Success onClose={() => setIsSuccessOpen(false)}/>
+            </MoaycModal>
+
+            <MoaycModal isOpen={isFailOpen} onClose={() => setIsFailOpen(false)}>
+                <Fail onClose={() => setIsFailOpen(false)}/>
+            </MoaycModal>
+        </MutationWindowContainer>
     );
 };
 
