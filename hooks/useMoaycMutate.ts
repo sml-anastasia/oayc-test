@@ -17,6 +17,7 @@ import {
     oaycContract
 } from "../connection/connection";
 import { BigNumber, ethers } from "ethers";
+import { useState } from "react";
 
 const getOaycNfts = {
     address: oaycContract,
@@ -74,6 +75,8 @@ export const useMoaycMutate = (
 ) => {
 
     const {address} = useAccount();
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [isError, setIsError] = useState(false)
 
     const {
         data: oaycBalanceOf,
@@ -288,7 +291,7 @@ export const useMoaycMutate = (
         enabled: !!mutate1Data?.hash,
         onSuccess: async (data) => {
             if (data.status === 1) {
-                console.log('success')
+                setIsSuccess(true);
                 // await oaycBalanceOfIsRefetch();
                 // await moaycBalanceOfRefetch();
                 await mutagen1BalanceOfRefetch();
@@ -301,6 +304,8 @@ export const useMoaycMutate = (
                 await refetchCanMutate1();
                 // await mutagen2NftsRefetch();
                 // await mutagen3NftsRefetch();
+            } else {
+                setIsError(true);
             }
         },
         onError: async () => {
@@ -336,7 +341,7 @@ export const useMoaycMutate = (
         enabled: !!mutate2Data?.hash,
         onSuccess: async (data) => {
             if (data.status === 1) {
-                console.log('success')
+                setIsSuccess(true);
                 // await oaycBalanceOfIsRefetch();
                 // await moaycBalanceOfRefetch();
                 // await mutagen1BalanceOfRefetch();
@@ -349,10 +354,12 @@ export const useMoaycMutate = (
                 await mutagen2NftsRefetch();
                 await refetchCanMutate2();
                 // await mutagen3NftsRefetch();
+            } else {
+                setIsError(true)
             }
         },
         onError: async () => {
-
+            setIsError(true)
         }
     });
 
@@ -383,15 +390,17 @@ export const useMoaycMutate = (
         enabled: !!mutate3Data?.hash,
         onSuccess: async (data) => {
             if (data.status === 1) {
-                console.log('success')
+                setIsSuccess(true);
                 await mutagen3BalanceOfRefetch();
                 await moaycNftLvlsRefetch();
                 await mutagen3NftsRefetch();
                 await refetchCanMutate3();
+            } else {
+                setIsError(true)
             }
         },
         onError: async () => {
-
+            setIsError(true)
         }
     });
 
@@ -401,8 +410,6 @@ export const useMoaycMutate = (
         && selectedNft.id !== '-1'
         && selectedNft.level === selectedMutagen.level - 1;
 
-    console.log(canMutate1, canMutate2, canMutate3);
-    console.log(canMutate, selectedNft, selectedMutagen);
     const handleMutate = () => {
         if (canMutate && selectedMutagen.level === 1) {
             mutate1?.();
@@ -415,12 +422,18 @@ export const useMoaycMutate = (
         }
     };
 
+    const isLoading = mutate1Loading || mutate2Loading || mutate3Loading;
 
     return {
         nfts,
         mutagenNfts,
         canMutate,
-        handleMutate
+        handleMutate,
+        isLoading,
+        isSuccess,
+        isError,
+        setIsSuccess,
+        setIsError
     };
 
 

@@ -60,7 +60,6 @@ const ImageContainer = styled.div<{ selected: boolean }>`
     content: "";
     top: 0;
     left: 0;
-    z-index: 10;
     width: 64px;
     height: 64px;
     display: block;

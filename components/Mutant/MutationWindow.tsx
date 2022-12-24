@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from "styled-components";
 import Image from "next/image";
 import { useWindowSize } from "../../hooks/useScreenWidth";
@@ -11,6 +11,7 @@ import { MoaycRectButton } from "../Button/MoaycRectButton";
 import MoaycModal from "./MoaycModal";
 import Success from "./Success";
 import Fail from "./Fail";
+import Processing from "./Processing";
 
 
 export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
@@ -86,8 +87,6 @@ const MutationArrow = styled.div`
 const MutationWindow = () => {
     const {isMobile} = useWindowSize();
 
-    const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-    const [isFailOpen, setIsFailOpen] = useState(false);
     const [selectedNft, setSelectedNft] = useState<NftMutate>(getDefaultNftMutate());
     const [selectedMutagen, setSelectedMutagen] = useState<NftMutate>(getDefaultNftMutate());
 
@@ -95,7 +94,7 @@ const MutationWindow = () => {
     const mutagenSelected = selectedMutagen.id !== '-1';
 
     const saleInfo = useMoaycStatus();
-    const {nfts, mutagenNfts, canMutate, handleMutate} = useMoaycMutate(saleInfo.mutation, nftSelected, selectedNft, selectedMutagen);
+    const {nfts, mutagenNfts, canMutate, handleMutate, isLoading, isSuccess, isError, setIsSuccess, setIsError} = useMoaycMutate(saleInfo.mutation, nftSelected, selectedNft, selectedMutagen);
 
     const availableMutagens = mutagenNfts.filter(i => i.level === selectedNft.level + 1);
 
@@ -105,6 +104,14 @@ const MutationWindow = () => {
             setSelectedMutagen(getDefaultNftMutate());
         }
     }
+
+    useEffect(() => {
+        if (isSuccess) {
+            setSelectedNft(getDefaultNftMutate());
+            setSelectedMutagen(getDefaultNftMutate());
+
+        }
+    }, [isSuccess])
 
     if (!saleInfo.saleInfo) {
         return null;
@@ -146,16 +153,16 @@ const MutationWindow = () => {
             }
 
 
-            {/*<MoaycModal isOpen={isLoading}>*/}
-            {/*    <Processing/>*/}
-            {/*</MoaycModal>*/}
-
-            <MoaycModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
-                <Success onClose={() => setIsSuccessOpen(false)}/>
+            <MoaycModal isOpen={isLoading}>
+                <Processing/>
             </MoaycModal>
 
-            <MoaycModal isOpen={isFailOpen} onClose={() => setIsFailOpen(false)}>
-                <Fail onClose={() => setIsFailOpen(false)}/>
+            <MoaycModal isOpen={isSuccess} onClose={() => setIsSuccess(false)}>
+                <Success onClose={() => setIsSuccess(false)}/>
+            </MoaycModal>
+
+            <MoaycModal isOpen={isError} onClose={() => setIsError(false)}>
+                <Fail onClose={() => setIsError(false)}/>
             </MoaycModal>
         </MutationWindowContainer>
     );
