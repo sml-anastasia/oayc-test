@@ -78,6 +78,7 @@ export const useMoaycMutate = (
     const {
         data: oaycBalanceOf,
         isSuccess: oaycBalanceOfIsSuccess,
+        refetch: oaycBalanceOfIsRefetch,
     } = useContractRead({
         address: oaycContract,
         abi: oaycContactABI,
@@ -89,6 +90,7 @@ export const useMoaycMutate = (
     const {
         data: moaycBalanceOf,
         isSuccess: moaycBalanceOfIsSuccess,
+        refetch: moaycBalanceOfRefetch,
     } = useContractRead({
         address: moaycContract,
         abi: oaycContactABI,
@@ -100,6 +102,7 @@ export const useMoaycMutate = (
     const {
         data: mutagen1BalanceOf,
         isSuccess: mutagen1BalanceOfIsSuccess,
+        refetch: mutagen1BalanceOfRefetch,
     } = useContractRead({
         address: mutagen1Contract,
         abi: mutagenContractABI,
@@ -111,6 +114,7 @@ export const useMoaycMutate = (
     const {
         data: mutagen2BalanceOf,
         isSuccess: mutagen2BalanceOfIsSuccess,
+        refetch: mutagen2BalanceOfRefetch,
     } = useContractRead({
         address: mutagen2Contract,
         abi: mutagenContractABI,
@@ -122,6 +126,7 @@ export const useMoaycMutate = (
     const {
         data: mutagen3BalanceOf,
         isSuccess: mutagen3BalanceOfIsSuccess,
+        refetch: mutagen3BalanceOfRefetch,
     } = useContractRead({
         address: mutagen3Contract,
         abi: mutagenContractABI,
@@ -133,6 +138,7 @@ export const useMoaycMutate = (
     const {
         data: oaycNfts,
         isSuccess: oaycNftsIsSuccess,
+        refetch: oaycNftsRefetch,
     } = useContractReads({
         contracts: (() => {
             const reads = [];
@@ -152,6 +158,7 @@ export const useMoaycMutate = (
     const {
         data: moaycNftsPre,
         isSuccess: moaycNftsPreIsSuccess,
+        refetch: moaycNftsRefetch,
     } = useContractReads({
         contracts: (() => {
             const reads = [];
@@ -171,6 +178,7 @@ export const useMoaycMutate = (
     const {
         data: moaycNftLvls,
         isSuccess: moaycNftLvlsIsSuccess,
+        refetch: moaycNftLvlsRefetch,
     } = useContractReads({
         contracts: (() => {
             const reads = [];
@@ -188,6 +196,7 @@ export const useMoaycMutate = (
     const {
         data: mutagen1Nfts,
         isSuccess: mutagen1NftsIsSuccess,
+        refetch: mutagen1NftsRefetch,
     } = useContractReads({
         contracts: (() => {
             const reads = [];
@@ -207,6 +216,7 @@ export const useMoaycMutate = (
     const {
         data: mutagen2Nfts,
         isSuccess: mutagen2NftsIsSuccess,
+        refetch: mutagen2NftsRefetch,
     } = useContractReads({
         contracts: (() => {
             const reads = [];
@@ -226,6 +236,7 @@ export const useMoaycMutate = (
     const {
         data: mutagen3Nfts,
         isSuccess: mutagen3NftsIsSuccess,
+        refetch: mutagen3NftsRefetch,
     } = useContractReads({
         contracts: (() => {
             const reads = [];
@@ -276,9 +287,21 @@ export const useMoaycMutate = (
         hash: mutate1Data?.hash,
         enabled: !!mutate1Data?.hash,
         onSuccess: async (data) => {
-            console.log(data);
-            // await refetchContractWrite();
-            // mintPublicReset();
+            if (data.status === 1) {
+                console.log('success')
+                // await oaycBalanceOfIsRefetch();
+                // await moaycBalanceOfRefetch();
+                await mutagen1BalanceOfRefetch();
+                // await mutagen2BalanceOfRefetch();
+                // await mutagen3BalanceOfRefetch();
+                // await oaycNftsRefetch();
+                // await moaycNftsRefetch();
+                await moaycNftLvlsRefetch();
+                await mutagen1NftsRefetch();
+                await refetchCanMutate1();
+                // await mutagen2NftsRefetch();
+                // await mutagen3NftsRefetch();
+            }
         },
         onError: async () => {
             // await refetchContractWrite();
@@ -312,7 +335,21 @@ export const useMoaycMutate = (
         hash: mutate2Data?.hash,
         enabled: !!mutate2Data?.hash,
         onSuccess: async (data) => {
-            console.log(data);
+            if (data.status === 1) {
+                console.log('success')
+                // await oaycBalanceOfIsRefetch();
+                // await moaycBalanceOfRefetch();
+                // await mutagen1BalanceOfRefetch();
+                await mutagen2BalanceOfRefetch();
+                // await mutagen3BalanceOfRefetch();
+                // await oaycNftsRefetch();
+                // await moaycNftsRefetch();
+                await moaycNftLvlsRefetch();
+                // await mutagen1NftsRefetch();
+                await mutagen2NftsRefetch();
+                await refetchCanMutate2();
+                // await mutagen3NftsRefetch();
+            }
         },
         onError: async () => {
 
@@ -345,7 +382,13 @@ export const useMoaycMutate = (
         hash: mutate3Data?.hash,
         enabled: !!mutate3Data?.hash,
         onSuccess: async (data) => {
-            console.log(data);
+            if (data.status === 1) {
+                console.log('success')
+                await mutagen3BalanceOfRefetch();
+                await moaycNftLvlsRefetch();
+                await mutagen3NftsRefetch();
+                await refetchCanMutate3();
+            }
         },
         onError: async () => {
 
@@ -358,7 +401,7 @@ export const useMoaycMutate = (
         && selectedNft.id !== '-1'
         && selectedNft.level === selectedMutagen.level - 1;
 
-    console.log(canMutate1, canMutate2, canMutate3)
+    console.log(canMutate1, canMutate2, canMutate3);
     console.log(canMutate, selectedNft, selectedMutagen);
     const handleMutate = () => {
         if (canMutate && selectedMutagen.level === 1) {
