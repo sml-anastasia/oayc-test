@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from "styled-components";
-import Image from "next/image";
 import { useWindowSize } from "../../hooks/useScreenWidth";
 import { device } from "../../styles/device";
 import { useMoaycStatus } from "../../hooks/useMoaycStatus";
@@ -12,6 +11,7 @@ import MoaycModal from "./MoaycModal";
 import Success from "./Success";
 import Fail from "./Fail";
 import Processing from "./Processing";
+import MoaycOutlineButton from "../Button/MoaycOutlineButton";
 
 
 export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
@@ -85,16 +85,29 @@ const MutationArrow = styled.div`
 `;
 
 const MutationWindow = () => {
-    const {isMobile} = useWindowSize();
+    const {isMobile, isTablet} = useWindowSize();
 
     const [selectedNft, setSelectedNft] = useState<NftMutate>(getDefaultNftMutate());
     const [selectedMutagen, setSelectedMutagen] = useState<NftMutate>(getDefaultNftMutate());
 
+    const [mobileStage, setMobileStage] = useState(0);
+
     const nftSelected = selectedNft.id !== '-1';
     const mutagenSelected = selectedMutagen.id !== '-1';
 
+
     const saleInfo = useMoaycStatus();
-    const {nfts, mutagenNfts, canMutate, handleMutate, isLoading, isSuccess, isError, setIsSuccess, setIsError} = useMoaycMutate(saleInfo.mutation, nftSelected, selectedNft, selectedMutagen);
+    const {
+        nfts,
+        mutagenNfts,
+        canMutate,
+        handleMutate,
+        isLoading,
+        isSuccess,
+        isError,
+        setIsSuccess,
+        setIsError
+    } = useMoaycMutate(saleInfo.mutation, nftSelected, selectedNft, selectedMutagen);
 
     const availableMutagens = mutagenNfts.filter(i => i.level === selectedNft.level + 1);
 
@@ -103,15 +116,15 @@ const MutationWindow = () => {
         if (selectedMutagen.level !== nft.level + 1) {
             setSelectedMutagen(getDefaultNftMutate());
         }
-    }
+    };
 
     useEffect(() => {
         if (isSuccess) {
             setSelectedNft(getDefaultNftMutate());
             setSelectedMutagen(getDefaultNftMutate());
-
+            setMobileStage(0);
         }
-    }, [isSuccess])
+    }, [isSuccess]);
 
     if (!saleInfo.saleInfo) {
         return null;
@@ -124,32 +137,109 @@ const MutationWindow = () => {
     return (
         <MutationWindowContainer>
 
-            <ImageSelectorContainer>
-                <MintStatus>1. Choose your nft</MintStatus>
-                <ImageSelector selected={selectedNft} images={nfts} onSelected={handleSelectNft}/>
-            </ImageSelectorContainer>
 
-            {nftSelected && <>
-                <ImageSelectorContainer style={{marginLeft: 80}} >
-                    <MintStatus>2. Choose your mutagen</MintStatus>
-                    <ImageSelector selected={selectedMutagen} images={availableMutagens} onSelected={setSelectedMutagen}/>
-                </ImageSelectorContainer>
-                {mutagenSelected && <>
-                    <ImageSelectorContainer style={{marginRight: 40, marginLeft: 40}}>
-                        <MutationArrow/>
+            {(isMobile || isTablet) ?
+                <>
+                    {mobileStage == 0 &&
+                        <ImageSelectorContainer>
+                            <MintStatus>1. Choose your nft</MintStatus>
+                            <ImageSelector selected={selectedNft} images={nfts} onSelected={handleSelectNft}/>
+                            <MoaycRectButton
+                                style={{height: 50, marginTop: 31, fontSize: 16}}
+                                disabled={!nftSelected}
+                                onClick={() => setMobileStage(1)}
+                            >
+                                Next Step
+                            </MoaycRectButton>
+                        </ImageSelectorContainer>
+                    }
+
+                    {mobileStage == 1 &&
+
+                        <ImageSelectorContainer>
+                            <MintStatus>2. Choose your mutagen</MintStatus>
+                            <ImageSelector selected={selectedMutagen} images={availableMutagens}
+                                           onSelected={setSelectedMutagen}/>
+                            <div style={{display: 'flex', marginTop: 31}}>
+                                <MoaycOutlineButton
+                                    style={{height: 50}}
+                                    onClick={() => setMobileStage(0)}
+                                >
+                                    Back
+                                </MoaycOutlineButton>
+                                <MoaycRectButton
+                                    style={{height: 50, fontSize: 16, marginLeft: 14, flexGrow: 1}}
+                                    disabled={!mutagenSelected}
+                                    onClick={() => setMobileStage(2)}
+                                >
+                                    Next Step
+                                </MoaycRectButton>
+                            </div>
+
+                        </ImageSelectorContainer>
+                    }
+
+                    {mobileStage == 2 &&
+
+                        <ImageSelectorContainer
+                            style={{maxWidth: 300, justifyContent: 'space-between', flexGrow: 1}}>
+                            <MintStatus>Mutation preview</MintStatus>
+
+                            <MutantPreview src={`https://oayc.io:3001/${selectedNft.id}.png`} width={300}
+                                           height={300}/>
+
+                            <div style={{display: 'flex', marginTop: 31}}>
+                                <MoaycOutlineButton
+                                    style={{height: 50}}
+                                    onClick={() => setMobileStage(1)}
+                                >
+                                    Back
+                                </MoaycOutlineButton>
+                                <MoaycRectButton
+                                    style={{height: 50, fontSize: 16, marginLeft: 14, flexGrow: 1}}
+                                    disabled={!canMutate}
+                                    onClick={handleMutate}
+                                >
+                                    Mutate
+                                </MoaycRectButton>
+                            </div>
+                        </ImageSelectorContainer>
+                    }
+
+                </>
+                :
+                <>
+                    <ImageSelectorContainer>
+                        <MintStatus>1. Choose your nft</MintStatus>
+                        <ImageSelector selected={selectedNft} images={nfts} onSelected={handleSelectNft}/>
                     </ImageSelectorContainer>
-                    <ImageSelectorContainer style={{maxWidth: 311, justifyContent: 'space-between', flexGrow: 1}}>
-                        <MutantPreview src={`https://oayc.io:3001/${selectedNft.id}.png`} width={311} height={311}/>
-                        <MoaycRectButton
-                            style={{height: 50, marginTop: 17}}
-                            disabled={!canMutate}
-                            onClick={handleMutate}
-                        >
-                            Mutate
-                        </MoaycRectButton>
-                    </ImageSelectorContainer>
-                </>}
-            </>
+
+                    {nftSelected && <>
+                        <ImageSelectorContainer style={{marginLeft: 80}}>
+                            <MintStatus>2. Choose your mutagen</MintStatus>
+                            <ImageSelector selected={selectedMutagen} images={availableMutagens}
+                                           onSelected={setSelectedMutagen}/>
+                        </ImageSelectorContainer>
+                        {mutagenSelected && <>
+                            <ImageSelectorContainer style={{marginRight: 40, marginLeft: 40}}>
+                                <MutationArrow/>
+                            </ImageSelectorContainer>
+                            <ImageSelectorContainer
+                                style={{maxWidth: 311, justifyContent: 'space-between', flexGrow: 1}}>
+                                <MutantPreview src={`https://oayc.io:3001/${selectedNft.id}.png`} width={311}
+                                               height={311}/>
+                                <MoaycRectButton
+                                    style={{height: 50, marginTop: 17}}
+                                    disabled={!canMutate}
+                                    onClick={handleMutate}
+                                >
+                                    Mutate
+                                </MoaycRectButton>
+                            </ImageSelectorContainer>
+                        </>}
+                    </>
+                    }
+                </>
             }
 
 
