@@ -95,6 +95,15 @@ const MutationWindow = () => {
     const nftSelected = selectedNft.id !== '-1';
     const mutagenSelected = selectedMutagen.id !== '-1';
 
+    const getNftImage = (nft: NftMutate) => {
+        if (nft.level === 0) {
+            return '/images/placeholder.gif';
+        } if (nft.level === 1) {
+            return `https://oayc.io:3001/${Number(nft.id) + 100000}.png`
+        } if (nft.level === 2) {
+            return `https://oayc.io:3001/${Number(nft.id) + 200000}.png`
+        }
+    }
 
     const saleInfo = useMoaycStatus();
     const {
@@ -185,7 +194,7 @@ const MutationWindow = () => {
                             style={{maxWidth: 300, justifyContent: 'space-between', flexGrow: 1}}>
                             <MintStatus>Mutation preview</MintStatus>
 
-                            <MutantPreview src={`https://oayc.io:3001/${selectedNft.id}.png`} width={300}
+                            <MutantPreview src={getNftImage(selectedNft)} width={300}
                                            height={300}/>
 
                             <div style={{display: 'flex', marginTop: 31}}>
@@ -226,7 +235,7 @@ const MutationWindow = () => {
                             </ImageSelectorContainer>
                             <ImageSelectorContainer
                                 style={{maxWidth: 311, justifyContent: 'space-between', flexGrow: 1}}>
-                                <MutantPreview src={`https://oayc.io:3001/${selectedNft.id}.png`} width={311}
+                                <MutantPreview src={getNftImage(selectedNft)} width={311}
                                                height={311}/>
                                 <MoaycRectButton
                                     style={{height: 50, marginTop: 17}}
