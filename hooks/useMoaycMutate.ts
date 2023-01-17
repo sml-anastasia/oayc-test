@@ -193,13 +193,12 @@ export const useMoaycMutate = (
         } else {
             return `https://oayc.io:3001/${Number(id)}.png`;
         }
-
     };
 
-    const moaycNfts = (moaycNftsPre ?? []).map((i, index) => ({
+    const moaycNfts = (moaycNftsPre ?? []).map((i: any, index) => ({
         ...i,
         level: moaycNftLvls?.[index] ?? 1,
-        uri: getMoaycImage(i.id, moaycNftLvls?.[index] ?? 1)
+        uri: getMoaycImage(i.id, (moaycNftLvls as any)?.[index] ?? 1)
     }));
 
     const {
