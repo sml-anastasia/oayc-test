@@ -13,7 +13,7 @@ import MintAmount from "./MintAmount";
 const MintView = () => {
 
 
-    const {data: saleInfo} = useContractRead({
+    const {data: saleInfo}: any = useContractRead({
         address: oaycContract,
         abi: oaycContactABI,
         functionName: 'info',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from "styled-components";
-import { getDefaultNftMutate, NftMutate } from "../../../hooks/useMoaycMutate";
+import { NftMutate } from "../../../types/NFT";
 
 
 interface ImageSelectorProps {
@@ -80,14 +80,18 @@ const ImageSelector = (props: ImageSelectorProps) => {
 
     const {selected, images, onSelected} = props;
 
-    const handleSelect = (id: string) => {
+    const handleSelect = (id: NftMutate) => {
         onSelected(id);
     };
 
     return (
         <ImageSelectorContainer>
             {images.map((i, index) =>
-                <ImageContainer selected={i.id === selected.id && i.level === selected.level} key={index} onClick={() => handleSelect(i)}>
+                <ImageContainer
+                    selected={i.id === selected.id && i.level === selected.level}
+                    key={index}
+                    onClick={() => handleSelect(i)}
+                >
                     <StyledImage src={i.uri} alt=""/>
                 </ImageContainer>)
             }

@@ -17,7 +17,7 @@ export const useMoaycStatus = () => {
 
     const {address} = useAccount();
 
-    const {data: saleInfo, refetch: updateSaleInfo} = useContractRead({
+    const {data: saleInfo, refetch: updateSaleInfo}: any = useContractRead({
         address: moaycContract,
         abi: moaycContractABI,
         functionName: 'info',

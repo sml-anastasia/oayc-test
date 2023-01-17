@@ -15,7 +15,7 @@ export const useSilverBananaMint = (price: BigNumber) => {
     const [bananaCount, setBananaCount] = useState(0);
     const {address} = useAccount();
 
-    const {data: silverBananaCount, refetch: refetchBananaCount} = useContractRead({
+    const {data: silverBananaCount, refetch: refetchBananaCount}: any = useContractRead({
         address: silverBananaContract,
         abi: bananaAbi,
         functionName: 'balanceOf',
@@ -29,7 +29,7 @@ export const useSilverBananaMint = (price: BigNumber) => {
     }, [silverBananaCount]);
 
 
-    const {data: silverBananaId, refetch: refetchBananaId} = useContractRead({
+    const {data: silverBananaId, refetch: refetchBananaId}: any = useContractRead({
         address: silverBananaContract,
         abi: bananaAbi,
         functionName: 'tokenOfOwnerByIndex',

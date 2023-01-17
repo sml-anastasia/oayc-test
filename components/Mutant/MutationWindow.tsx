@@ -5,13 +5,14 @@ import { device } from "../../styles/device";
 import { useMoaycStatus } from "../../hooks/useMoaycStatus";
 import Placeholder from "./Placeholder";
 import ImageSelector from "./mutation/ImageSelector";
-import { getDefaultNftMutate, NftMutate, useMoaycMutate } from "../../hooks/useMoaycMutate";
+import { useMoaycMutate } from "../../hooks/useMoaycMutate";
 import { MoaycRectButton } from "../Button/MoaycRectButton";
 import MoaycModal from "./MoaycModal";
 import Success from "./Success";
 import Fail from "./Fail";
 import Processing from "./Processing";
 import MoaycOutlineButton from "../Button/MoaycOutlineButton";
+import { getDefaultNftMutate, NftMutate } from "../../types/NFT";
 
 
 export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
@@ -118,7 +119,7 @@ const MutationWindow = () => {
         setIsError
     } = useMoaycMutate(saleInfo.mutation, nftSelected, selectedNft, selectedMutagen);
 
-    const availableMutagens = mutagenNfts.filter(i => i.level === selectedNft.level + 1);
+    const availableMutagens: any = mutagenNfts.filter((i: any) => i.level === selectedNft.level + 1);
 
     const handleSelectNft = (nft: NftMutate) => {
         setSelectedNft(nft);
@@ -145,8 +146,6 @@ const MutationWindow = () => {
 
     return (
         <MutationWindowContainer>
-
-
             {(isMobile || isTablet) ?
                 <>
                     {mobileStage == 0 &&

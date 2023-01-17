@@ -18,6 +18,7 @@ import {
 } from "../connection/connection";
 import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
+import { NftMutate } from "../types/NFT";
 
 const getOaycNfts = {
     address: oaycContract,
@@ -55,18 +56,6 @@ const getMutagen3Nfts = {
     functionName: 'tokenOfOwnerByIndex',
 };
 
-export interface NftMutate {
-    id: string;
-    prefix: string;
-    level: number;
-}
-
-export const getDefaultNftMutate = () => ({
-    id: '-1',
-    uri: '',
-    level: -1
-});
-
 export const useMoaycMutate = (
     enableNftSelection: boolean = false,
     enableMutagenSelection: boolean = false,
@@ -75,8 +64,8 @@ export const useMoaycMutate = (
 ) => {
 
     const {address} = useAccount();
-    const [isSuccess, setIsSuccess] = useState(false)
-    const [isError, setIsError] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const {
         data: oaycBalanceOf,
@@ -142,7 +131,7 @@ export const useMoaycMutate = (
         data: oaycNfts,
         isSuccess: oaycNftsIsSuccess,
         refetch: oaycNftsRefetch,
-    } = useContractReads({
+    }: any = useContractReads({
         contracts: (() => {
             const reads = [];
             for (let i = 0; i < Number(oaycBalanceOf?.toString() ?? '0'); i++) {
@@ -150,7 +139,7 @@ export const useMoaycMutate = (
             }
             return reads;
         })(),
-        select: (data) => data.map(i => ({
+        select: (data: any) => data.map((i: any) => ({
             id: i.toString(),
             uri: `https://oayc.io:3000/${i.toString()}.png`,
             level: 0
@@ -170,7 +159,7 @@ export const useMoaycMutate = (
             }
             return reads;
         })(),
-        select: (data) => data.map(i => ({
+        select: (data: any) => data.map((i: any) => ({
             id: i.toString(),
             uri: `https://oayc.io:3001/${i.toString()}.png`,
             level: 1
@@ -190,11 +179,28 @@ export const useMoaycMutate = (
             }
             return reads;
         })(),
-        select: (data) => data.map(i => Number(i.toString())),
+        select: (data: any) => data.map((i: any) => Number(i.toString())),
         enabled: enableNftSelection && moaycBalanceOfIsSuccess && moaycNftsPreIsSuccess && !!moaycNftsPre
     });
 
-    const moaycNfts = (moaycNftsPre ?? []).map((i, index) => ({...i, level: moaycNftLvls?.[index] ?? 1}));
+    const getMoaycImage = (id: string, level: number) => {
+        if (level === 1) {
+            return `https://oayc.io:3001/${Number(id)}.png`;
+        } else if (level === 2) {
+            return `https://oayc.io:3001/${Number(id) + 100000}.png`;
+        } else if (level === 3) {
+            return `https://oayc.io:3001/${Number(id) + 200000}.png`;
+        } else {
+            return `https://oayc.io:3001/${Number(id)}.png`;
+        }
+
+    };
+
+    const moaycNfts = (moaycNftsPre ?? []).map((i, index) => ({
+        ...i,
+        level: moaycNftLvls?.[index] ?? 1,
+        uri: getMoaycImage(i.id, moaycNftLvls?.[index] ?? 1)
+    }));
 
     const {
         data: mutagen1Nfts,
@@ -208,7 +214,7 @@ export const useMoaycMutate = (
             }
             return reads;
         })(),
-        select: (data) => data.map(i => ({
+        select: (data: any) => data.map((i: any) => ({
             id: i.toString(),
             uri: `/images/mutagens/${(Number(i.toString()) - 1) % 3 + 1}.png`,
             level: 1
@@ -228,7 +234,7 @@ export const useMoaycMutate = (
             }
             return reads;
         })(),
-        select: (data) => data.map(i => ({
+        select: (data: any) => data.map((i: any) => ({
             id: i.toString(),
             uri: `/images/mutagens/${(Number(i.toString()) - 1) % 3 + 4}.png`,
             level: 2
@@ -248,7 +254,7 @@ export const useMoaycMutate = (
             }
             return reads;
         })(),
-        select: (data) => data.map(i => ({
+        select: (data: any) => data.map((i: any) => ({
             id: i.toString(),
             uri: `/images/mutagens/${(Number(i.toString()) - 1) % 3 + 7}.png`,
             level: 3
@@ -256,7 +262,7 @@ export const useMoaycMutate = (
         enabled: enableMutagenSelection && mutagen3BalanceOfIsSuccess
     });
 
-    const mutagenNfts = [...(mutagen1Nfts ?? []), ...(mutagen2Nfts ?? []), ...(mutagen3Nfts ?? [])];
+    const mutagenNfts: any = [...(mutagen1Nfts ?? []), ...(mutagen2Nfts ?? []), ...(mutagen3Nfts ?? [])];
 
     const nfts = [...(oaycNfts ?? []), ...(moaycNfts ?? [])];
 
@@ -269,9 +275,9 @@ export const useMoaycMutate = (
         address: moaycContract,
         abi: moaycContractABI,
         functionName: 'mutate1',
-        overrides: {
+        overrides: ({
             value: ethers.utils.parseEther('0.008'),
-        },
+        }) as any,
         args: [BigNumber.from(selectedMutagen.id), BigNumber.from(selectedNft.id)],
         enabled: enableNftSelection && enableMutagenSelection && selectedNft.level === 0 && selectedMutagen.level === 1
     });
@@ -355,11 +361,11 @@ export const useMoaycMutate = (
                 await refetchCanMutate2();
                 // await mutagen3NftsRefetch();
             } else {
-                setIsError(true)
+                setIsError(true);
             }
         },
         onError: async () => {
-            setIsError(true)
+            setIsError(true);
         }
     });
 
@@ -396,11 +402,11 @@ export const useMoaycMutate = (
                 await mutagen3NftsRefetch();
                 await refetchCanMutate3();
             } else {
-                setIsError(true)
+                setIsError(true);
             }
         },
         onError: async () => {
-            setIsError(true)
+            setIsError(true);
         }
     });
 
