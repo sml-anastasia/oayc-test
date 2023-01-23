@@ -275,7 +275,7 @@ export const useMoaycMutate = (
         abi: moaycContractABI,
         functionName: 'mutate1',
         overrides: ({
-            value: ethers.utils.parseEther('0.008'),
+            value: ethers.utils.parseEther('0.006'),
         }) as any,
         args: [BigNumber.from(selectedMutagen.id), BigNumber.from(selectedNft.id)],
         enabled: enableNftSelection && enableMutagenSelection && selectedNft.level === 0 && selectedMutagen.level === 1
