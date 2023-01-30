@@ -14,12 +14,16 @@ const StyledModal = styled(Modal)`
   padding: 0;
   transition: 0.5s;
   overflow: hidden;
+  outline: none;
+  margin: 20px;
 `;
 
 
 interface ModalProps {
     isOpen: boolean;
     onClose?: () => void;
+    width?: number;
+    height?: number;
 }
 
 const MoaycModal = (props: PropsWithChildren<ModalProps>) => {
@@ -31,6 +35,10 @@ const MoaycModal = (props: PropsWithChildren<ModalProps>) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: '0.5s'
+            },
+            content: {
+                width: props.width,
+                height: props.height
             }
         }}
         isOpen={props.isOpen}

@@ -6,7 +6,7 @@ interface ButtonProps {
     size?: "small" | "large";
 }
 
-const StyledButton = styled.div<ButtonProps>`
+export const MoaycStyledButton = styled.div<ButtonProps>`
   display: inline-block;
   background: linear-gradient(159.53deg, #B4D109 1.07%, #87CC00 72.47%);
   border-radius: 25px;
@@ -41,9 +41,9 @@ const StyledButton = styled.div<ButtonProps>`
 
 const MoaycButton = ({children, size = "large", ...rest}: React.HTMLAttributes<HTMLDivElement> & ButtonProps) => {
     return (
-        <StyledButton size={size} {...rest}>
+        <MoaycStyledButton size={size} {...rest}>
             {children}
-        </StyledButton>
+        </MoaycStyledButton>
     );
 };
 

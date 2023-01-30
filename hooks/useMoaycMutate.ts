@@ -297,25 +297,16 @@ export const useMoaycMutate = (
         onSuccess: async (data) => {
             if (data.status === 1) {
                 setIsSuccess(true);
-                // await oaycBalanceOfIsRefetch();
-                // await moaycBalanceOfRefetch();
                 await mutagen1BalanceOfRefetch();
-                // await mutagen2BalanceOfRefetch();
-                // await mutagen3BalanceOfRefetch();
-                // await oaycNftsRefetch();
-                // await moaycNftsRefetch();
                 await moaycNftLvlsRefetch();
                 await mutagen1NftsRefetch();
                 await refetchCanMutate1();
-                // await mutagen2NftsRefetch();
-                // await mutagen3NftsRefetch();
             } else {
                 setIsError(true);
             }
         },
         onError: async () => {
-            // await refetchContractWrite();
-            // mintPublicReset();
+            setIsError(true);
         }
     });
 
@@ -347,18 +338,10 @@ export const useMoaycMutate = (
         onSuccess: async (data) => {
             if (data.status === 1) {
                 setIsSuccess(true);
-                // await oaycBalanceOfIsRefetch();
-                // await moaycBalanceOfRefetch();
-                // await mutagen1BalanceOfRefetch();
                 await mutagen2BalanceOfRefetch();
-                // await mutagen3BalanceOfRefetch();
-                // await oaycNftsRefetch();
-                // await moaycNftsRefetch();
                 await moaycNftLvlsRefetch();
-                // await mutagen1NftsRefetch();
                 await mutagen2NftsRefetch();
                 await refetchCanMutate2();
-                // await mutagen3NftsRefetch();
             } else {
                 setIsError(true);
             }

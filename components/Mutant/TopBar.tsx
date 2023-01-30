@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from "styled-components";
 import { device } from "../../styles/device";
 import { useAccount, useDisconnect } from "wagmi";
-import MoaycButton from "../Button/MoaycButton";
+import MoaycButton, { MoaycStyledButton } from "../Button/MoaycButton";
+import CheckNftModal from "./CheckNftModal";
 
 
 const StyledTopBar = styled.div`
@@ -95,19 +96,37 @@ const AccountAddress = styled.div`
   margin-right: 14px;
 `;
 
+const CheckNftButton = styled(MoaycStyledButton)`
+  padding: 12px 15px;
+  @media screen and ${device.tablet} {
+    padding: 12px 37px;
+  }
+`
 
 const TopBar = () => {
     const {address, isConnected} = useAccount();
     const {disconnect} = useDisconnect();
 
+
     const accountAddress = useMemo(() => {
         return `${address?.substring(0, 6)}...${address?.substring(address?.length - 4, address?.length)}`;
     }, [address]);
 
+    const [checkNftModalOpen, setCheckNftModalOpen] = useState(false);
 
     return (
         <StyledTopBar>
             <StyledLogo onClick={() => window.location.assign("/")}/>
+
+            {/*{isConnected &&*/}
+            {/*    <>*/}
+            {/*        <CheckNftButton onClick={() => setCheckNftModalOpen(true)}>*/}
+            {/*            Check NFT*/}
+            {/*        </CheckNftButton>*/}
+            {/*        <CheckNftModal isOpen={checkNftModalOpen} onClose={() => setCheckNftModalOpen(false)} />*/}
+            {/*    </>*/}
+            {/*}*/}
+
             {isConnected &&
                 <CenterContainer>
                     <AccountAddress>{accountAddress}</AccountAddress>

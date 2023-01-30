@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useAccount } from "wagmi";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import ArrowsButton from "../components/Button/ArrowsButton";
 import styled from "styled-components";
 import TopBar from "../components/Mutant/TopBar";
@@ -10,6 +10,7 @@ import { useDefaultConnect } from "../hooks/useDefaultConnect";
 import useEagerConnect from "../hooks/useEagerConnect";
 import useChangeNetwork from "../hooks/useChangeNetwork";
 import MutationWindow from "../components/Mutant/MutationWindow";
+import CheckNftModal, { CheckNftButton } from "../components/Mutant/CheckNftModal";
 
 const Container = styled.div`
   background: #1E1E1E;
@@ -36,6 +37,7 @@ const Moayc: NextPage = () => {
     useChangeNetwork();
     const {isConnected} = useAccount();
     const {connect} = useDefaultConnect();
+    const [checkNftModalOpen, setCheckNftModalOpen] = useState(false);
 
     return (
         <>
@@ -51,6 +53,17 @@ const Moayc: NextPage = () => {
                         <MutationWindow/>
                     }
                 </ContentContainer>
+                {isConnected &&
+                <>
+                    <div style={{alignSelf: 'center'}}>
+                        <CheckNftButton onClick={() => setCheckNftModalOpen(true)}>
+                            Check NFT
+                        </CheckNftButton>
+                    </div>
+
+                    <CheckNftModal isOpen={checkNftModalOpen} onClose={() => setCheckNftModalOpen(false)} />
+                </>}
+
                 <Footer/>
             </Container>
         </>

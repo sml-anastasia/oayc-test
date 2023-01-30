@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled, { css } from "styled-components";
 import { useWindowSize } from "../../hooks/useScreenWidth";
 import { device } from "../../styles/device";
@@ -13,6 +13,10 @@ import Fail from "./Fail";
 import Processing from "./Processing";
 import MoaycOutlineButton from "../Button/MoaycOutlineButton";
 import { getDefaultNftMutate, NftMutate } from "../../types/NFT";
+import { SearchBar } from "./SearchBar";
+import CheckNftModal from "./CheckNftModal";
+import { MoaycStyledButton } from "../Button/MoaycButton";
+import { MintStatus } from "./Styled/MintStatus";
 
 
 export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
@@ -21,7 +25,7 @@ export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
   padding: 28px 39px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 
   ${props => props.noContent && css`
     width: 335px;
@@ -39,35 +43,6 @@ export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
 export const MutantPreview = styled.img`
   border: 1.5px solid #87CC01 !important;
   border-radius: 15px;
-`;
-
-
-export const MintStatus = styled.div<{ noContent?: boolean }>`
-  border: 1.5px solid #87CC01;
-  border-radius: 6px;
-  font-family: 'Rubik', sans-serif;
-  font-style: italic;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 130%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  text-transform: uppercase;
-  background: linear-gradient(159.53deg, #B4D109 1.07%, #87CC00 72.47%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  padding: 9.5px 36px;
-
-  margin-bottom: 26px;
-
-
-  min-width: 257px;
-  @media screen and ${device.tablet} {
-    min-width: 215px;
-  }
 `;
 
 
@@ -90,6 +65,7 @@ const MutationWindow = () => {
 
     const [selectedNft, setSelectedNft] = useState<NftMutate>(getDefaultNftMutate());
     const [selectedMutagen, setSelectedMutagen] = useState<NftMutate>(getDefaultNftMutate());
+    const [filterId, setFilterId] = useState('');
 
     const [mobileStage, setMobileStage] = useState(0);
 
@@ -121,6 +97,13 @@ const MutationWindow = () => {
 
     const availableMutagens: any = mutagenNfts.filter((i: any) => i.level === selectedNft.level + 1);
 
+    const filteredNfts = useMemo(() => {
+        if (filterId !== '') {
+            return nfts.filter(i => i.id.startsWith(filterId));
+        }
+        return nfts;
+    }, [nfts, filterId]);
+
     const handleSelectNft = (nft: NftMutate) => {
         setSelectedNft(nft);
         if (selectedMutagen.level !== nft.level + 1) {
@@ -135,6 +118,13 @@ const MutationWindow = () => {
             setMobileStage(0);
         }
     }, [isSuccess]);
+
+    useEffect(() => {
+        if (selectedNft.id !== '-1' && !filteredNfts.some(i => i.id == selectedNft.id)) {
+
+            setSelectedNft(getDefaultNftMutate())
+        }
+    }, [filteredNfts, selectedNft])
 
     if (!saleInfo.saleInfo) {
         return null;
@@ -151,9 +141,13 @@ const MutationWindow = () => {
                     {mobileStage == 0 &&
                         <ImageSelectorContainer>
                             <MintStatus>1. Choose your nft</MintStatus>
-                            <ImageSelector selected={selectedNft} images={nfts} onSelected={handleSelectNft}/>
+                            <ImageSelector selected={selectedNft} images={filteredNfts} showTooltips onSelected={handleSelectNft}/>
+                            <div style={{marginTop: 20}}>
+                                <SearchBar placeholder={"Search by id"} value={filterId} onChange={event => setFilterId(event.target.value)} />
+                            </div>
+
                             <MoaycRectButton
-                                style={{height: 50, marginTop: 31, fontSize: 16}}
+                                style={{height: 50, marginTop: 10, fontSize: 16}}
                                 disabled={!nftSelected}
                                 onClick={() => setMobileStage(1)}
                             >
@@ -219,7 +213,10 @@ const MutationWindow = () => {
                 <>
                     <ImageSelectorContainer>
                         <MintStatus>1. Choose your nft</MintStatus>
-                        <ImageSelector selected={selectedNft} images={nfts} onSelected={handleSelectNft}/>
+                        <ImageSelector selected={selectedNft} images={filteredNfts} showTooltips onSelected={handleSelectNft}/>
+                        <div style={{marginTop: 20}}>
+                            <SearchBar placeholder={"Search by id"} value={filterId} onChange={event => setFilterId(event.target.value)} />
+                        </div>
                     </ImageSelectorContainer>
 
                     {nftSelected && <>
@@ -229,11 +226,11 @@ const MutationWindow = () => {
                                            onSelected={setSelectedMutagen}/>
                         </ImageSelectorContainer>
                         {mutagenSelected && <>
-                            <ImageSelectorContainer style={{marginRight: 40, marginLeft: 40}}>
+                            <ImageSelectorContainer style={{marginRight: 40, marginLeft: 40, alignSelf: 'center'}}>
                                 <MutationArrow/>
                             </ImageSelectorContainer>
                             <ImageSelectorContainer
-                                style={{maxWidth: 311, justifyContent: 'space-between', flexGrow: 1}}>
+                                style={{maxWidth: 311, justifyContent: 'space-between', flexGrow: 1, alignSelf: 'center'}}>
                                 <MutantPreview src={getNftImage(selectedNft)} width={311}
                                                height={311}/>
                                 <MoaycRectButton
