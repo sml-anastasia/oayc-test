@@ -9,7 +9,6 @@ import { useContractRead } from "wagmi";
 import { moaycContract, moaycContractABI } from "../../connection/connection";
 import { MintStatus } from "./Styled/MintStatus";
 import { MoaycStyledButton } from "../Button/MoaycButton";
-import { device } from "../../styles/device";
 
 
 const Container = styled.div`
@@ -47,6 +46,9 @@ const NotMutatedStatus = styled(MutatedStatus)`
 export const CheckNftButton = styled(MoaycStyledButton)`
   padding: 12px 37px;
   margin-bottom: 15px;
+  background: transparent;
+  border: 1.5px solid #87CC01;
+  color: #87CC01;
 `
 
 const CheckNftModal = ({isOpen, onClose}: ModalProps) => {
