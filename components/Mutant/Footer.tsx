@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import Image from "next/image";
 import { device } from "../../styles/device";
 import CheckNftModal, { CheckNftButton } from "./CheckNftModal";
 import { useAccount } from "wagmi";
-import { useDefaultConnect } from "../../hooks/useDefaultConnect";
-
 
 const StyledFooter = styled.div`
   display: flex;
@@ -90,11 +87,9 @@ const Footer = () => {
                         <CheckNftModal isOpen={checkNftModalOpen} onClose={() => setCheckNftModalOpen(false)} />
                     </>}
             </StyledTextContainer>
-
             <StyledSocialsContainer>
                 <TwitterSocial href={"https://twitter.com/OptiApeYC"} target="_blank"/>
                 <DiscordSocial href={"https://discord.com/invite/oayc"} target="_blank"/>
-
             </StyledSocialsContainer>
         </StyledFooter>
     );

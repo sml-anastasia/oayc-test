@@ -10,7 +10,6 @@ import { useDefaultConnect } from "../hooks/useDefaultConnect";
 import useEagerConnect from "../hooks/useEagerConnect";
 import useChangeNetwork from "../hooks/useChangeNetwork";
 import MutationWindow from "../components/Mutant/MutationWindow";
-import CheckNftModal, { CheckNftButton } from "../components/Mutant/CheckNftModal";
 
 const Container = styled.div`
   background: #1E1E1E;
