@@ -36,8 +36,6 @@ const Moayc: NextPage = () => {
     useChangeNetwork();
     const {isConnected} = useAccount();
     const {connect} = useDefaultConnect();
-    const [checkNftModalOpen, setCheckNftModalOpen] = useState(false);
-
     return (
         <>
             <Head>

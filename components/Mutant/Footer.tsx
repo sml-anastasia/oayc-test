@@ -24,9 +24,6 @@ const StyledTextContainer = styled.div`
   font-size: 12px;
   line-height: 130%;
   text-transform: uppercase;
-  background: linear-gradient(159.53deg, #B4D109 1.07%, #87CC00 72.47%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 `;
 
 
@@ -78,11 +75,11 @@ const Footer = () => {
             <StyledTextContainer>
                 {isConnected &&
                     <>
-                        <div style={{alignSelf: 'center'}}>
+                        {/*<div style={{alignSelf: 'center'}}>*/}
                             <CheckNftButton onClick={() => setCheckNftModalOpen(true)}>
                                 Check NFT
                             </CheckNftButton>
-                        </div>
+                        {/*</div>*/}
 
                         <CheckNftModal isOpen={checkNftModalOpen} onClose={() => setCheckNftModalOpen(false)} />
                     </>}

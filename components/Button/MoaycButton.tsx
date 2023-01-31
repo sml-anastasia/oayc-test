@@ -35,7 +35,6 @@ export const MoaycStyledButton = styled.div<ButtonProps>`
     filter: brightness(75%);
     transition: 0.3s;
   }
-
 `;
 
 
