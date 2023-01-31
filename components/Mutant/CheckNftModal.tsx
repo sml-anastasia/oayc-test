@@ -45,7 +45,6 @@ const NotMutatedStatus = styled(MutatedStatus)`
 
 export const CheckNftButton = styled(MoaycStyledButton)`
   padding: 12px 37px;
-  margin-bottom: 15px;
   background: transparent;
   border: 1.5px solid #87CC01;
   color: #87CC01;

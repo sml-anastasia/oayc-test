@@ -53,17 +53,6 @@ const Moayc: NextPage = () => {
                         <MutationWindow/>
                     }
                 </ContentContainer>
-                {isConnected &&
-                <>
-                    <div style={{alignSelf: 'center'}}>
-                        <CheckNftButton onClick={() => setCheckNftModalOpen(true)}>
-                            Check NFT
-                        </CheckNftButton>
-                    </div>
-
-                    <CheckNftModal isOpen={checkNftModalOpen} onClose={() => setCheckNftModalOpen(false)} />
-                </>}
-
                 <Footer/>
             </Container>
         </>

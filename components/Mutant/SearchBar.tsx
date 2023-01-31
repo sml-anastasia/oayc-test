@@ -19,7 +19,8 @@ const StyledWrapper = styled.div({
 
 const StyledSearchBar = styled.input({
     background: "transparent",
-    border: "1.5px solid #272C17",
+    border: "1.5px solid",
+    borderColor: "#414E25",
     borderRadius: 5,
     height: 37,
     paddingLeft: 14,

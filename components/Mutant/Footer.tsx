@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import Image from "next/image";
 import { device } from "../../styles/device";
+import CheckNftModal, { CheckNftButton } from "./CheckNftModal";
+import { useAccount } from "wagmi";
+import { useDefaultConnect } from "../../hooks/useDefaultConnect";
 
 
 const StyledFooter = styled.div`
@@ -70,17 +73,23 @@ const DiscordSocial = styled.a`
 
 
 const Footer = () => {
+
+    const {isConnected} = useAccount();
+    const [checkNftModalOpen, setCheckNftModalOpen] = useState(false);
     return (
         <StyledFooter>
             <StyledTextContainer>
-                <Image src="/images/svg/eye-icon.svg" alt="" height={9} width={14}/>
-                <Image src="/images/svg/two-slashes-icon.svg" alt="" height={9} width={14}/>
-                <br/>
-                {`HO HO HO, HOPE YOU'VE`}
-                <br/>
-                {`BEEN NOT SO GOOD THIS YEAR!`}
-            </StyledTextContainer>
+                {isConnected &&
+                    <>
+                        <div style={{alignSelf: 'center'}}>
+                            <CheckNftButton onClick={() => setCheckNftModalOpen(true)}>
+                                Check NFT
+                            </CheckNftButton>
+                        </div>
 
+                        <CheckNftModal isOpen={checkNftModalOpen} onClose={() => setCheckNftModalOpen(false)} />
+                    </>}
+            </StyledTextContainer>
 
             <StyledSocialsContainer>
                 <TwitterSocial href={"https://twitter.com/OptiApeYC"} target="_blank"/>
