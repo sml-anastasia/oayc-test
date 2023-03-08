@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { css } from "styled-components";
-import { device } from "../../styles/device";
 
 interface ButtonProps {
     size?: "small" | "large";
@@ -19,7 +18,7 @@ const StyledButton = styled.div<ButtonProps>`
   text-transform: uppercase;
   color: #87CC01;
   transition: 0.3s;
-  
+
   justify-content: center;
   align-items: center;
   padding: 17px;
@@ -38,7 +37,11 @@ const StyledButton = styled.div<ButtonProps>`
 `;
 
 
-const MoaycOutlineButton = ({children, size = "large", ...rest}: React.HTMLAttributes<HTMLDivElement> & ButtonProps) => {
+const MoaycOutlineButton = ({
+                                children,
+                                size = "large",
+                                ...rest
+                            }: React.HTMLAttributes<HTMLDivElement> & ButtonProps) => {
     return (
         <StyledButton size={size} {...rest}>
             {children}

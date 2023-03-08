@@ -1,6 +1,7 @@
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
-import { moaycContract, moaycContractABI, OPTokenABI, tokenContract } from "../connection/connection";
-import { ethers } from "ethers";
+import { config } from "../../connection/connection";
+import { BigNumber, ethers } from "ethers";
+import { mutantContractAbi, simpleTokenContractAbi } from "../../contracts";
 
 export const useMoaycPublicMint = (price: number, amount: number, enable: boolean) => {
     const {address} = useAccount();
@@ -9,19 +10,19 @@ export const useMoaycPublicMint = (price: number, amount: number, enable: boolea
         config: approveConfig,
         isSuccess: canPublicApprove,
     } = usePrepareContractWrite({
-        address: tokenContract,
-        abi: OPTokenABI,
+        address: config.tokenContract,
+        abi: simpleTokenContractAbi,
         functionName: 'approve',
-        args: [moaycContract, ethers.utils.parseEther(price.toString()).mul(amount)],
+        args: [config.moaycContract, ethers.utils.parseEther(price.toString()).mul(amount)],
         enabled: amount > 0 && enable
     });
 
 
     const {data: publicMints, refetch: updateSaleInfo} = useContractRead({
-        address: moaycContract,
-        abi: moaycContractABI,
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'publicMints',
-        args: [address],
+        args: address && [address],
         staleTime: 10000
     });
 
@@ -34,7 +35,6 @@ export const useMoaycPublicMint = (price: number, amount: number, enable: boolea
 
     const {
         isLoading: isPublicApproveLoading,
-        isSuccess: isApproveSuccess,
         isError: isApproveError,
     } = useWaitForTransaction({
         hash: approveData?.hash,
@@ -53,10 +53,10 @@ export const useMoaycPublicMint = (price: number, amount: number, enable: boolea
         isSuccess: canPublicMint,
         refetch: refetchContractWrite
     } = usePrepareContractWrite({
-        address: moaycContract,
-        abi: moaycContractABI,
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'mintPublic',
-        args: [amount],
+        args: [BigNumber.from(amount)],
         enabled: enable
     });
 

@@ -1,6 +1,6 @@
 import { useNetwork, useSwitchNetwork } from 'wagmi';
 import { useEffect } from 'react';
-import { chains } from "../connection/connection";
+import { chains } from "../../connection/connection";
 
 
 const useChangeNetwork = () => {

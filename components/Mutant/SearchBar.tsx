@@ -15,7 +15,7 @@ const StyledWrapper = styled.div({
         width: 14,
         height: 14,
     },
-})
+});
 
 const StyledSearchBar = styled.input({
     background: "transparent",
@@ -37,12 +37,10 @@ const StyledSearchBar = styled.input({
     },
     '&::placeholder': {
         color: '#414E25'
-}
+    }
 });
 
 
-
-
 export const SearchBar = (props: InputHTMLAttributes<HTMLInputElement>) => {
-    return <StyledWrapper><StyledSearchBar {...props}/></StyledWrapper>
-}
+    return <StyledWrapper><StyledSearchBar {...props}/></StyledWrapper>;
+};

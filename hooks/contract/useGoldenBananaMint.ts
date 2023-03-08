@@ -1,43 +1,50 @@
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
-import { bananaAbi, goldenBananaContract, oaycContactABI, oaycContract } from "../connection/connection";
 import { useEffect, useState } from "react";
-import { Abi } from "abitype";
+import { config } from "../../connection/connection";
+import { bananaContractAbi, oaycNftContractAbi } from "../../contracts";
+import { BigNumber } from "ethers";
 
 export const useGoldenBananaMint = () => {
     const [bananaCount, setBananaCount] = useState(0);
     const {address} = useAccount();
 
-    const {data: goldenBananaCount, refetch: refetchBananaCount}: any = useContractRead({
-        address: goldenBananaContract,
-        abi: bananaAbi,
+    const {
+        data: goldenBananaCount,
+        refetch: refetchBananaCount
+    } = useContractRead({
+        address: config.goldenBananaContract,
+        abi: bananaContractAbi,
         functionName: 'balanceOf',
-        args: [address]
+        args: address && [address]
     });
 
     useEffect(() => {
-        if (goldenBananaCount?.toNumber() >= 0) {
+        if (goldenBananaCount && goldenBananaCount.toNumber() >= 0) {
             setBananaCount(goldenBananaCount.toNumber());
         }
     }, [goldenBananaCount]);
 
 
-    const {data: goldenBananaId, refetch: refetchBananaId}: any = useContractRead({
-        address: goldenBananaContract,
-        abi: bananaAbi,
+    const {
+        data: goldenBananaId,
+        refetch: refetchBananaId
+    } = useContractRead({
+        address: config.goldenBananaContract,
+        abi: bananaContractAbi,
         functionName: 'tokenOfOwnerByIndex',
-        args: [address, 0],
+        args: address && [address, BigNumber.from(0)],
         enabled: bananaCount > 0
     });
 
-    const {config} = usePrepareContractWrite({
-        address: oaycContract,
-        abi: oaycContactABI as Abi,
+    const {config: mintGoldenBananaConfig} = usePrepareContractWrite({
+        address: config.oaycContract,
+        abi: oaycNftContractAbi,
         functionName: 'mintGoldenBanana',
-        args: [goldenBananaId?.toNumber()],
+        args: goldenBananaId && [goldenBananaId],
         enabled: Boolean(bananaCount)
     });
 
-    const {write, data} = useContractWrite(config);
+    const {write, data} = useContractWrite(mintGoldenBananaConfig);
 
     const {isLoading, isSuccess} = useWaitForTransaction({
         hash: data?.hash,

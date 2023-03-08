@@ -10,9 +10,8 @@ interface ProofResponse {
 const getAddressPacked = (address: string) => ethers.utils.solidityPack(['address'], [address]);
 
 const generateTree = (data: string[]) => {
-    const leaves = data.map(getAddressPacked);
     return new MerkleTree(
-        leaves,
+        data.map(getAddressPacked),
         ethers.utils.keccak256,
         {
             hashLeaves: true,

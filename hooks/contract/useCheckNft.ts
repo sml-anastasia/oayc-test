@@ -1,19 +1,12 @@
-import {
-    useAccount,
-    useContractRead,
-    useContractReads,
-} from "wagmi";
-import {
-    moaycContract,
-    oaycContactABI,
-    oaycContract
-} from "../connection/connection";
+import { useAccount, useContractRead, useContractReads, } from "wagmi";
+import { config } from "../../connection/connection";
 import { useState } from "react";
-import { NftMutate } from "../types/NFT";
+import { oaycNftContractAbi } from "../../contracts";
+import { NftMutate } from "../../types/NFT";
 
 const getOaycNfts = {
-    address: oaycContract,
-    abi: oaycContactABI,
+    address: config.oaycContract,
+    abi: oaycNftContractAbi,
     functionName: 'tokenOfOwnerByIndex',
 };
 
@@ -26,26 +19,25 @@ export const useCheckNft = () => {
     const {
         data: oaycBalanceOf,
         isSuccess: oaycBalanceOfIsSuccess,
-        refetch: oaycBalanceOfIsRefetch,
     } = useContractRead({
-        address: oaycContract,
-        abi: oaycContactABI,
+        address: config.oaycContract,
+        abi: oaycNftContractAbi,
         functionName: 'balanceOf',
-        args: [address],
+        args: address && [address],
     });
 
-    const {
-        data: oaycNfts,
-        isSuccess: oaycNftsIsSuccess,
-        refetch: oaycNftsRefetch,
-    }: any = useContractReads({
-        contracts: (() => {
-            const reads = [];
-            for (let i = 0; i < Number(oaycBalanceOf?.toString() ?? '0'); i++) {
+    const getContractReads = () => {
+        const reads = [];
+        if (oaycBalanceOf) {
+            for (let i = 0; i < oaycBalanceOf.toNumber(); i++) {
                 reads.push({...getOaycNfts, args: [address, i]});
             }
-            return reads;
-        })(),
+        }
+        return reads;
+    };
+
+    const {data: oaycNfts} = useContractReads({
+        contracts: getContractReads(),
         select: (data: any) => data.map((i: any) => ({
             id: i.toString(),
             uri: `https://oayc.io:3000/${i.toString()}.png`,
@@ -55,10 +47,7 @@ export const useCheckNft = () => {
     });
 
 
-    const nfts = [...(oaycNfts ?? [])];
-
-
-
+    const nfts = [...(oaycNfts ?? [])] as unknown as NftMutate[];
 
     return {
         nfts,

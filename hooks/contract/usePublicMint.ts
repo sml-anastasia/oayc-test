@@ -1,34 +1,38 @@
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
-import { oaycContactABI, oaycContract, tokenContract, OPTokenABI } from "../connection/connection";
+import { config } from "../../connection/connection";
 import { useEffect, useState } from "react";
-import { Abi } from "abitype";
 import { BigNumber } from "ethers";
+import { oaycNftContractAbi, simpleTokenContractAbi } from "../../contracts";
 
 export const usePublicMint = (price: BigNumber) => {
     const [tokenNum, setTokenNum] = useState(1);
 
     const {config: approveConfig} = usePrepareContractWrite({
-        address: tokenContract,
-        abi: OPTokenABI,
+        address: config.tokenContract,
+        abi: simpleTokenContractAbi,
         functionName: 'approve',
-        args: [oaycContract, price?.mul(tokenNum)],
+        args: [config.oaycContract, price?.mul(tokenNum)],
         enabled: tokenNum > 0
     });
-    const {write: approveWrite, data: approveData, reset: approveReset} = useContractWrite(approveConfig);
+    const {
+        write: approveWrite,
+        data: approveData,
+        reset: approveReset
+    } = useContractWrite(approveConfig);
+
     const {isSuccess: isApproveSuccess} = useWaitForTransaction({
         hash: approveData?.hash,
     });
 
-    // console.log("approveData", approveData);
     const {
         config: publicMintConfig,
         isSuccess: canMint,
         refetch: refetchContractWrite
     } = usePrepareContractWrite({
-        address: oaycContract,
-        abi: oaycContactABI as Abi,
+        address: config.oaycContract,
+        abi: oaycNftContractAbi,
         functionName: 'mintPublic',
-        args: [tokenNum]
+        args: [BigNumber.from(tokenNum)]
     });
 
     const {write: mintWrite, data, reset: mintReset} = useContractWrite(publicMintConfig);
@@ -51,7 +55,7 @@ export const usePublicMint = (price: BigNumber) => {
             if (isApproveSuccess) {
                 approveReset();
                 refetchContractWrite().then((i) => {
-                    console.log(i)
+                    console.log(i);
                     if (i.isSuccess) {
                         mintWrite?.();
                     }

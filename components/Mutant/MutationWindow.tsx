@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled, { css } from "styled-components";
-import { useWindowSize } from "../../hooks/useScreenWidth";
+import { useWindowSize } from "../../hooks/utils/useWindowSize";
 import { device } from "../../styles/device";
-import { useMoaycStatus } from "../../hooks/useMoaycStatus";
+import { useMoaycStatus } from "../../hooks/contract/useMoaycStatus";
 import Placeholder from "./Placeholder";
 import ImageSelector from "./mutation/ImageSelector";
-import { useMoaycMutate } from "../../hooks/useMoaycMutate";
+import { useMoaycMutate } from "../../hooks/contract/useMoaycMutate";
 import { MoaycRectButton } from "../Button/MoaycRectButton";
 import MoaycModal from "./MoaycModal";
 import Success from "./Success";
@@ -14,8 +14,6 @@ import Processing from "./Processing";
 import MoaycOutlineButton from "../Button/MoaycOutlineButton";
 import { getDefaultNftMutate, NftMutate } from "../../types/NFT";
 import { SearchBar } from "./SearchBar";
-import CheckNftModal from "./CheckNftModal";
-import { MoaycStyledButton } from "../Button/MoaycButton";
 import { MintStatus } from "./Styled/MintStatus";
 
 
@@ -75,12 +73,14 @@ const MutationWindow = () => {
     const getNftImage = (nft: NftMutate) => {
         if (nft.level === 0) {
             return '/images/placeholder.gif';
-        } if (nft.level === 1) {
-            return `https://oayc.io:3001/${Number(nft.id) + 100000}.png`
-        } if (nft.level === 2) {
-            return `https://oayc.io:3001/${Number(nft.id) + 200000}.png`
         }
-    }
+        if (nft.level === 1) {
+            return `https://oayc.io:3001/${Number(nft.id) + 100000}.png`;
+        }
+        if (nft.level === 2) {
+            return `https://oayc.io:3001/${Number(nft.id) + 200000}.png`;
+        }
+    };
 
     const saleInfo = useMoaycStatus();
     const {
@@ -122,9 +122,9 @@ const MutationWindow = () => {
     useEffect(() => {
         if (selectedNft.id !== '-1' && !filteredNfts.some(i => i.id == selectedNft.id)) {
 
-            setSelectedNft(getDefaultNftMutate())
+            setSelectedNft(getDefaultNftMutate());
         }
-    }, [filteredNfts, selectedNft])
+    }, [filteredNfts, selectedNft]);
 
     if (!saleInfo.saleInfo) {
         return null;
@@ -141,9 +141,11 @@ const MutationWindow = () => {
                     {mobileStage == 0 &&
                         <ImageSelectorContainer>
                             <MintStatus>1. Choose your nft</MintStatus>
-                            <ImageSelector selected={selectedNft} images={filteredNfts} showTooltips onSelected={handleSelectNft}/>
+                            <ImageSelector selected={selectedNft} images={filteredNfts} showTooltips
+                                           onSelected={handleSelectNft}/>
                             <div style={{marginTop: 20}}>
-                                <SearchBar placeholder={"Search by id"} value={filterId} onChange={event => setFilterId(event.target.value)} />
+                                <SearchBar placeholder={"Search by id"} value={filterId}
+                                           onChange={event => setFilterId(event.target.value)}/>
                             </div>
 
                             <MoaycRectButton
@@ -213,9 +215,11 @@ const MutationWindow = () => {
                 <>
                     <ImageSelectorContainer>
                         <MintStatus>1. Choose your nft</MintStatus>
-                        <ImageSelector selected={selectedNft} images={filteredNfts} showTooltips onSelected={handleSelectNft}/>
+                        <ImageSelector selected={selectedNft} images={filteredNfts} showTooltips
+                                       onSelected={handleSelectNft}/>
                         <div style={{marginTop: 20}}>
-                            <SearchBar placeholder={"Search by id"} value={filterId} onChange={event => setFilterId(event.target.value)} />
+                            <SearchBar placeholder={"Search by id"} value={filterId}
+                                       onChange={event => setFilterId(event.target.value)}/>
                         </div>
                     </ImageSelectorContainer>
 
@@ -230,7 +234,12 @@ const MutationWindow = () => {
                                 <MutationArrow/>
                             </ImageSelectorContainer>
                             <ImageSelectorContainer
-                                style={{maxWidth: 311, justifyContent: 'space-between', flexGrow: 1, alignSelf: 'center'}}>
+                                style={{
+                                    maxWidth: 311,
+                                    justifyContent: 'space-between',
+                                    flexGrow: 1,
+                                    alignSelf: 'center'
+                                }}>
                                 <MutantPreview src={getNftImage(selectedNft)} width={311}
                                                height={311}/>
                                 <MoaycRectButton

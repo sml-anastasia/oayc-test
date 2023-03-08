@@ -89,7 +89,7 @@ const StyledTooltipOne = styled.div`
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   font-size: 12px;
-`
+`;
 
 
 const StyledTooltipTwo = styled.div`
@@ -103,15 +103,14 @@ const StyledTooltipTwo = styled.div`
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   font-size: 12px;
-`
-
+`;
 
 
 const ImageSelector = (props: ImageSelectorProps) => {
 
     const {selected, images, onSelected, showTooltips = false} = props;
 
-    const [hovered, setHovered] = useState(getDefaultNftMutate())
+    const [hovered, setHovered] = useState(getDefaultNftMutate());
 
     const handleSelect = (id: NftMutate) => {
         onSelected(id);
@@ -129,8 +128,10 @@ const ImageSelector = (props: ImageSelectorProps) => {
                 >
                     <StyledImage src={i.uri} alt=""/>
                     {showTooltips && <>
-                        {(hovered.id == i.id && hovered.level == i.level) && <StyledTooltipOne>{i.id}</StyledTooltipOne>}
-                        {(hovered.id == i.id && hovered.level == i.level && i.level != 0) && <StyledTooltipTwo>Lvl: {i.level}</StyledTooltipTwo>}
+                        {(hovered.id == i.id && hovered.level == i.level) &&
+                            <StyledTooltipOne>{i.id}</StyledTooltipOne>}
+                        {(hovered.id == i.id && hovered.level == i.level && i.level != 0) &&
+                            <StyledTooltipTwo>Lvl: {i.level}</StyledTooltipTwo>}
                     </>
                     }
 

@@ -4,16 +4,16 @@ import Image from "next/image";
 import MutationStatLine from "./MutationStatLine";
 import AmountSelector from "./AmountSelector";
 import { MoaycRectButton } from "../Button/MoaycRectButton";
-import { useWindowSize } from "../../hooks/useScreenWidth";
+import { useWindowSize } from "../../hooks/utils/useWindowSize";
 import { device } from "../../styles/device";
 import MoaycModal from "./MoaycModal";
 import Fail from "./Fail";
 import ArrowSurround from "./ArrowSurround";
-import { useMoaycStatus } from "../../hooks/useMoaycStatus";
-import { useMoaycPublicMint } from "../../hooks/useMoaycPublicMint";
+import { useMoaycStatus } from "../../hooks/contract/useMoaycStatus";
+import { useMoaycPublicMint } from "../../hooks/contract/useMoaycPublicMint";
 import Processing from "./Processing";
 import Success from "./Success";
-import { useMoaycWhitelistMint } from "../../hooks/useMoaycWhitelistMint";
+import { useMoaycWhitelistMint } from "../../hooks/contract/useMoaycWhitelistMint";
 
 
 export const MutationWindowContainer = styled.div<{ noContent?: boolean }>`
@@ -214,7 +214,8 @@ const MutantMintWindow = () => {
                         {saleInfo.whitelistMint && <MintStatus>whitelist mint is live</MintStatus>}
                         {saleInfo.publicMint && <MintStatus>public mint is live</MintStatus>}
 
-                        <MutationStatLine name={"Mutants left:"} value={saleInfo.supply - saleInfo.minted}/>
+                        <MutationStatLine name={"Mutants left:"}
+                                          value={saleInfo.supply.sub(saleInfo.minted).toString()}/>
                         <MutationStatLine name={"Price:"} value={`${saleInfo.currentPrice} $OP`}/>
                         <MutationStatLine name={"Your Allocation:"} value={`${getMinted()} / ${getAlloc()}`}/>
 

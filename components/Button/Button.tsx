@@ -76,9 +76,10 @@ const StyledButton = styled.button<OaycButtonStyleProps>`
     color: ${(props) => getButtonTextHoverColor(props.color)};
     transition: 0.3s;
   }
-  
+
   &:disabled {
     opacity: 0.4;
+
     &:hover {
       background: ${(props) => getButtonBgColor(props.color)};
       color: ${(props) => getButtonTextColor(props.color)};

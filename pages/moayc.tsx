@@ -1,14 +1,14 @@
 import { NextPage } from "next";
 import { useAccount } from "wagmi";
 import Head from "next/head";
-import React, { useState } from "react";
+import React from "react";
 import ArrowsButton from "../components/Button/ArrowsButton";
 import styled from "styled-components";
 import TopBar from "../components/Mutant/TopBar";
 import Footer from "../components/Mutant/Footer";
-import { useDefaultConnect } from "../hooks/useDefaultConnect";
-import useEagerConnect from "../hooks/useEagerConnect";
-import useChangeNetwork from "../hooks/useChangeNetwork";
+import { useDefaultConnect } from "../hooks/web3/useDefaultConnect";
+import useEagerConnect from "../hooks/web3/useEagerConnect";
+import useChangeNetwork from "../hooks/web3/useChangeNetwork";
 import MutationWindow from "../components/Mutant/MutationWindow";
 
 const Container = styled.div`

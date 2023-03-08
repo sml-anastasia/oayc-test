@@ -1,60 +1,64 @@
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
-import {
-    bananaAbi,
-    oaycContactABI,
-    oaycContract,
-    tokenContract,
-    OPTokenABI,
-    silverBananaContract
-} from "../connection/connection";
+import { config } from "../../connection/connection";
 import { useEffect, useState } from "react";
-import { Abi } from "abitype";
 import { BigNumber } from "ethers";
+import { bananaContractAbi, oaycNftContractAbi, simpleTokenContractAbi } from "../../contracts";
 
 export const useSilverBananaMint = (price: BigNumber) => {
     const [bananaCount, setBananaCount] = useState(0);
     const {address} = useAccount();
 
-    const {data: silverBananaCount, refetch: refetchBananaCount}: any = useContractRead({
-        address: silverBananaContract,
-        abi: bananaAbi,
+    const {
+        data: silverBananaCount,
+        refetch: refetchBananaCount
+    } = useContractRead({
+        address: config.silverBananaContract,
+        abi: bananaContractAbi,
         functionName: 'balanceOf',
-        args: [address]
+        args: address && [address],
+        enabled: !!address
     });
 
     useEffect(() => {
-        if (silverBananaCount?.toNumber() >= 0) {
+        if (silverBananaCount && silverBananaCount.toNumber() >= 0) {
             setBananaCount(silverBananaCount.toNumber());
         }
     }, [silverBananaCount]);
 
 
-    const {data: silverBananaId, refetch: refetchBananaId}: any = useContractRead({
-        address: silverBananaContract,
-        abi: bananaAbi,
+    const {
+        data: silverBananaId,
+        refetch: refetchBananaId
+    } = useContractRead({
+        address: config.silverBananaContract,
+        abi: bananaContractAbi,
         functionName: 'tokenOfOwnerByIndex',
-        args: [address, 0],
+        args: address && [address, BigNumber.from(0)],
         enabled: bananaCount > 0
     });
 
     const {config: approveConfig} = usePrepareContractWrite({
-        address: tokenContract,
-        abi: OPTokenABI,
+        address: config.tokenContract,
+        abi: simpleTokenContractAbi,
         functionName: 'approve',
-        args: [oaycContract, price],
+        args: [config.oaycContract, price],
         enabled: Boolean(bananaCount)
     });
-    const {write: approveWrite, data: approveData} = useContractWrite(approveConfig);
+
+    const {
+        write: approveWrite,
+        data: approveData
+    } = useContractWrite(approveConfig);
 
     const {
         config: mintSilverBananaConfig,
         isSuccess: mintSuccess,
         refetch: refetchContractWrite
     } = usePrepareContractWrite({
-        address: oaycContract,
-        abi: oaycContactABI as Abi,
+        address: config.oaycContract,
+        abi: oaycNftContractAbi,
         functionName: 'mintSilverBanana',
-        args: [silverBananaId?.toNumber()],
+        args: silverBananaId && [silverBananaId],
         enabled: Boolean(bananaCount)
     });
 
@@ -64,7 +68,10 @@ export const useSilverBananaMint = (price: BigNumber) => {
         hash: data?.hash,
     });
 
-    const {isLoading: isApproveLoading, isSuccess: isApproveSuccess,} = useWaitForTransaction({
+    const {
+        isLoading: isApproveLoading,
+        isSuccess: isApproveSuccess
+    } = useWaitForTransaction({
         hash: approveData?.hash,
     });
 

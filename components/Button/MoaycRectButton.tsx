@@ -19,7 +19,7 @@ export const MoaycRectButton = styled.button`
   padding: 11px;
   justify-content: center;
   transition: 0.3s;
-  
+
   &[disabled] {
     opacity: 0.5;
   }

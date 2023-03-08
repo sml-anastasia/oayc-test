@@ -1,8 +1,9 @@
 import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
-import { moaycContract, moaycContractABI, OPTokenABI, tokenContract } from "../connection/connection";
-import { ethers } from "ethers";
+import { config } from "../../connection/connection";
+import { BigNumber, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { mutantContractAbi, simpleTokenContractAbi } from "../../contracts";
 
 export const useMoaycWhitelistMint = (price: number, amount: number, enable: boolean) => {
 
@@ -13,18 +14,18 @@ export const useMoaycWhitelistMint = (price: number, amount: number, enable: boo
         config: approveConfig,
         isSuccess: canWlApprove,
     } = usePrepareContractWrite({
-        address: tokenContract,
-        abi: OPTokenABI,
+        address: config.tokenContract,
+        abi: simpleTokenContractAbi,
         functionName: 'approve',
-        args: [moaycContract, ethers.utils.parseEther(price.toString()).mul(amount)],
+        args: [config.moaycContract, ethers.utils.parseEther(price.toString()).mul(amount)],
         enabled: enable
     });
 
     const {data: whitelistMints, refetch: updateSaleInfo} = useContractRead({
-        address: moaycContract,
-        abi: moaycContractABI,
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'whitelistMints',
-        args: [address],
+        args: address && [address],
         staleTime: 10000
     });
 
@@ -50,7 +51,6 @@ export const useMoaycWhitelistMint = (price: number, amount: number, enable: boo
 
     const {
         isLoading: isWlApproveLoading,
-        isSuccess: isWlApproveSuccess,
         isError: isApproveError,
     } = useWaitForTransaction({
         hash: approveData?.hash,
@@ -69,10 +69,10 @@ export const useMoaycWhitelistMint = (price: number, amount: number, enable: boo
         isSuccess: canWlMint,
         refetch: refetchContractWrite
     } = usePrepareContractWrite({
-        address: moaycContract,
-        abi: moaycContractABI,
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'mintWhitelist',
-        args: [amount, proof],
+        args: [BigNumber.from(amount), proof],
         enabled: enable
     });
 

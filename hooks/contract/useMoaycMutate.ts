@@ -6,53 +6,45 @@ import {
     usePrepareContractWrite,
     useWaitForTransaction
 } from "wagmi";
-import {
-    moaycContract,
-    moaycContractABI,
-    mutagen1Contract,
-    mutagen2Contract,
-    mutagen3Contract,
-    mutagenContractABI,
-    oaycContactABI,
-    oaycContract
-} from "../connection/connection";
+import { config } from "../../connection/connection";
 import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
-import { NftMutate } from "../types/NFT";
+import { NftMutate } from "../../types/NFT";
+import { mutagenContractAbi, mutantContractAbi, oaycNftContractAbi } from "../../contracts";
 
 const getOaycNfts = {
-    address: oaycContract,
-    abi: oaycContactABI,
+    address: config.oaycContract,
+    abi: oaycNftContractAbi,
     functionName: 'tokenOfOwnerByIndex',
 };
 
 const getMoaycNfts = {
-    address: moaycContract,
-    abi: moaycContractABI,
+    address: config.moaycContract,
+    abi: mutantContractAbi,
     functionName: 'tokenOfOwnerByIndex',
 };
 
 const getMoaycNftsLvl = {
-    address: moaycContract,
-    abi: moaycContractABI,
+    address: config.moaycContract,
+    abi: mutantContractAbi,
     functionName: 'mutationLvl',
 };
 
 const getMutagen1Nfts = {
-    address: mutagen1Contract,
-    abi: mutagenContractABI,
+    address: config.mutagen1Contract,
+    abi: mutagenContractAbi,
     functionName: 'tokenOfOwnerByIndex',
 };
 
 const getMutagen2Nfts = {
-    address: mutagen2Contract,
-    abi: mutagenContractABI,
+    address: config.mutagen2Contract,
+    abi: mutagenContractAbi,
     functionName: 'tokenOfOwnerByIndex',
 };
 
 const getMutagen3Nfts = {
-    address: mutagen3Contract,
-    abi: mutagenContractABI,
+    address: config.mutagen3Contract,
+    abi: mutagenContractAbi,
     functionName: 'tokenOfOwnerByIndex',
 };
 
@@ -70,24 +62,22 @@ export const useMoaycMutate = (
     const {
         data: oaycBalanceOf,
         isSuccess: oaycBalanceOfIsSuccess,
-        refetch: oaycBalanceOfIsRefetch,
     } = useContractRead({
-        address: oaycContract,
-        abi: oaycContactABI,
+        address: config.oaycContract,
+        abi: oaycNftContractAbi,
         functionName: 'balanceOf',
-        args: [address],
+        args: address && [address],
         enabled: enableNftSelection
     });
 
     const {
         data: moaycBalanceOf,
         isSuccess: moaycBalanceOfIsSuccess,
-        refetch: moaycBalanceOfRefetch,
     } = useContractRead({
-        address: moaycContract,
-        abi: oaycContactABI,
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'balanceOf',
-        args: [address],
+        args: address && [address],
         enabled: enableNftSelection
     });
 
@@ -96,10 +86,10 @@ export const useMoaycMutate = (
         isSuccess: mutagen1BalanceOfIsSuccess,
         refetch: mutagen1BalanceOfRefetch,
     } = useContractRead({
-        address: mutagen1Contract,
-        abi: mutagenContractABI,
+        address: config.mutagen1Contract,
+        abi: mutagenContractAbi,
         functionName: 'balanceOf',
-        args: [address],
+        args: address && [address],
         enabled: enableMutagenSelection
     });
 
@@ -108,10 +98,10 @@ export const useMoaycMutate = (
         isSuccess: mutagen2BalanceOfIsSuccess,
         refetch: mutagen2BalanceOfRefetch,
     } = useContractRead({
-        address: mutagen2Contract,
-        abi: mutagenContractABI,
+        address: config.mutagen2Contract,
+        abi: mutagenContractAbi,
         functionName: 'balanceOf',
-        args: [address],
+        args: address && [address],
         enabled: enableMutagenSelection
     });
 
@@ -120,18 +110,14 @@ export const useMoaycMutate = (
         isSuccess: mutagen3BalanceOfIsSuccess,
         refetch: mutagen3BalanceOfRefetch,
     } = useContractRead({
-        address: mutagen3Contract,
-        abi: mutagenContractABI,
+        address: config.mutagen3Contract,
+        abi: mutagenContractAbi,
         functionName: 'balanceOf',
-        args: [address],
+        args: address && [address],
         enabled: enableMutagenSelection
     });
 
-    const {
-        data: oaycNfts,
-        isSuccess: oaycNftsIsSuccess,
-        refetch: oaycNftsRefetch,
-    }: any = useContractReads({
+    const {data: oaycNfts} = useContractReads({
         contracts: (() => {
             const reads = [];
             for (let i = 0; i < Number(oaycBalanceOf?.toString() ?? '0'); i++) {
@@ -150,7 +136,6 @@ export const useMoaycMutate = (
     const {
         data: moaycNftsPre,
         isSuccess: moaycNftsPreIsSuccess,
-        refetch: moaycNftsRefetch,
     } = useContractReads({
         contracts: (() => {
             const reads = [];
@@ -169,7 +154,6 @@ export const useMoaycMutate = (
 
     const {
         data: moaycNftLvls,
-        isSuccess: moaycNftLvlsIsSuccess,
         refetch: moaycNftLvlsRefetch,
     } = useContractReads({
         contracts: (() => {
@@ -203,7 +187,6 @@ export const useMoaycMutate = (
 
     const {
         data: mutagen1Nfts,
-        isSuccess: mutagen1NftsIsSuccess,
         refetch: mutagen1NftsRefetch,
     } = useContractReads({
         contracts: (() => {
@@ -223,7 +206,6 @@ export const useMoaycMutate = (
 
     const {
         data: mutagen2Nfts,
-        isSuccess: mutagen2NftsIsSuccess,
         refetch: mutagen2NftsRefetch,
     } = useContractReads({
         contracts: (() => {
@@ -243,7 +225,6 @@ export const useMoaycMutate = (
 
     const {
         data: mutagen3Nfts,
-        isSuccess: mutagen3NftsIsSuccess,
         refetch: mutagen3NftsRefetch,
     } = useContractReads({
         contracts: (() => {
@@ -271,12 +252,12 @@ export const useMoaycMutate = (
         isSuccess: canMutate1,
         refetch: refetchCanMutate1
     } = usePrepareContractWrite({
-        address: moaycContract,
-        abi: moaycContractABI,
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'mutate1',
         overrides: ({
             value: ethers.utils.parseEther('0.006'),
-        }) as any,
+        }),
         args: [BigNumber.from(selectedMutagen.id), BigNumber.from(selectedNft.id)],
         enabled: enableNftSelection && enableMutagenSelection && selectedNft.level === 0 && selectedMutagen.level === 1
     });
@@ -284,13 +265,10 @@ export const useMoaycMutate = (
     const {
         write: mutate1,
         data: mutate1Data,
-        reset: mutate1Reset
     } = useContractWrite(mutate1Config);
 
     const {
         isLoading: mutate1Loading,
-        isSuccess: mutate1Success,
-        isError: mutate1Error,
     } = useWaitForTransaction({
         hash: mutate1Data?.hash,
         enabled: !!mutate1Data?.hash,
@@ -315,8 +293,8 @@ export const useMoaycMutate = (
         isSuccess: canMutate2,
         refetch: refetchCanMutate2
     } = usePrepareContractWrite({
-        address: moaycContract,
-        abi: moaycContractABI,
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'mutate2',
         args: [BigNumber.from(selectedMutagen.id), BigNumber.from(selectedNft.id)],
         enabled: enableNftSelection && enableMutagenSelection && selectedNft.level === 1 && selectedMutagen.level === 2
@@ -325,13 +303,10 @@ export const useMoaycMutate = (
     const {
         write: mutate2,
         data: mutate2Data,
-        reset: mutate2Reset
     } = useContractWrite(mutate2Config);
 
     const {
         isLoading: mutate2Loading,
-        isSuccess: mutate2Success,
-        isError: mutate2Error,
     } = useWaitForTransaction({
         hash: mutate2Data?.hash,
         enabled: !!mutate2Data?.hash,
@@ -356,8 +331,8 @@ export const useMoaycMutate = (
         isSuccess: canMutate3,
         refetch: refetchCanMutate3
     } = usePrepareContractWrite({
-        address: moaycContract,
-        abi: moaycContractABI,
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'mutate3',
         args: [BigNumber.from(selectedMutagen.id), BigNumber.from(selectedNft.id)],
         enabled: enableNftSelection && enableMutagenSelection && selectedNft.level === 2 && selectedMutagen.level === 3
@@ -366,14 +341,9 @@ export const useMoaycMutate = (
     const {
         write: mutate3,
         data: mutate3Data,
-        reset: mutate3Reset
     } = useContractWrite(mutate3Config);
 
-    const {
-        isLoading: mutate3Loading,
-        isSuccess: mutate3Success,
-        isError: mutate3Error,
-    } = useWaitForTransaction({
+    const {isLoading: mutate3Loading} = useWaitForTransaction({
         hash: mutate3Data?.hash,
         enabled: !!mutate3Data?.hash,
         onSuccess: async (data) => {

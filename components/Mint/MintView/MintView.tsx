@@ -4,9 +4,9 @@ import { SaleStatus } from "./models/SaleStatus";
 import { oaycContactABI, oaycContract } from "../../../connection/connection";
 import MintedCounter from "./MintedCounter";
 import Button from "../../Button/Button";
-import { useGoldenBananaMint } from "../../../hooks/useGoldenBananaMint";
-import { useSilverBananaMint } from "../../../hooks/useSilverBananaMint";
-import { usePublicMint } from "../../../hooks/usePublicMint";
+import { useGoldenBananaMint } from "../../../hooks/contract/useGoldenBananaMint";
+import { useSilverBananaMint } from "../../../hooks/contract/useSilverBananaMint";
+import { usePublicMint } from "../../../hooks/contract/usePublicMint";
 import MintAmount from "./MintAmount";
 
 

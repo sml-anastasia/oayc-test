@@ -75,13 +75,10 @@ const Footer = () => {
             <StyledTextContainer>
                 {isConnected &&
                     <>
-                        {/*<div style={{alignSelf: 'center'}}>*/}
-                            <CheckNftButton onClick={() => setCheckNftModalOpen(true)}>
-                                Check NFT
-                            </CheckNftButton>
-                        {/*</div>*/}
-
-                        <CheckNftModal isOpen={checkNftModalOpen} onClose={() => setCheckNftModalOpen(false)} />
+                        <CheckNftButton onClick={() => setCheckNftModalOpen(true)}>
+                            Check NFT
+                        </CheckNftButton>
+                        <CheckNftModal isOpen={checkNftModalOpen} onClose={() => setCheckNftModalOpen(false)}/>
                     </>}
             </StyledTextContainer>
             <StyledSocialsContainer>

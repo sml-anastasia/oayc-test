@@ -1,7 +1,8 @@
-import { useAccount, useContractRead } from "wagmi";
-import { moaycContract, moaycContractABI } from "../connection/connection";
-import { SaleStatus } from "../components/Mint/MintView/models/SaleStatus";
-import { ethers } from "ethers";
+import { useContractRead } from "wagmi";
+import { config } from "../../connection/connection";
+import { SaleStatus } from "../../components/Mint/MintView/models/SaleStatus";
+import { BigNumber, ethers } from "ethers";
+import { mutantContractAbi } from "../../contracts";
 
 export enum Status {
     Closed,
@@ -14,12 +15,12 @@ export enum Status {
 
 
 export const useMoaycStatus = () => {
-
-    const {address} = useAccount();
-
-    const {data: saleInfo, refetch: updateSaleInfo}: any = useContractRead({
-        address: moaycContract,
-        abi: moaycContractABI,
+    const {
+        data: saleInfo,
+        refetch: updateSaleInfo
+    } = useContractRead({
+        address: config.moaycContract,
+        abi: mutantContractAbi,
         functionName: 'info',
         staleTime: 10000
     });
@@ -58,8 +59,8 @@ export const useMoaycStatus = () => {
         pricePerTokenWl,
         pricePerTokenPublic,
         mutationPrice,
-        supply: saleInfo?.supply || 0,
-        minted: saleInfo?.minted || 0,
+        supply: saleInfo?.supply || BigNumber.from(0),
+        minted: saleInfo?.minted || BigNumber.from(0),
         currentPrice: getCurrentPrice(),
         updateSaleInfo,
     };
