@@ -1,21 +1,22 @@
 import React from 'react';
 import { useContractRead } from "wagmi";
 import { SaleStatus } from "./models/SaleStatus";
-import { oaycContactABI, oaycContract } from "../../../connection/connection";
+import { config } from "../../../connection/connection";
 import MintedCounter from "./MintedCounter";
 import Button from "../../Button/Button";
 import { useGoldenBananaMint } from "../../../hooks/contract/useGoldenBananaMint";
 import { useSilverBananaMint } from "../../../hooks/contract/useSilverBananaMint";
 import { usePublicMint } from "../../../hooks/contract/usePublicMint";
 import MintAmount from "./MintAmount";
+import { oaycNftContractAbi } from "../../../contracts";
 
 
 const MintView = () => {
 
 
     const {data: saleInfo}: any = useContractRead({
-        address: oaycContract,
-        abi: oaycContactABI,
+        address: config.oaycContract,
+        abi: oaycNftContractAbi,
         functionName: 'info',
         staleTime: 10000
     });

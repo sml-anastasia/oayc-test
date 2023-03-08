@@ -1,18 +1,8 @@
 import { InjectedConnector } from "@wagmi/core";
-
-import OaycNFT from '../contracts/OaycNFT.json';
-import Banana from '../contracts/Banana.json';
-import Mutant from '../contracts/Mutant.json';
-import Mutagen from '../contracts/Mutagen.json';
-import { Abi } from "abitype";
 import { Address, Chain, configureChains } from "wagmi";
 import { optimism, polygonMumbai } from "@wagmi/core/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { ethers } from "ethers";
-
-ethers.constants.HashZero;
-
 export const defaultConnector = new InjectedConnector();
 
 interface Config {
@@ -79,36 +69,3 @@ export const {chains, provider, webSocketProvider} = configureChains(
     ]
 );
 
-
-export const oaycContactABI = OaycNFT.abi as Abi;
-export const bananaAbi = Banana.abi as Abi;
-export const moaycContractABI = Mutant.abi as Abi;
-export const mutagenContractABI = Mutagen.abi as Abi;
-
-
-export const OPTokenABI: Abi = [
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "spender",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "approve",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
-];
