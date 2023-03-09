@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from "../../Button/Button";
-import { useDefaultConnect } from "../../../hooks/web3/useDefaultConnect";
+import Button from "../common/buttons/Button";
+import { useDefaultConnect } from "../../hooks/web3/useDefaultConnect";
 
 const ConnectWalletButton = () => {
 

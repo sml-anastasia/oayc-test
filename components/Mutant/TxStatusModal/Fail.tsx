@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import RoundCloseButton from "../Button/RoundCloseButton";
+import RoundCloseButton from "../../common/buttons/RoundCloseButton";
 
 
 const StyledFail = styled.div`

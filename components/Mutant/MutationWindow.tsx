@@ -4,14 +4,14 @@ import { useWindowSize } from "../../hooks/utils/useWindowSize";
 import { device } from "../../styles/device";
 import { useMoaycStatus } from "../../hooks/contract/useMoaycStatus";
 import Placeholder from "./Placeholder";
-import ImageSelector from "./mutation/ImageSelector";
+import ImageSelector from "./ImageSelector";
 import { useMoaycMutate } from "../../hooks/contract/useMoaycMutate";
-import { MoaycRectButton } from "../Button/MoaycRectButton";
-import MoaycModal from "./MoaycModal";
-import Success from "./Success";
-import Fail from "./Fail";
-import Processing from "./Processing";
-import MoaycOutlineButton from "../Button/MoaycOutlineButton";
+import { MoaycRectButton } from "../common/buttons/MoaycRectButton";
+import Modal from "../common/ovarlays/Modal";
+import Success from "./TxStatusModal/Success";
+import Fail from "./TxStatusModal/Fail";
+import Processing from "./TxStatusModal/Processing";
+import MoaycOutlineButton from "../common/buttons/MoaycOutlineButton";
 import { getDefaultNftMutate, NftMutate } from "../../types/NFT";
 import { SearchBar } from "./SearchBar";
 import { MintStatus } from "./Styled/MintStatus";
@@ -257,17 +257,17 @@ const MutationWindow = () => {
             }
 
 
-            <MoaycModal isOpen={isLoading}>
+            <Modal isOpen={isLoading}>
                 <Processing/>
-            </MoaycModal>
+            </Modal>
 
-            <MoaycModal isOpen={isSuccess} onClose={() => setIsSuccess(false)}>
+            <Modal isOpen={isSuccess} onClose={() => setIsSuccess(false)}>
                 <Success onClose={() => setIsSuccess(false)}/>
-            </MoaycModal>
+            </Modal>
 
-            <MoaycModal isOpen={isError} onClose={() => setIsError(false)}>
+            <Modal isOpen={isError} onClose={() => setIsError(false)}>
                 <Fail onClose={() => setIsError(false)}/>
-            </MoaycModal>
+            </Modal>
         </MutationWindowContainer>
     );
 };

@@ -1,11 +1,11 @@
 import Head from 'next/head';
-import Button from "../Button/Button";
+import Button from "../common/buttons/Button";
 import Image from "next/image";
-import UserDetails from "./UserDetails/UserDetails";
-import ConnectWalletButton from "./ConnectWalletButton/ConnectWalletButton";
+import UserDetails from "./UserDetails";
+import ConnectWalletButton from "./ConnectWalletButton";
 import { useAccount } from "wagmi";
-import MintView from "./MintView/MintView";
-import Footer from "./Footer/Footer";
+import MintView from "./MintView";
+import Footer from "./Footer";
 import React from "react";
 import Link from "next/link";
 

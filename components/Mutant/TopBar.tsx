@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import styled from "styled-components";
 import { device } from "../../styles/device";
 import { useAccount, useDisconnect } from "wagmi";
-import MoaycButton from "../Button/MoaycButton";
+import MoaycButton from "../common/buttons/MoaycButton";
 
 
 const StyledTopBar = styled.div`

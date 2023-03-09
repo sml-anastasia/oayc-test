@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from 'react';
 import styled from "styled-components";
 
-import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 
-const StyledModal = styled(Modal)`
+const StyledModal = styled(ReactModal)`
   width: 251px;
   height: 251px;
   justify-content: center;
@@ -26,7 +26,7 @@ interface ModalProps {
     height?: number;
 }
 
-const MoaycModal = (props: PropsWithChildren<ModalProps>) => {
+const Modal = (props: PropsWithChildren<ModalProps>) => {
     return <StyledModal
         style={{
             overlay: {
@@ -49,4 +49,4 @@ const MoaycModal = (props: PropsWithChildren<ModalProps>) => {
     </StyledModal>;
 };
 
-export default MoaycModal;
+export default Modal;

@@ -1,6 +1,6 @@
 import { useContractRead } from "wagmi";
 import { config } from "../../connection/connection";
-import { SaleStatus } from "../../components/Mint/MintView/models/SaleStatus";
+import { SaleStatus } from "../../types/SaleStatus";
 import { BigNumber, ethers } from "ethers";
 import { mutantContractAbi } from "../../contracts";
 

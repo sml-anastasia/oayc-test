@@ -1,14 +1,14 @@
 import React from 'react';
 import { useContractRead } from "wagmi";
-import { SaleStatus } from "./models/SaleStatus";
-import { config } from "../../../connection/connection";
+import { SaleStatus } from "../../types/SaleStatus";
+import { config } from "../../connection/connection";
 import MintedCounter from "./MintedCounter";
-import Button from "../../Button/Button";
-import { useGoldenBananaMint } from "../../../hooks/contract/useGoldenBananaMint";
-import { useSilverBananaMint } from "../../../hooks/contract/useSilverBananaMint";
-import { usePublicMint } from "../../../hooks/contract/usePublicMint";
+import Button from "../common/buttons/Button";
+import { useGoldenBananaMint } from "../../hooks/contract/useGoldenBananaMint";
+import { useSilverBananaMint } from "../../hooks/contract/useSilverBananaMint";
+import { usePublicMint } from "../../hooks/contract/usePublicMint";
 import MintAmount from "./MintAmount";
-import { oaycNftContractAbi } from "../../../contracts";
+import { oaycNftContractAbi } from "../../contracts";
 
 
 const MintView = () => {

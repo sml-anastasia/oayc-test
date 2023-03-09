@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from "styled-components";
-import { device } from "../../styles/device";
+import { device } from "../../../styles/device";
 
 interface ButtonProps {
     size?: "small" | "large";

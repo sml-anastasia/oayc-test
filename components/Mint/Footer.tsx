@@ -1,6 +1,6 @@
 import React from 'react';
-import EyeIcon from "../Icons/EyeIcon";
-import SlashesIcon from "../Icons/SlashesIcon";
+import EyeIcon from "../common/icons/EyeIcon";
+import SlashesIcon from "../common/icons/SlashesIcon";
 
 const Footer = () => {
     return (
