@@ -12,14 +12,13 @@ import useChangeNetwork from "../hooks/web3/useChangeNetwork";
 import MutationWindow from "../components/Mutant/MutationWindow";
 
 const Container = styled.div`
-  background: #1E1E1E;
+  background: #1e1e1e;
   min-width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   color: #77b102;
 `;
-
 
 const ContentContainer = styled.div`
   display: flex;
@@ -29,32 +28,32 @@ const ContentContainer = styled.div`
   flex-grow: 1;
 `;
 
-
 const Moayc: NextPage = () => {
-
-    useEagerConnect();
-    useChangeNetwork();
-    const {isConnected} = useAccount();
-    const {connect} = useDefaultConnect();
-    return (
-        <>
-            <Head>
-                <title>MOAYC</title>
-                <link rel="icon" href="/main/favicons/green.svg"/>
-            </Head>
-            <Container>
-                <TopBar/>
-                <ContentContainer>
-                    {!isConnected ?
-                        <ArrowsButton onClick={() => connect()}>Connect Wallet</ArrowsButton> :
-                        <MutationWindow/>
-                    }
-                </ContentContainer>
-                <Footer/>
-            </Container>
-        </>
-    );
+  useEagerConnect();
+  useChangeNetwork();
+  const { isConnected } = useAccount();
+  const { connect } = useDefaultConnect();
+  return (
+    <>
+      <Head>
+        <title>MOAYC</title>
+        <link rel="icon" href="/main/favicons/green.svg" />
+      </Head>
+      <Container>
+        <TopBar logoUrl="/main/favicons/green.svg" displayText="MOAYC" />
+        <ContentContainer>
+          {!isConnected ? (
+            <ArrowsButton onClick={() => connect()}>
+              Connect Wallet
+            </ArrowsButton>
+          ) : (
+            <MutationWindow />
+          )}
+        </ContentContainer>
+        <Footer />
+      </Container>
+    </>
+  );
 };
-
 
 export default Moayc;

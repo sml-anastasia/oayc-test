@@ -1,18 +1,17 @@
-import React from 'react';
+import React from "react";
 import styled, { css } from "styled-components";
 import { device } from "../../styles/device";
 
 interface ButtonProps {
-    size?: "small" | "large";
+  size?: "small" | "large";
 }
 
 export const MoaycStyledButton = styled.div<ButtonProps>`
   display: inline-block;
-  background: linear-gradient(159.53deg, #B4D109 1.07%, #87CC00 72.47%);
+  background: linear-gradient(159.53deg, #b4d109 1.07%, #87cc00 72.47%);
   border-radius: 25px;
 
-
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-style: italic;
   font-weight: 700;
   font-size: 16px;
@@ -26,9 +25,11 @@ export const MoaycStyledButton = styled.div<ButtonProps>`
     padding: 19px 37px;
   }
 
-  ${props => props.size === "small" && css`
-    padding: 12px 31px !important;
-  `}
+  ${(props) =>
+    props.size === "small" &&
+    css`
+      padding: 12px 31px !important;
+    `}
   &:hover {
     cursor: pointer;
     opacity: 0.5;
@@ -37,13 +38,16 @@ export const MoaycStyledButton = styled.div<ButtonProps>`
   }
 `;
 
-
-const MoaycButton = ({children, size = "large", ...rest}: React.HTMLAttributes<HTMLDivElement> & ButtonProps) => {
-    return (
-        <MoaycStyledButton size={size} {...rest}>
-            {children}
-        </MoaycStyledButton>
-    );
+const MoaycButton = ({
+  children,
+  size = "large",
+  ...rest
+}: React.HTMLAttributes<HTMLDivElement> & ButtonProps) => {
+  return (
+    <MoaycStyledButton size={size} {...rest}>
+      {children}
+    </MoaycStyledButton>
+  );
 };
 
 export default MoaycButton;

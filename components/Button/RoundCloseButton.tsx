@@ -1,12 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent } from "react";
 import styled from "styled-components";
-
 
 const StyledButton = styled.button`
   height: 29px;
   width: 29px;
   border-radius: 50%;
-  background: linear-gradient(159.53deg, #B4D109 1.07%, #87CC00 72.47%);
+  background: linear-gradient(159.53deg, #b4d109 1.07%, #87cc00 72.47%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,9 +26,14 @@ const CloseIcon = styled.div`
   width: 11px;
 `;
 
-
-const RoundCloseButton: FunctionComponent<React.ButtonHTMLAttributes<HTMLButtonElement>> = (props) => {
-    return <StyledButton {...props}><CloseIcon/></StyledButton>;
+const RoundCloseButton: FunctionComponent<
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+> = (props) => {
+  return (
+    <StyledButton {...props}>
+      <CloseIcon />
+    </StyledButton>
+  );
 };
 
 export default RoundCloseButton;
