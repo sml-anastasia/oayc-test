@@ -19,10 +19,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   color: transparent;
-  background-image: url("/images/oayc_bg.png");
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 30% 80%;
 `;
 
 const ContentContainer = styled.div`
@@ -34,6 +30,7 @@ const ContentContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   margin: 0 auto;
+  padding: 140px 0px 0px;
 `;
 
 const StyledHero = styled.div`
@@ -90,8 +87,17 @@ const StyledIcon = styled.div`
 `;
 
 const StyledHeroFooter = styled.div`
+  margin-top: 160px;
   display: flex;
   align-items: center;
+  justify-content: center;
+`;
+
+const StyledApe = styled.div`
+  position: absolute;
+  right: 380px;
+  width: 384px;
+  height: 520px;
 `;
 
 const Staking: NextPage = () => {
@@ -138,6 +144,9 @@ const Staking: NextPage = () => {
         <StyledHeroFooter>
           <img src="/images/oayc_sign.svg" alt="oayc sign" />
         </StyledHeroFooter>
+        <StyledApe>
+          <img src="/images/oayc_bg.png" alt="ape" />
+        </StyledApe>
       </Container>
     </>
   );
