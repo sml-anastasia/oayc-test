@@ -13,6 +13,7 @@ import MutationWindow from "../components/Mutant/MutationWindow";
 import { device } from "../styles/device";
 
 const Container = styled.div`
+  position: relative;
   background: #f0ebdf;
   min-width: 100vw;
   min-height: 100vh;
@@ -93,9 +94,10 @@ const StyledHeroFooter = styled.div`
   justify-content: center;
 `;
 
-const StyledApe = styled.div`
+const StyledApe = styled.img`
   position: absolute;
-  right: 380px;
+  right: 0;
+  top: 100px;
   width: 384px;
   height: 520px;
 `;
@@ -144,9 +146,11 @@ const Staking: NextPage = () => {
         <StyledHeroFooter>
           <img src="/images/oayc_sign.svg" alt="oayc sign" />
         </StyledHeroFooter>
-        <StyledApe>
-          <img src="/images/oayc_bg.png" alt="ape" />
-        </StyledApe>
+        <StyledApe
+          src="/images/oayc_bg.png"
+          width="384px"
+          height="520px"
+        ></StyledApe>
       </Container>
     </>
   );
