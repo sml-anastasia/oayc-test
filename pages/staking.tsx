@@ -89,6 +89,11 @@ const StyledIcon = styled.div`
   gap: 10px;
 `;
 
+const StyledHeroFooter = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Staking: NextPage = () => {
   useEagerConnect();
   useChangeNetwork();
@@ -130,7 +135,9 @@ const Staking: NextPage = () => {
             </StyledButtons>
           </StyledHero>
         </ContentContainer>
-        <ContentContainer></ContentContainer>
+        <StyledHeroFooter>
+          <img src="/images/oayc_sign.svg" alt="oayc sign" />
+        </StyledHeroFooter>
       </Container>
     </>
   );
