@@ -131,12 +131,15 @@ interface TopBarProps {
   displayText?: string;
   logoUrl: string;
   balance?: string;
+  pageType?: "moayc" | "staking";
 }
 
-const TopBar = ({ socials, displayText, logoUrl }: TopBarProps) => {
+const TopBar = ({ socials, displayText, logoUrl, pageType }: TopBarProps) => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { data: balance } = useBalance({ addressOrName: address });
+  const isMoaycPage = pageType === "moayc";
+  const isStakingPage = pageType === "staking";
 
   const accountAddress = useMemo(() => {
     return `${address?.substring(0, 6)}...${address?.substring(
@@ -155,7 +158,11 @@ const TopBar = ({ socials, displayText, logoUrl }: TopBarProps) => {
         <>
           <CenterContainer>
             <AccountAddress>{accountAddress}</AccountAddress>
-            <MoaycButton size="small" onClick={() => disconnect()}>
+            <MoaycButton
+              size="small"
+              onClick={() => disconnect()}
+              backgroundColor={isStakingPage ? "red" : "green"}
+            >
               Disconnect
             </MoaycButton>
           </CenterContainer>
@@ -174,12 +181,10 @@ const TopBar = ({ socials, displayText, logoUrl }: TopBarProps) => {
           />
         </StyledSocialsContainer>
       )}
-      {isConnected && (
-        <>
-          <StyledSocialsContainer>
-            <Balance balance={balance} />
-          </StyledSocialsContainer>
-        </>
+      {isConnected && isStakingPage && (
+        <StyledSocialsContainer>
+          <Balance balance={balance} />
+        </StyledSocialsContainer>
       )}
     </StyledTopBar>
   );
