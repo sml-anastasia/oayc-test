@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useAccount } from "wagmi";
 import Head from "next/head";
 import React from "react";
-import ArrowsButton from "../components/Button/ArrowsButton";
+import ArrowsButton from "../components/common/buttons/ArrowsButton";
 import styled from "styled-components";
 import TopBar from "../components/Mutant/TopBar";
 import Footer from "../components/Mutant/Footer";

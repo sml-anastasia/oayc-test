@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from "styled-components";
 import Image from "next/image";
 import MutationStatLine from "./MutationStatLine";
-import AmountSelector from "./AmountSelector";
-import { MoaycRectButton } from "../Button/MoaycRectButton";
+import AmountSelector from "../common/inputs/AmountSelector";
+import { MoaycRectButton } from "../common/buttons/MoaycRectButton";
 import { useWindowSize } from "../../hooks/utils/useWindowSize";
 import { device } from "../../styles/device";
-import MoaycModal from "./MoaycModal";
-import Fail from "./Fail";
+import Modal from "../common/ovarlays/Modal";
+import Fail from "./TxStatusModal/Fail";
 import ArrowSurround from "./ArrowSurround";
 import { useMoaycStatus } from "../../hooks/contract/useMoaycStatus";
 import { useMoaycPublicMint } from "../../hooks/contract/useMoaycPublicMint";
-import Processing from "./Processing";
-import Success from "./Success";
+import Processing from "./TxStatusModal/Processing";
+import Success from "./TxStatusModal/Success";
 import { useMoaycWhitelistMint } from "../../hooks/contract/useMoaycWhitelistMint";
 
 
@@ -235,17 +235,17 @@ const MutantMintWindow = () => {
                         }
                     </MintMenu>
 
-                    <MoaycModal isOpen={isLoading}>
+                    <Modal isOpen={isLoading}>
                         <Processing/>
-                    </MoaycModal>
+                    </Modal>
 
-                    <MoaycModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
+                    <Modal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)}>
                         <Success onClose={() => setIsSuccessOpen(false)}/>
-                    </MoaycModal>
+                    </Modal>
 
-                    <MoaycModal isOpen={isFailOpen} onClose={() => setIsFailOpen(false)}>
+                    <Modal isOpen={isFailOpen} onClose={() => setIsFailOpen(false)}>
                         <Fail onClose={() => setIsFailOpen(false)}/>
-                    </MoaycModal>
+                    </Modal>
                 </MutationWindowContainer>
             }
         </>

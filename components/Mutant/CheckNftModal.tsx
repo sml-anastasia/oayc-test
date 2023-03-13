@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
-import MoaycModal from "./MoaycModal";
-import ImageSelector from "./mutation/ImageSelector";
+import Modal from "../common/ovarlays/Modal";
+import ImageSelector from "./ImageSelector";
 import { getDefaultNftMutate } from "../../types/NFT";
 import { useCheckNft } from "../../hooks/contract/useCheckNft";
 import { SearchBar } from "./SearchBar";
 import styled from "styled-components";
 import { useContractRead } from "wagmi";
 import { MintStatus } from "./Styled/MintStatus";
-import { MoaycStyledButton } from "../Button/MoaycButton";
+import { MoaycStyledButton } from "../common/buttons/MoaycButton";
 import { config } from "../../connection/connection";
 import { mutantContractAbi } from "../../contracts";
 import { BigNumber } from "ethers";
@@ -78,7 +78,7 @@ const CheckNftModal = ({isOpen, onClose}: ModalProps) => {
     }, [nfts, filterId]);
 
     return (
-        <MoaycModal isOpen={isOpen} width={450} height={550} onClose={onClose}>
+        <Modal isOpen={isOpen} width={450} height={550} onClose={onClose}>
             <Container>
                 <MintStatus>Choose your nft</MintStatus>
 
@@ -99,7 +99,7 @@ const CheckNftModal = ({isOpen, onClose}: ModalProps) => {
             </Container>
 
 
-        </MoaycModal>
+        </Modal>
     );
 };
 

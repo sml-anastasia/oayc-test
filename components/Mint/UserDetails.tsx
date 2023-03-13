@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useAccount, useDisconnect } from "wagmi";
-import Button from "../../Button/Button";
+import Button from "../common/buttons/Button";
 
 const UserDetails = () => {
     const {address, isConnected} = useAccount();
@@ -19,10 +19,7 @@ const UserDetails = () => {
     return (
         <div className="d-flex align-items-center">
             <div className="me-3">{accountAddress}</div>
-            <Button onClick={() => {
-                console.log('disconnect');
-                disconnect();
-            }}>DISCONNECT</Button>
+            <Button onClick={() => disconnect()}>DISCONNECT</Button>
         </div>
     );
 };

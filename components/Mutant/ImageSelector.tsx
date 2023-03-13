@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from "styled-components";
-import { getDefaultNftMutate, NftMutate } from "../../../types/NFT";
+import { getDefaultNftMutate, NftMutate } from "../../types/NFT";
 
 
 interface ImageSelectorProps {

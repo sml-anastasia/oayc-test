@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 import { device } from "../../styles/device";
 import { useAccount, useDisconnect, useBalance } from "wagmi";
-import MoaycButton from "../Button/MoaycButton";
 import Balance from "../Staking/Balance";
+import MoaycButton from "../common/buttons/MoaycButton";
 
 const StyledTopBar = styled.div`
   display: flex;
