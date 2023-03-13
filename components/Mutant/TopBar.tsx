@@ -10,12 +10,10 @@ const StyledTopBar = styled.div`
   position: relative;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16px;
-  padding: 0 20px;
+  padding: 16px 20px 0 20px;
 
   @media screen and ${device.tabletL} {
-    margin-top: 43px;
-    padding: 0 136px;
+    padding: 43px 136px 0 136px;
   }
 `;
 
