@@ -9,6 +9,7 @@ import { useDefaultConnect } from "../hooks/web3/useDefaultConnect";
 import useEagerConnect from "../hooks/web3/useEagerConnect";
 import useChangeNetwork from "../hooks/web3/useChangeNetwork";
 import Image from "next/image";
+import { useAccount } from "wagmi";
 
 const Container = styled.div`
   position: relative;
@@ -69,7 +70,6 @@ const StyledText4 = styled.div`
   margin: 0;
 `;
 
-
 const StyledButtons = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -97,7 +97,6 @@ const StyledOAYCText = styled.div`
   @media screen and (min-width: 1492px) {
     bottom: -89px;
   }
-
 `;
 
 const StyledApe = styled.div`
@@ -109,63 +108,65 @@ const StyledApe = styled.div`
 `;
 
 const Staking: NextPage = () => {
-    useEagerConnect();
-    useChangeNetwork();
-    const {connect} = useDefaultConnect();
-    return (
-        <>
-            <Head>
-                <title>STAKING</title>
-                <link rel="icon" href="/main/favicons/red.svg"/>
-            </Head>
-            <Container>
-                <TopBar
-                    logoUrl="/main/favicons/red.svg"
-                    socials={true}
-                    pageType="staking"
-                />
-                <ContentContainer>
-                    <StyledStakingContainer>
-                        <StyledHead>
-                            <StyledText>Stake</StyledText>
-                            <StyledText2>or lock</StyledText2>
-                        </StyledHead>
-                        <StyledButtons>
-                            <StakingRedButton onClick={() => connect()}>
-                                Connect Wallet
-                            </StakingRedButton>
-                            <StakingWhiteButton>
-                                <StyledIcon>
-                                    <StyledText4>Rules and conditions</StyledText4>
-                                    <Image
-                                        src="/images/svg/read_conditions.svg"
-                                        alt="Rules and Conditions"
-                                        width={41}
-                                        height={41}
-                                    />
-                                </StyledIcon>
-                            </StakingWhiteButton>
-                        </StyledButtons>
-                    </StyledStakingContainer>
-                </ContentContainer>
-                <StyledOAYCText>
+  useEagerConnect();
+  useChangeNetwork();
+  const { connect } = useDefaultConnect();
+  const { address, isConnected } = useAccount();
+  return (
+    <>
+      <Head>
+        <title>STAKING</title>
+        <link rel="icon" href="/main/favicons/red.svg" />
+      </Head>
+      <Container>
+        <TopBar
+          logoUrl="/main/favicons/red.svg"
+          socials={true}
+          pageType="staking"
+        />
+        <ContentContainer>
+          <StyledStakingContainer>
+            <StyledHead>
+              <StyledText>Stake</StyledText>
+              <StyledText2>or lock</StyledText2>
+            </StyledHead>
+            {!isConnected && (
+              <StyledButtons>
+                <StakingRedButton onClick={() => connect()}>
+                  Connect Wallet
+                </StakingRedButton>
+                <StakingWhiteButton>
+                  <StyledIcon>
+                    <StyledText4>Rules and conditions</StyledText4>
                     <Image
-                        src="/images/oayc_sign.svg"
-                        alt="oayc sign"
-                        layout="fill"
+                      src="/images/svg/read_conditions.svg"
+                      alt="Rules and Conditions"
+                      width={41}
+                      height={41}
                     />
-                </StyledOAYCText>
-                <StyledApe>
-                    <Image
-                        src="/images/oayc_bg.png"
-                        width={384}
-                        height={520}
-                        alt={""}
-                    />
-                </StyledApe>
-            </Container>
-        </>
-    );
+                  </StyledIcon>
+                </StakingWhiteButton>
+              </StyledButtons>
+            )}
+            {isConnected && (
+              <StyledButtons>
+                <StakingRedButton onClick={() => connect()}>
+                  Add Nft
+                </StakingRedButton>
+                <StakingWhiteButton>Withdraw</StakingWhiteButton>
+              </StyledButtons>
+            )}
+          </StyledStakingContainer>
+        </ContentContainer>
+        <StyledOAYCText>
+          <Image src="/images/oayc_sign.svg" alt="oayc sign" layout="fill" />
+        </StyledOAYCText>
+        <StyledApe>
+          <Image src="/images/oayc_bg.png" width={384} height={520} alt={""} />
+        </StyledApe>
+      </Container>
+    </>
+  );
 };
 
 export default Staking;

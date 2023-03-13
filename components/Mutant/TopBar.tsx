@@ -155,9 +155,9 @@ const TopBar = ({ socials, displayText, logoUrl, pageType }: TopBarProps) => {
       {isConnected && (
         <>
           <CenterContainer>
-            <AccountAddress>{accountAddress}</AccountAddress>
+            <AccountAddress>{accountAddress} </AccountAddress>
             <MoaycButton
-              size="small"
+              size={isStakingPage ? "x-small" : "small"}
               onClick={() => disconnect()}
               backgroundColor={isStakingPage ? "red" : "green"}
             >

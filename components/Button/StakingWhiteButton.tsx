@@ -6,11 +6,12 @@ const StakingButtonCss = styled.button`
   color: white;
   border-radius: 100px;
   border: none;
+  min-width: 237px;
   cursor: pointer;
   display: flex;
   align-items: center;
   flex-direction: row;
-  text-align: start;
+  text-align: center;
 `;
 
 const StakingWhiteButton = ({

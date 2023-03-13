@@ -9,7 +9,8 @@ const StakingButtonCss = styled.button`
   border-radius: 100px;
   border: none;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
+  text-align: center;
 `;
 
 const StakingRedButton = ({
