@@ -1,5 +1,5 @@
 import React from "react";
-import MoaycButton from "./MoaycButton";
+import MoaycButton from "../common/buttons/MoaycButton";
 import styled from "styled-components";
 
 const StakingButtonCss = styled.button`
