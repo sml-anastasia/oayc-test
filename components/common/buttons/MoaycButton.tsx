@@ -66,10 +66,11 @@ export const MoaycStyledButton = styled.div<ButtonProps>`
 const MoaycButton = ({
   children,
   size = "large",
+  backgroundColor,
   ...rest
 }: React.HTMLAttributes<HTMLDivElement> & ButtonProps) => {
   return (
-    <MoaycStyledButton size={size} {...rest}>
+    <MoaycStyledButton backgroundColor={backgroundColor} size={size} {...rest}>
       {children}
     </MoaycStyledButton>
   );
