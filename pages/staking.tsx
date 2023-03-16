@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useState } from "react";
 import StakingRedButton from "../components/Button/StakingRedButton";
 import StakingWhiteButton from "../components/Button/StakingWhiteButton";
 import styled from "styled-components";
@@ -12,6 +12,8 @@ import Image from "next/image";
 import { useAccount } from "wagmi";
 import StImageGrid from "../components/Staking/StImageGrid";
 import { NftMutate } from "../types/NFT";
+import ManageNFTModal from "../components/Staking/step-modals/ManageNFTModal";
+import StakedNfts from "../components/Staking/StakedNfts/StakedNfts";
 
 const Container = styled.div`
   position: relative;
@@ -32,7 +34,6 @@ const ContentContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   margin: 0 auto;
-  z-index: 1;
 `;
 
 const StyledStakingContainer = styled.div`
@@ -134,6 +135,9 @@ const Staking: NextPage = () => {
   const { connect } = useDefaultConnect();
   const { address, isConnected } = useAccount();
 
+  const [isManageNFTModalOpen, setIsManageNFTModalOpen] = useState(false);
+  const [isWithdrawModal, setIsWithdrawModal] = useState(false);
+
   return (
     <>
       <Head>
@@ -172,15 +176,24 @@ const Staking: NextPage = () => {
             )}
             {isConnected && (
               <StyledButtons>
-                <StakingRedButton onClick={() => connect()}>
+                <StakingRedButton onClick={() => setIsManageNFTModalOpen(true)}>
                   Add Nft
                 </StakingRedButton>
-                <StakingWhiteButton>Withdraw</StakingWhiteButton>
+                <StakingWhiteButton
+                  onClick={() => {
+                    setIsManageNFTModalOpen(true);
+                    setIsWithdrawModal(true);
+                  }}
+                >
+                  Withdraw
+                </StakingWhiteButton>
               </StyledButtons>
             )}
           </StyledStakingContainer>
           <StImageGrid />
+          <StakedNfts />
         </ContentContainer>
+
         <StyledOAYCText>
           <Image src="/images/oayc_sign.svg" alt="oayc sign" layout="fill" />
         </StyledOAYCText>
@@ -188,6 +201,18 @@ const Staking: NextPage = () => {
           <Image src="/images/oayc_bg.png" width={384} height={520} alt={""} />
         </StyledApe>
       </Container>
+
+      {isConnected && (
+        <ManageNFTModal
+          isOpen={isManageNFTModalOpen}
+          isWithdraw={isWithdrawModal}
+          onClose={() => {
+            setIsManageNFTModalOpen(false);
+            setIsWithdrawModal(false);
+            return {};
+          }}
+        />
+      )}
     </>
   );
 };
