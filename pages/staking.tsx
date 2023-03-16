@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import StakingRedButton from "../components/Button/StakingRedButton";
 import StakingWhiteButton from "../components/Button/StakingWhiteButton";
 import styled from "styled-components";
@@ -10,6 +10,8 @@ import useEagerConnect from "../hooks/web3/useEagerConnect";
 import useChangeNetwork from "../hooks/web3/useChangeNetwork";
 import Image from "next/image";
 import { useAccount } from "wagmi";
+import StImageGrid from "../components/Staking/StImageGrid";
+import { NftMutate } from "../types/NFT";
 
 const Container = styled.div`
   position: relative;
@@ -107,11 +109,31 @@ const StyledApe = styled.div`
   height: 520px;
 `;
 
+const mockNft: NftMutate[] = [
+  {
+    id: "1",
+    uri: "/images/png/img.png",
+    level: 1,
+  },
+  {
+    id: "2",
+    uri: "/images/png/img.png",
+    level: 1,
+  },
+  {
+    id: "3",
+    uri: "/images/png/img.png",
+    level: 1,
+  },
+];
+
 const Staking: NextPage = () => {
   useEagerConnect();
+
   useChangeNetwork();
   const { connect } = useDefaultConnect();
   const { address, isConnected } = useAccount();
+
   return (
     <>
       <Head>
@@ -157,6 +179,7 @@ const Staking: NextPage = () => {
               </StyledButtons>
             )}
           </StyledStakingContainer>
+          <StImageGrid />
         </ContentContainer>
         <StyledOAYCText>
           <Image src="/images/oayc_sign.svg" alt="oayc sign" layout="fill" />
