@@ -10,8 +10,8 @@ interface ImageSelectorProps {
 }
 
 const ImageSelectorContainer = styled.div`
-  max-width: 300px;
-  min-width: 300px;
+  max-width: 520px;
+  min-width: 520px;
   max-height: 315px;
   min-height: 315px;
   overflow-y: auto;
@@ -37,15 +37,15 @@ const ImageSelectorContainer = styled.div`
 const StyledImage = styled.img`
   border-radius: 5px;
   filter: light(0);
-  width: 64px;
-  height: 64px;
+  width: 78px;
+  height: 78px;
 `;
 
 const ImageContainer = styled.div<{ selected: boolean }>`
   position: relative;
 
-  width: 64px;
-  height: 64px;
+  width: 78px;
+  height: 78px;
 
   & > img {
     ${(props) =>
@@ -60,11 +60,11 @@ const ImageContainer = styled.div<{ selected: boolean }>`
     content: "";
     top: 0;
     left: 0;
-    width: 64px;
-    height: 64px;
+    width: 78px;
+    height: 78px;
     display: block;
     position: absolute;
-    background: linear-gradient(159.53deg, #b4d109 1.07%, #87cc00 72.47%);
+    background: linear-gradient(159.53deg, #ff0420 1.07%, #87cc00 72.47%);
     opacity: ${(props) => (props.selected ? 0.35 : 0)};
     border-radius: 5px;
   }
@@ -97,9 +97,10 @@ const StyledTooltipTwo = styled.div`
   bottom: 0;
   text-align: center;
   z-index: 1000;
-  background: rgba(25, 25, 25, 0.8);
-  color: #87cc00;
+  background: #ff0420;
+  color: white;
   width: 100%;
+  text-transform: uppercase;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   font-size: 12px;
@@ -129,13 +130,10 @@ const ImageSelector = (props: ImageSelectorProps) => {
           <StyledImage src={i.uri} alt="" />
           {showTooltips && (
             <>
-              {hovered.id == i.id && hovered.level == i.level && (
-                <StyledTooltipOne>{i.id}</StyledTooltipOne>
-              )}
               {hovered.id == i.id &&
                 hovered.level == i.level &&
                 i.level != 0 && (
-                  <StyledTooltipTwo>Lvl: {i.level}</StyledTooltipTwo>
+                  <StyledTooltipTwo>{i.level} days</StyledTooltipTwo>
                 )}
             </>
           )}
