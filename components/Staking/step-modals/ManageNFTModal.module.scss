@@ -6,3 +6,83 @@
     height: 100px;
   }
 }
+
+.modal {
+  color: #ff0420;
+  position: relative;
+  background-color: #F0EBDF;
+  width: 100%;
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 90%;
+}
+
+.closeBut {
+  display: flex; 
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  background-color: #ff0420;
+  border: none;
+}
+
+.stakeModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+
+.tabPageContent {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.nextButton {
+  margin-top: 85px;
+  text-transform: uppercase;
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 700;
+  font-size: 18px;
+  border: none;
+  color: red;
+  background-color: transparent;
+}
+
+.warning {
+  font-size: 18px;
+  margin-top: 50px;
+}
+
+.unstake {
+  background-color: red;
+  color: white;
+  border-radius: 100px;
+  text-transform: uppercase;
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 700;
+  font-size: 18px;
+  border: none;
+  width: 204px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}

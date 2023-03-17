@@ -10,6 +10,7 @@ import useEagerConnect from "../hooks/web3/useEagerConnect";
 import useChangeNetwork from "../hooks/web3/useChangeNetwork";
 import Image from "next/image";
 import { useAccount } from "wagmi";
+import StImageGrid from "../components/Staking/StImageGrid/StImageGrid";
 import ManageNFTModal from "../components/Staking/step-modals/ManageNFTModal";
 import StakedNfts from "../components/Staking/StakedNfts/StakedNfts";
 
@@ -89,15 +90,11 @@ const StyledIcon = styled.div`
 `;
 
 const StyledOAYCText = styled.div`
-  position: absolute;
-  bottom: calc(0px - 6vw);
   width: 100%;
-  aspect-ratio: 1492/249;
-  max-height: 249px;
-
-  @media screen and (min-width: 1492px) {
-    bottom: -89px;
-  }
+  display: flex;
+  justify-content: center;
+  padding-top: 160px;
+  padding-bottom: 170px;
 `;
 
 const StyledApe = styled.div`
@@ -106,6 +103,11 @@ const StyledApe = styled.div`
   top: 100px;
   width: 384px;
   height: 520px;
+`;
+
+const GridWrapper = styled.div`
+  display: flex;
+  gap: 40px;
 `;
 
 const Staking: NextPage = () => {
@@ -173,8 +175,20 @@ const Staking: NextPage = () => {
         </ContentContainer>
 
         <StyledOAYCText>
-          <Image src="/images/oayc_sign.svg" alt="oayc sign" layout="fill" />
+          <Image
+            src="/images/oayc_sign.svg"
+            alt="oayc sign"
+            width="1600px"
+            height="300px"
+          />
         </StyledOAYCText>
+
+        <ContentContainer>
+          <GridWrapper>
+            <StImageGrid header="Your Staked NFTs" />
+            <StImageGrid header="Your Locked NFTs" />
+          </GridWrapper>
+        </ContentContainer>
         <StyledApe>
           <Image src="/images/oayc_bg.png" width={384} height={520} alt={""} />
         </StyledApe>
@@ -187,6 +201,7 @@ const Staking: NextPage = () => {
           onClose={() => {
             setIsManageNFTModalOpen(false);
             setIsWithdrawModal(false);
+            return {};
           }}
         />
       )}
