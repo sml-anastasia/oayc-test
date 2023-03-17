@@ -27,7 +27,6 @@
     "react-modal": "^3.16.1",
     "sass": "^1.59.2",
     "styled-components": "^5.3.6",
-    "use-breakpoint": "^3.0.3",
     "wagmi": "^0.7.2"
   },
   "devDependencies": {
