@@ -9,6 +9,10 @@
     "lint": "next lint",
     "prepare": "husky install"
   },
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">=1.22.18"
+  },
   "dependencies": {
     "@types/react-modal": "^3.13.1",
     "@types/styled-components": "^5.1.26",
