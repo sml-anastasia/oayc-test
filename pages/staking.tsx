@@ -185,8 +185,8 @@ const Staking: NextPage = () => {
 
         <ContentContainer>
           <GridWrapper>
-            <StImageGrid header="Your Staked NFTs" />
-            <StImageGrid header="Your Locked NFTs" />
+            {/* <StImageGrid header="Your Staked NFTs" /> */}
+            {/* <StImageGrid header="Your Locked NFTs" /> */}
           </GridWrapper>
         </ContentContainer>
         <StyledApe>

@@ -11,6 +11,7 @@ import { useState } from "react";
 import { stakingAbi } from "../../contracts";
 import { NftMutate } from "../../types/NFT";
 import { StakingPosition } from "../../types/Staking";
+import { BigNumber } from "ethers";
 
 // const getOaycNfts = {
 //   address: config.stakingContract,
@@ -18,7 +19,7 @@ import { StakingPosition } from "../../types/Staking";
 //   functionName: "tokenOfOwnerByIndex",
 // };
 
-export const useStaking = () => {
+export const useStaking = (stakeArgs?: any, claimPositionId?: BigNumber) => {
   const { address } = useAccount();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -27,7 +28,7 @@ export const useStaking = () => {
     address: config.stakingContract,
     abi: stakingAbi,
     functionName: "stake",
-    args: [[], [], 0],
+    args: stakeArgs || [[], [], 0],
   });
 
   const claimAllPrepare = usePrepareContractWrite({
@@ -36,18 +37,30 @@ export const useStaking = () => {
     functionName: "claimAllRewards",
   });
 
+  const claimPrepare = usePrepareContractWrite({
+    address: config.stakingContract,
+    abi: stakingAbi,
+    functionName: "claimReward",
+    args: [claimPositionId],
+  });
+
+  console.log(claimPositionId?.toString());
+
   const readPositions = useContractRead({
     address: config.stakingContract,
     abi: stakingAbi,
     functionName: "getAllPositionsInfo",
     args: [address],
-    watch: true,
+    select: (data: any) => {
+      return data;
+    },
   });
 
   const stake = useContractWrite(stakePrepare.config);
   const claimAll = useContractWrite(claimAllPrepare.config);
+  const claim = useContractWrite(claimPrepare.config);
 
-  const {} = useWaitForTransaction({
+  const claimAllWait = useWaitForTransaction({
     hash: claimAll.data?.hash,
     onSuccess: async () => {
       // await refetchContractWrite();
@@ -61,11 +74,27 @@ export const useStaking = () => {
     },
   });
 
-  const {} = useWaitForTransaction({
+  const stakeWait = useWaitForTransaction({
     hash: stake.data?.hash,
     onSuccess: async () => {
       // await refetchContractWrite();
       // approveReset();
+      readPositions.refetch();
+      alert("sucss");
+    },
+    onError: async () => {
+      // await refetchContractWrite();
+      // approveReset();
+      alert("erorr");
+    },
+  });
+
+  const claimWait = useWaitForTransaction({
+    hash: claim.data?.hash,
+    onSuccess: async () => {
+      // await refetchContractWrite();
+      // approveReset();
+      readPositions.refetch();
       alert("sucss");
     },
     onError: async () => {
@@ -89,6 +118,10 @@ export const useStaking = () => {
       data: readPositions.data as StakingPosition[],
     },
     stake,
+    claimWait,
+    stakeWait,
+    claim,
+    claimAllWait,
     claimAll,
     staked,
     isSuccess,

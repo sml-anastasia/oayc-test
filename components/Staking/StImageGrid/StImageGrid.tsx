@@ -5,99 +5,31 @@ import StImageSelector from "../StImageSelector";
 import { NftMutate } from "../../../types/NFT";
 import styles from "./StImageGrid.module.scss";
 
-const mockNft: NftMutate[] = [
-  {
-    id: "1",
-    uri: "/images/png/img.png",
-    level: 7,
-  },
-  {
-    id: "2",
-    uri: "/images/png/img.png",
-    level: 14,
-  },
-  {
-    id: "3",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "4",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "5",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "6",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "7",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "1",
-    uri: "/images/png/img.png",
-    level: 7,
-  },
-  {
-    id: "2",
-    uri: "/images/png/img.png",
-    level: 14,
-  },
-  {
-    id: "3",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "4",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "5",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "6",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-  {
-    id: "7",
-    uri: "/images/png/img.png",
-    level: 21,
-  },
-];
-
 interface GridProps {
-  header: string;
+  header?: string;
+  nfts: NftMutate[];
+  onSelect?: (ids: string[]) => void;
 }
 
-const StImageGrid = (props: GridProps) => {
+const StImageGrid = ({ header, nfts, onSelect }: GridProps) => {
   const [selectedNft, setSelectedNft] = useState<NftMutate>();
-  const [filteredNfts, setfilteredNfts] = useState<NftMutate[]>(mockNft);
 
   const nft: NftMutate = selectedNft!;
 
   const handleSelectNft = (nft: NftMutate) => {
     setSelectedNft(nft);
+
+    if (onSelect) {
+      onSelect([nft.id]);
+    }
   };
   return (
     <div className={styles.section}>
-      <h2 className={styles.head}>{props.header}</h2>
+      {header && <h2 className={styles.head}>{header}</h2>}
       <div className={styles.gridWrapper}>
         <StImageSelector
           selected={nft}
-          images={filteredNfts}
+          images={nfts}
           showTooltips
           onSelected={handleSelectNft}
         />

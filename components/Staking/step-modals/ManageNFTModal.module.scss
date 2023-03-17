@@ -10,21 +10,22 @@
 .modal {
   color: #ff0420;
   position: relative;
-  background-color: #F0EBDF;
+  background-color: #f0ebdf;
   width: 100%;
   align-items: flex-start;
   display: flex;
   justify-content: center;
+  overflow: auto;
   text-transform: uppercase;
-  font-family: 'Rubik';
-  font-style: italic;
-  font-weight: 700;
-  font-size: 42px;
+  font-family: "Rubik";
+  // font-style: italic;
+  // font-weight: 700;
+  // font-size: 42px;
   line-height: 90%;
 }
 
 .closeBut {
-  display: flex; 
+  display: flex;
   position: absolute;
   right: 10px;
   top: 10px;
@@ -44,7 +45,6 @@
   margin-top: 40px;
 }
 
-
 .tabPageContent {
   display: flex;
   margin: 0 auto;
@@ -55,7 +55,7 @@
 .nextButton {
   margin-top: 85px;
   text-transform: uppercase;
-  font-family: 'Rubik';
+  font-family: "Rubik";
   font-style: italic;
   font-weight: 700;
   font-size: 18px;
@@ -74,7 +74,7 @@
   color: white;
   border-radius: 100px;
   text-transform: uppercase;
-  font-family: 'Rubik';
+  font-family: "Rubik";
   font-style: italic;
   font-weight: 700;
   font-size: 18px;

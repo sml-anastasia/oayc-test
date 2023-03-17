@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCheckNft } from "../../../hooks/contract/useCheckNft";
 import { useStaking } from "../../../hooks/contract/useStaking";
 import styles from "./ManageNFTModal.module.scss";
@@ -6,6 +6,9 @@ import Modal from "../../common/ovarlays/Modal";
 import Image from "next/image";
 import { Tabs } from "../Tabs/Tabs";
 import { Tab } from "../Tabs/Tabs";
+import StImageGrid from "../StImageGrid/StImageGrid";
+import { BigNumber } from "ethers";
+import Positions from "../Positions/Positions";
 
 interface Props {
   isWithdraw?: boolean;
@@ -15,19 +18,31 @@ interface Props {
 
 function ManageNFTModal({ isWithdraw, isOpen, onClose }: Props) {
   const { nfts } = useCheckNft();
-  const { stake, positions, staked, claimAll } = useStaking();
-  const [isLock, setIsLock] = useState(false);
-  const [selectedNft, setSelectedNft] = useState<number | null>(null);
+  const [selectedNft, setSelectedNft] = useState<string[]>([]);
+  const [selectedPosition, setSelectedPosition] = useState<any>(null);
+  const { stake, positions, staked, claimAll, stakeWait, claim, claimAllWait } =
+    useStaking(
+      [
+        [BigNumber.from(+selectedNft[0] || 0)],
+        [BigNumber.from(0)],
+        BigNumber.from(0),
+      ],
+      BigNumber.from(selectedPosition || 0)
+    );
   const tabs: Tab[] = [
     { id: "1", label: "STAKE" },
     { id: "2", label: "LOCK" },
   ];
   const [selectedTabId, setSelectedTabId] = useState(tabs[0].id);
 
+  const isLock = selectedTabId === tabs[1].id;
+
+  useEffect(() => {
+    onClose();
+  }, [stakeWait.isSuccess]);
+
   function submit() {
-    stake.write?.({
-      recklesslySetUnpreparedArgs: [[selectedNft], [0], 0],
-    });
+    stake.write?.();
   }
 
   const totalReward =
@@ -38,7 +53,7 @@ function ManageNFTModal({ isWithdraw, isOpen, onClose }: Props) {
     10 ** 18;
 
   return (
-    <Modal isOpen={isOpen} width={688} height={334} onClose={onClose}>
+    <Modal isOpen={isOpen} width={688} height={550} onClose={onClose}>
       <div className={styles.modal}>
         <button className={styles.closeBut} onClick={onClose}>
           <Image
@@ -50,48 +65,30 @@ function ManageNFTModal({ isWithdraw, isOpen, onClose }: Props) {
         </button>
         {!isWithdraw ? (
           <div className={styles.stakeModal}>
-            <h1>Step 1</h1>
-            <Tabs
-              selectedId={selectedTabId}
-              tabs={tabs}
-              onClick={setSelectedTabId}
-            />
-            <div className={styles.tabPageContent}>
-              {selectedTabId === tabs[0].id && (
-                <div>
-                  <div>
-                    <label htmlFor="">Is Lock</label>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id=""
-                      onChange={(e) => setIsLock(e.target.checked)}
-                    />
-                  </div>
-                  {selectedNft && <p>Selected {selectedNft}</p>}
-                  <button disabled={!selectedNft} onClick={submit}>
-                    {isLock ? "Lock" : "Stake"}
-                  </button>
-                </div>
-              )}
-              {selectedTabId === tabs[1].id && <div></div>}
-            </div>
-            {/*nfts.map((nft) => {
-              if (staked?.includes(nft.id)) {
-                return;
-              }
-              return (
-                <button
-                  key={nft.id}
-                  className={styles.item}
-                  onClick={() => setSelectedNft(Number(nft.id))}
-                >
-                  {nft.id} <img src={nft.uri} />
-                </button>
-              );
-            })*/}
+            <h1>Add</h1>
 
-            <button className={styles.nextButton}>
+            <StImageGrid
+              nfts={nfts.filter((nft) => !staked?.includes(nft.id))}
+              onSelect={(ids) => setSelectedNft(ids)}
+            />
+
+            <div className={styles.tabPageContent}>
+              {/* {selectedTabId === tabs[0].id && ( */}
+              <div>
+                <Tabs
+                  selectedId={selectedTabId}
+                  tabs={tabs}
+                  onClick={setSelectedTabId}
+                />
+                <br />
+                {selectedNft.length > 0 && <p>Selected {selectedNft}</p>}
+                <button disabled={!selectedNft.length} onClick={submit}>
+                  {isLock ? "Lock" : "Stake"}
+                </button>
+              </div>
+            </div>
+
+            {/* <button className={styles.nextButton}>
               NEXT
               <Image
                 src="/images/svg/arrow.svg"
@@ -99,40 +96,45 @@ function ManageNFTModal({ isWithdraw, isOpen, onClose }: Props) {
                 width={21}
                 height={12}
               />
-            </button>
+            </button> */}
           </div>
         ) : (
           <div className={styles.stakeModal}>
             <h1>Withdraw</h1>
-            <Tabs
+            {/* <Tabs
               selectedId={selectedTabId}
               tabs={tabs}
               onClick={setSelectedTabId}
-            />
-            <div className={styles.tabPageContent}>
+            /> */}
+            {/* <div className={styles.tabPageContent}>
               {selectedTabId === tabs[0].id && <div></div>}
               {selectedTabId === tabs[1].id && <div></div>}
-            </div>
-            {staked?.map((nft: any) => {
+            </div> */}
+            <Positions onSelect={(id) => setSelectedPosition(id)} />
+            {/* {staked?.map((nft: any) => {
               return (
                 <button key={nft} className={styles.item}>
                   {nft} <img src={nft.uri} />
                 </button>
               );
-            })}
-
+            })} */}
+            selectedPosition {selectedPosition}
             <div className={styles.warning}>
               WARNING! In case of premature withdrawal, the penalty is 100%
             </div>
             <div className={styles.buttons}>
-              <button className={styles.unstake} onClick={() => {}}>
+              <button
+                className={styles.unstake}
+                onClick={() => {
+                  claim.write?.();
+                }}
+              >
                 unstake
               </button>
               <button className={styles.unstake} onClick={() => {}}>
                 unstake all
               </button>
             </div>
-
             {totalReward && (
               <div>
                 BALANCE: {totalReward}

@@ -406,4 +406,4 @@ export const stakingAbi = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
