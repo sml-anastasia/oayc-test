@@ -53,8 +53,8 @@ const Modal = ({
           transition: "0.5s",
         },
         content: {
-          width,
-          height,
+          width: width ?? "min-content",
+          height: height ?? "min-content",
         },
       }}
       isOpen={isOpen}

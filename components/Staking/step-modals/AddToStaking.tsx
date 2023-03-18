@@ -56,10 +56,16 @@ enum StakingPeriod {
 }
 
 export const AddToStaking = () => {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
 
-  const { oaycNfts } = useOaycNftsOfAddress(address ?? AddressZero);
-  const { moaycNfts } = useMoaycNftsOfAddress(address ?? AddressZero);
+  const { oaycNfts } = useOaycNftsOfAddress(
+    address ?? AddressZero,
+    isConnected
+  );
+  const { moaycNfts } = useMoaycNftsOfAddress(
+    address ?? AddressZero,
+    isConnected
+  );
 
   const [selectedNft, setSelectedNft] = useState<NftInfo[]>([]);
   const [selectedDepositType, setSelectedDepositType] = useState<DepositType>(
