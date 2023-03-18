@@ -11,10 +11,13 @@ import { stakingAbi } from "../../contracts";
 import { BigNumber } from "ethers";
 import { AddressZero } from "@ethersproject/constants";
 
-export const useStaking = (
-  stakeArgs?: unknown,
-  claimPositionId?: BigNumber
-) => {
+export const useStaking = ({
+  depositArgs,
+  claimPositionId,
+}: {
+  depositArgs?: [BigNumber[], BigNumber[], BigNumber];
+  claimPositionId?: BigNumber;
+}) => {
   const { address, isConnected } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -27,15 +30,16 @@ export const useStaking = (
     address: config.stakingContract,
     abi: stakingAbi,
     functionName: "stake",
-    args: [[], [], BigNumber.from(1)],
-    enabled: !!stakeArgs && isConnected,
+    args: depositArgs,
+    enabled: !!depositArgs && isConnected,
   });
 
-  const claimAllPrepare = usePrepareContractWrite({
+  const lockPrepare = usePrepareContractWrite({
     address: config.stakingContract,
     abi: stakingAbi,
-    functionName: "claimAllRewards",
-    enabled: isConnected,
+    functionName: "lock",
+    args: depositArgs,
+    enabled: !!depositArgs && isConnected,
   });
 
   const claimPrepare = usePrepareContractWrite({
@@ -43,6 +47,13 @@ export const useStaking = (
     abi: stakingAbi,
     functionName: "claimReward",
     args: [claimPositionId ?? BigNumber.from(0)],
+    enabled: isConnected,
+  });
+
+  const claimAllPrepare = usePrepareContractWrite({
+    address: config.stakingContract,
+    abi: stakingAbi,
+    functionName: "claimAllRewards",
     enabled: isConnected,
   });
 
@@ -55,27 +66,81 @@ export const useStaking = (
       enabled: isConnected,
     });
 
-  const { data: stakeData, writeAsync: writeStake } = useContractWrite(
-    stakePrepare.config
-  );
-  const claimAll = useContractWrite(claimAllPrepare.config);
-  const claim = useContractWrite(claimPrepare.config);
+  const stakeWrite = useContractWrite({
+    ...stakePrepare.config,
+    onMutate() {
+      setIsLoading(true);
+    },
+    onError(error) {
+      /* eslint-disable-next-line */
+      // @ts-ignore
+      if (error.code !== "ACTION_REJECTED") {
+        setIsError(true);
+      }
 
-  const claimAllWait = useWaitForTransaction({
-    hash: claimAll.data?.hash,
+      setIsLoading(false);
+    },
+  });
+
+  const lockWrite = useContractWrite({
+    ...lockPrepare.config,
+    onMutate() {
+      setIsLoading(true);
+    },
+    onError() {
+      /* eslint-disable-next-line */
+      // @ts-ignore
+      if (error.code !== "ACTION_REJECTED") {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    },
+  });
+  const claim = useContractWrite(claimPrepare.config);
+  const claimAll = useContractWrite(claimAllPrepare.config);
+
+  const lockWait = useWaitForTransaction({
+    hash: lockWrite.data?.hash,
+    onSuccess: async () => {
+      await refetchAllPositionsInfo();
+    },
+    onError() {
+      setIsLoading(false);
+      setIsError(true);
+    },
   });
 
   const stakeWait = useWaitForTransaction({
-    hash: stakeData?.hash,
+    hash: stakeWrite.data?.hash,
     onSuccess: async () => {
       await refetchAllPositionsInfo();
+    },
+    onError() {
+      setIsLoading(false);
+      setIsError(true);
     },
   });
 
   const claimWait = useWaitForTransaction({
     hash: claim.data?.hash,
-    onSuccess: async () => {
-      await refetchAllPositionsInfo();
+    onSuccess: () => {
+      setIsSuccess(true);
+      refetchAllPositionsInfo();
+    },
+    onSettled() {
+      setIsLoading(false);
+    },
+    onError() {
+      setIsError(true);
+    },
+  });
+
+  const claimAllWait = useWaitForTransaction({
+    hash: claimAll.data?.hash,
+    onError() {
+      setIsLoading(false);
+      setIsError(true);
     },
   });
 
@@ -84,19 +149,19 @@ export const useStaking = (
       (positionsRaw ?? []).map((position) => {
         const stakedNfts = [];
 
-        for (const i of position.arrayIdsMoayc) {
-          stakedNfts.push({
-            id: i.toNumber(),
-            uri: `${config.moaycBaseUri}${i}.png`,
-            level: 1,
-          });
-        }
-
         for (const i of position.arrayIdsOayc) {
           stakedNfts.push({
             id: i.toNumber(),
             uri: `${config.oaycBaseUri}${i}.png`,
             level: 0,
+          });
+        }
+
+        for (const i of position.arrayIdsMoayc) {
+          stakedNfts.push({
+            id: i.toNumber(),
+            uri: `${config.moaycBaseUri}${i}.png`,
+            level: 1,
           });
         }
 
@@ -108,15 +173,12 @@ export const useStaking = (
     [positionsRaw]
   );
 
-  const stake = async () => {
-    setIsLoading(true);
-    await writeStake?.();
-  };
-
   return {
-    stake,
+    stake: stakeWrite.write,
+    lock: lockWrite.write,
     claimWait,
     stakeWait,
+    lockWait,
     claim,
     claimAllWait,
     claimAll,

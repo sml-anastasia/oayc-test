@@ -24,32 +24,9 @@ const StyledModal = styled(Modal)`
 export const ManageNFTModal = (props: ManageNFTModalProps) => {
   const { mode, isOpen, onClose } = props;
 
-  // const [selectedPosition, setSelectedPosition] = useState<any>(null);
-  // const { stake, positions, staked, claimAll, stakeWait, claim } = useStaking(
-  //   [
-  //     [BigNumber.from(+selectedNft[0] || 0)],
-  //     [BigNumber.from(0)],
-  //     BigNumber.from(0),
-  //   ],
-  //   BigNumber.from(selectedPosition || 0)
-  // );
-
-  // const isLock = selectedTabId === tabs[1].id;
-
   // useEffect(() => {
   //   onClose();
   // }, [stakeWait.isSuccess]);
-
-  // function submit() {
-  //   stake.write?.();
-  // }
-
-  // const totalReward =
-  //   positions.data?.reduce(
-  //     (total, { accruedReward }) => total + +accruedReward.toString(),
-  //     0
-  //   ) /
-  //   10 ** 18;
 
   return (
     <StyledModal isOpen={isOpen} width={688} height={550} onClose={onClose}>

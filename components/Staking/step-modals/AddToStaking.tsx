@@ -62,16 +62,42 @@ export const AddToStaking = () => {
     StakingPeriod._1h
   );
 
-  const { stake } = useStaking([
-    [BigNumber.from(+selectedNft[0] || 0)],
-    [BigNumber.from(0)],
-    BigNumber.from(selectedPeriod),
-  ]);
-
   const nfts = [...oaycNfts, ...moaycNfts];
 
-  const { isSuccess, isError, isLoading, dismissSuccess, dismissError } =
-    useStaking();
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    dismissSuccess,
+    dismissError,
+    stake,
+    lock,
+  } = useStaking({
+    depositArgs: (() => {
+      const oyacs: BigNumber[] = [];
+      const moyacs: BigNumber[] = [];
+
+      selectedNft.forEach((nft) => {
+        const isMoyac = nft.level !== 0;
+
+        (!isMoyac ? oyacs : moyacs).push(BigNumber.from(+nft.id));
+      });
+
+      // const maxLength = Math.max(oyacs.length, moyacs.length);
+
+      if (oyacs.length !== moaycNfts.length) {
+        // temp
+        alert("lenght not correct");
+      }
+
+      return [oyacs, moyacs, BigNumber.from(selectedPeriod)];
+      // function filterSelected(selectedNft: NftInfo[]) {}
+    })(),
+  });
+
+  function submit() {
+    (selectedDepositType === DepositType.staking ? stake : lock)?.();
+  }
 
   return (
     <StyledContainer>
@@ -93,7 +119,7 @@ export const AddToStaking = () => {
         onChange={setSelectedPeriod}
       />
 
-      <StakingButton onClick={stake} disabled={!selectedNft.length}>
+      <StakingButton onClick={submit} disabled={!selectedNft.length}>
         {selectedDepositType === DepositType.staking ? "Stake" : "Lock"}
       </StakingButton>
 
