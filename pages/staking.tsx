@@ -1,8 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import React, { useState } from "react";
-import StakingRedButton from "../components/Button/StakingRedButton";
-import StakingWhiteButton from "../components/Button/StakingWhiteButton";
+import { StakingButton } from "../components/Button/StakingButton";
 import styled from "styled-components";
 import TopBar from "../components/Mutant/TopBar";
 import { useDefaultConnect } from "../hooks/web3/useDefaultConnect";
@@ -10,9 +9,9 @@ import useEagerConnect from "../hooks/web3/useEagerConnect";
 import useChangeNetwork from "../hooks/web3/useChangeNetwork";
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import StImageGrid from "../components/Staking/StImageGrid/StImageGrid";
-import ManageNFTModal from "../components/Staking/step-modals/ManageNFTModal";
-import StakedNfts from "../components/Staking/StakedNfts/StakedNfts";
+import { ManageNFTModal } from "../components/Staking/step-modals/ManageNFTModal";
+import { Positions } from "../components/Staking/Positions/Positions";
+import { StakeMode } from "../types/Staking";
 
 const Container = styled.div`
   position: relative;
@@ -22,7 +21,8 @@ const Container = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  color: transparent;
+
+  font-family: "Rubik", serif;
 `;
 
 const ContentContainer = styled.div`
@@ -66,12 +66,6 @@ const StyledText2 = styled.div`
   color: transparent;
 `;
 
-const StyledText4 = styled.div`
-  width: 200px;
-  padding: 0;
-  margin: 0;
-`;
-
 const StyledButtons = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -79,14 +73,6 @@ const StyledButtons = styled.div`
   align-items: flex-start;
   flex-direction: row;
   text-transform: uppercase;
-`;
-
-const StyledIcon = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  gap: 10px;
 `;
 
 const StyledOAYCText = styled.div`
@@ -105,19 +91,16 @@ const StyledApe = styled.div`
   height: 520px;
 `;
 
-const GridWrapper = styled.div`
-  display: flex;
-  gap: 40px;
-`;
-
 const Staking: NextPage = () => {
   useEagerConnect();
   useChangeNetwork();
   const { connect } = useDefaultConnect();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
 
-  const [isManageNFTModalOpen, setIsManageNFTModalOpen] = useState(false);
-  const [isWithdrawModal, setIsWithdrawModal] = useState(false);
+  const [stakeMode, setStakeMode] = useState<StakeMode>("none");
+  const handleOpenWithdraw = () => setStakeMode("widthraw");
+  const handleOpenStaking = () => setStakeMode("stake");
+  const handleClose = () => setStakeMode("none");
 
   return (
     <>
@@ -139,41 +122,33 @@ const Staking: NextPage = () => {
             </StyledHead>
             {!isConnected && (
               <StyledButtons>
-                <StakingRedButton onClick={() => connect()}>
+                <StakingButton onClick={() => connect()}>
                   Connect Wallet
-                </StakingRedButton>
-                <StakingWhiteButton>
-                  <StyledIcon>
-                    <StyledText4>Rules and conditions</StyledText4>
-                    <Image
-                      src="/images/svg/read_conditions.svg"
-                      alt="Rules and Conditions"
-                      width={41}
-                      height={41}
-                    />
-                  </StyledIcon>
-                </StakingWhiteButton>
+                </StakingButton>
+                <StakingButton>
+                  <span>Rules and conditions</span>
+                  <Image
+                    src="/images/svg/read_conditions.svg"
+                    alt="Rules and Conditions"
+                    width={41}
+                    height={41}
+                  />
+                </StakingButton>
               </StyledButtons>
             )}
             {isConnected && (
               <StyledButtons>
-                <StakingRedButton onClick={() => setIsManageNFTModalOpen(true)}>
+                <StakingButton onClick={handleOpenStaking}>
                   Add Nft
-                </StakingRedButton>
-                <StakingWhiteButton
-                  onClick={() => {
-                    setIsManageNFTModalOpen(true);
-                    setIsWithdrawModal(true);
-                  }}
-                >
+                </StakingButton>
+                <StakingButton onClick={handleOpenWithdraw}>
                   Withdraw
-                </StakingWhiteButton>
+                </StakingButton>
               </StyledButtons>
             )}
           </StyledStakingContainer>
-          <StakedNfts />
+          <Positions />
         </ContentContainer>
-
         <StyledOAYCText>
           <Image
             src="/images/oayc_sign.svg"
@@ -182,29 +157,16 @@ const Staking: NextPage = () => {
             height="300px"
           />
         </StyledOAYCText>
-
-        <ContentContainer>
-          <GridWrapper>
-            {/* <StImageGrid header="Your Staked NFTs" /> */}
-            {/* <StImageGrid header="Your Locked NFTs" /> */}
-          </GridWrapper>
-        </ContentContainer>
         <StyledApe>
           <Image src="/images/oayc_bg.png" width={384} height={520} alt={""} />
         </StyledApe>
       </Container>
 
-      {isConnected && (
-        <ManageNFTModal
-          isOpen={isManageNFTModalOpen}
-          isWithdraw={isWithdrawModal}
-          onClose={() => {
-            setIsManageNFTModalOpen(false);
-            setIsWithdrawModal(false);
-            return {};
-          }}
-        />
-      )}
+      <ManageNFTModal
+        mode={stakeMode}
+        isOpen={stakeMode !== "none"}
+        onClose={handleClose}
+      />
     </>
   );
 };

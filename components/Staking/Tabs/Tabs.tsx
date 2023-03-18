@@ -1,49 +1,82 @@
-import React from "react";
-import styles from "./Tabs.module.scss";
-import classNames from "classnames";
+import React, { useEffect, useId, useState } from "react";
+import styled, { css } from "styled-components";
 
-export interface Tab {
-  id: string | number;
-  label: string | number;
+interface TabsProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+  tabs: string[];
+  value?: number;
+  fullWidth?: boolean;
+  onChange?: (id: number) => void;
 }
 
-export interface TabsProps {
-  className?: string;
-  selectedId: string | number;
-  tabs: Tab[];
-  onClick?: (id: string | number) => void;
-}
+const StyledTabsContainer = styled.div<{ fullWidth?: boolean }>`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #f5989a;
+  border-radius: 500px;
+  width: max-content;
+  ${(props) =>
+    props.fullWidth &&
+    css`
+      width: unset;
+
+      & > ${StyledTab} {
+        width: 100%;
+      }
+    `}
+`;
+
+const StyledTab = styled.div<{ selected: boolean; fullWidth?: boolean }>`
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 18px;
+
+  margin: -1.5px;
+  padding: 16px 54px;
+
+  border-radius: 100px;
+  color: ${(props) => (props.selected ? `white` : `red`)};
+  width: ${(props) => props.fullWidth && `100%`};
+  background-color: ${(props) => (props.selected ? `red` : `transparent`)};
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 
 export const Tabs: React.FC<TabsProps> = ({
-  className,
-  selectedId,
+  value,
   tabs,
-  onClick,
+  onChange,
+  fullWidth,
+  ...props
 }) => {
+  const [selectedId, setSelectedId] = useState(value ?? 0);
+  const id = useId();
+
+  useEffect(() => {
+    onChange?.(selectedId);
+  }, [selectedId, onChange]);
+
   return (
-    <div className={classNames(styles.tabs, className)}>
-      {tabs &&
-        tabs.map((tab) => (
-          <div
-            key={tab.id}
-            onClick={() => {
-              if (onClick) {
-                return onClick(tab.id);
-              }
-            }}
-          >
-            <div
-              className={classNames(styles.tabLabel, {
-                [styles.tabLabel]: tab.id === selectedId,
-                [styles.tabLabel__selected]: tab.id !== selectedId,
-              })}
-            >
-              {tab.label}
-            </div>
-          </div>
-        ))}
-    </div>
+    <StyledTabsContainer fullWidth={fullWidth} {...props}>
+      {tabs.map((tab, index) => (
+        <StyledTab
+          selected={selectedId === index}
+          key={id + index}
+          onClick={() => setSelectedId(index)}
+        >
+          {tab}
+        </StyledTab>
+      ))}
+    </StyledTabsContainer>
   );
 };
-
-export default Tabs;

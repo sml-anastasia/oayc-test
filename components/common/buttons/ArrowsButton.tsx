@@ -8,9 +8,7 @@ const ArrowsButton = ({
 }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <ArrowSurround>
-      <MoaycButton backgroundColor="green" {...rest}>
-        {children}
-      </MoaycButton>
+      <MoaycButton {...rest}>{children}</MoaycButton>
     </ArrowSurround>
   );
 };

@@ -1,9 +1,10 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import { device } from "../../styles/device";
-import { useAccount, useDisconnect, useBalance } from "wagmi";
-import Balance from "../Staking/Balance";
+import { useAccount, useDisconnect } from "wagmi";
+import { Balance } from "../Staking/Balance";
 import MoaycButton from "../common/buttons/MoaycButton";
+import { StakingButton } from "../Button/StakingButton";
 
 const StyledTopBar = styled.div`
   display: flex;
@@ -69,7 +70,7 @@ const CenterContainer = styled.div`
   }
 `;
 
-const AccountAddress = styled.div`
+const AccountAddress = styled.div<{ green: boolean }>`
   font-family: "Rubik", sans-serif;
   font-style: italic;
   font-weight: 700;
@@ -80,7 +81,10 @@ const AccountAddress = styled.div`
   align-items: center;
   text-transform: uppercase;
 
-  background: linear-gradient(159.53deg, #b4d109 1.07%, #87cc00 72.47%);
+  background: ${(props) =>
+    props.green
+      ? `linear-gradient(159.53deg, #b4d109 1.07%, #87cc00 72.47%)`
+      : "#FF0420"};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
@@ -135,8 +139,6 @@ interface TopBarProps {
 const TopBar = ({ socials, displayText, logoUrl, pageType }: TopBarProps) => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-  const { data: balance } = useBalance({ addressOrName: address });
-  const isMoaycPage = pageType === "moayc";
   const isStakingPage = pageType === "staking";
 
   const accountAddress = useMemo(() => {
@@ -145,24 +147,25 @@ const TopBar = ({ socials, displayText, logoUrl, pageType }: TopBarProps) => {
       address?.length
     )}`;
   }, [address]);
-
   return (
     <StyledTopBar>
-      <StyledLogo
-        logoUrl={logoUrl}
-        onClick={() => window.location.assign("/")}
-      />
+      <StyledLogo as="a" href="/" logoUrl={logoUrl} />
       {isConnected && (
         <>
           <CenterContainer>
-            <AccountAddress>{accountAddress} </AccountAddress>
-            <MoaycButton
-              size={isStakingPage ? "x-small" : "small"}
-              onClick={() => disconnect()}
-              backgroundColor={isStakingPage ? "red" : "green"}
-            >
-              Disconnect
-            </MoaycButton>
+            {/* TODO: add themes to styled components, sha uzhe zajeblasa*/}
+            <AccountAddress green={!isStakingPage}>
+              {accountAddress}{" "}
+            </AccountAddress>
+            {isStakingPage ? (
+              <StakingButton size="small" onClick={() => disconnect()}>
+                Disconnect
+              </StakingButton>
+            ) : (
+              <MoaycButton size="small" onClick={() => disconnect()}>
+                Disconnect
+              </MoaycButton>
+            )}
           </CenterContainer>
         </>
       )}
@@ -179,11 +182,7 @@ const TopBar = ({ socials, displayText, logoUrl, pageType }: TopBarProps) => {
           />
         </StyledSocialsContainer>
       )}
-      {isConnected && isStakingPage && (
-        <StyledSocialsContainer>
-          <Balance balance={balance} />
-        </StyledSocialsContainer>
-      )}
+      {isConnected && isStakingPage && <Balance />}
     </StyledTopBar>
   );
 };

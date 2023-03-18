@@ -1,132 +1,130 @@
 import {
   useAccount,
   useContractRead,
-  useContractReads,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
 import { config } from "../../connection/connection";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { stakingAbi } from "../../contracts";
-import { NftMutate } from "../../types/NFT";
-import { StakingPosition } from "../../types/Staking";
 import { BigNumber } from "ethers";
+import { AddressZero } from "@ethersproject/constants";
 
-// const getOaycNfts = {
-//   address: config.stakingContract,
-//   abi: stakingAbi,
-//   functionName: "tokenOfOwnerByIndex",
-// };
-
-export const useStaking = (stakeArgs?: any, claimPositionId?: BigNumber) => {
-  const { address } = useAccount();
+export const useStaking = (
+  stakeArgs?: unknown,
+  claimPositionId?: BigNumber
+) => {
+  const { address, isConnected } = useAccount();
+  const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+
+  const dismissError = () => setIsError(false);
+  const dismissSuccess = () => setIsSuccess(false);
 
   const stakePrepare = usePrepareContractWrite({
     address: config.stakingContract,
     abi: stakingAbi,
     functionName: "stake",
-    args: stakeArgs || [[], [], 0],
+    args: [[], [], BigNumber.from(1)],
+    enabled: !!stakeArgs && isConnected,
   });
 
   const claimAllPrepare = usePrepareContractWrite({
     address: config.stakingContract,
     abi: stakingAbi,
     functionName: "claimAllRewards",
+    enabled: isConnected,
   });
 
   const claimPrepare = usePrepareContractWrite({
     address: config.stakingContract,
     abi: stakingAbi,
     functionName: "claimReward",
-    args: [claimPositionId],
+    args: [claimPositionId ?? BigNumber.from(0)],
+    enabled: isConnected,
   });
 
-  console.log(claimPositionId?.toString());
+  const { data: positionsRaw, refetch: refetchAllPositionsInfo } =
+    useContractRead({
+      address: config.stakingContract,
+      abi: stakingAbi,
+      functionName: "getAllPositionsInfo",
+      args: [address ?? AddressZero],
+      enabled: isConnected,
+    });
 
-  const readPositions = useContractRead({
-    address: config.stakingContract,
-    abi: stakingAbi,
-    functionName: "getAllPositionsInfo",
-    args: [address],
-    select: (data: any) => {
-      return data;
-    },
-  });
-
-  const stake = useContractWrite(stakePrepare.config);
+  const { data: stakeData, writeAsync: writeStake } = useContractWrite(
+    stakePrepare.config
+  );
   const claimAll = useContractWrite(claimAllPrepare.config);
   const claim = useContractWrite(claimPrepare.config);
 
   const claimAllWait = useWaitForTransaction({
     hash: claimAll.data?.hash,
-    onSuccess: async () => {
-      // await refetchContractWrite();
-      // approveReset();
-      alert("sucss");
-    },
-    onError: async () => {
-      // await refetchContractWrite();
-      // approveReset();
-      alert("erorr");
-    },
   });
 
   const stakeWait = useWaitForTransaction({
-    hash: stake.data?.hash,
+    hash: stakeData?.hash,
     onSuccess: async () => {
-      // await refetchContractWrite();
-      // approveReset();
-      readPositions.refetch();
-      alert("sucss");
-    },
-    onError: async () => {
-      // await refetchContractWrite();
-      // approveReset();
-      alert("erorr");
+      await refetchAllPositionsInfo();
     },
   });
 
   const claimWait = useWaitForTransaction({
     hash: claim.data?.hash,
     onSuccess: async () => {
-      // await refetchContractWrite();
-      // approveReset();
-      readPositions.refetch();
-      alert("sucss");
-    },
-    onError: async () => {
-      // await refetchContractWrite();
-      // approveReset();
-      alert("erorr");
+      await refetchAllPositionsInfo();
     },
   });
 
-  const staked = readPositions.data?.reduce(
-    (total, { arrayIdsOayc }) => [
-      ...total,
-      ...arrayIdsOayc.map((id) => id.toString()),
-    ],
-    []
+  const positions = useMemo(
+    () =>
+      (positionsRaw ?? []).map((position) => {
+        const stakedNfts = [];
+
+        for (const i of position.arrayIdsMoayc) {
+          stakedNfts.push({
+            id: i.toNumber(),
+            uri: `${config.moaycBaseUri}${i}.png`,
+            level: 1,
+          });
+        }
+
+        for (const i of position.arrayIdsOayc) {
+          stakedNfts.push({
+            id: i.toNumber(),
+            uri: `${config.oaycBaseUri}${i}.png`,
+            level: 0,
+          });
+        }
+
+        return {
+          ...position,
+          stakedNfts,
+        };
+      }),
+    [positionsRaw]
   );
 
+  const stake = async () => {
+    setIsLoading(true);
+    await writeStake?.();
+  };
+
   return {
-    positions: {
-      ...readPositions,
-      data: readPositions.data as StakingPosition[],
-    },
     stake,
     claimWait,
     stakeWait,
     claim,
     claimAllWait,
     claimAll,
-    staked,
+    positions,
     isSuccess,
     isError,
-    setIsSuccess,
-    setIsError,
+    isLoading,
+    dismissError,
+    dismissSuccess,
   };
 };

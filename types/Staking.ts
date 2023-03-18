@@ -1,9 +1,11 @@
 export type StakingPosition = {
-  remainingPeriod: BigInt;
-  maximumReward: BigInt;
-  stakedPeriod: BigInt;
-  accruedReward: BigInt;
-  arrayIdsMoayc: BigInt[];
+  remainingPeriod: bigint;
+  maximumReward: bigint;
+  stakedPeriod: bigint;
+  accruedReward: bigint;
+  arrayIdsMoayc: bigint[];
   positionKind: boolean;
-  arrayIdsOayc: BigInt[];
+  arrayIdsOayc: bigint[];
 };
+
+export type StakeMode = "widthraw" | "stake" | "none";

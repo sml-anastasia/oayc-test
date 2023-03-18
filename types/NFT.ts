@@ -1,12 +1,11 @@
-export interface NftMutate {
-    id: string;
-    uri: string;
-    level: number;
+export interface NftInfo {
+  id: string;
+  uri: string;
+  level: number;
 }
 
-
-export const getDefaultNftMutate = (): NftMutate => ({
-    id: '-1',
-    uri: '',
-    level: -1
+export const getDefaultNftInfo = (): NftInfo => ({
+  id: "-1",
+  uri: "",
+  level: -1,
 });

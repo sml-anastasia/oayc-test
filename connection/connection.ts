@@ -3,6 +3,7 @@ import { Address, Chain, configureChains } from "wagmi";
 import { optimism, polygonMumbai } from "@wagmi/core/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+
 export const defaultConnector = new InjectedConnector();
 
 interface Config {
@@ -17,6 +18,8 @@ interface Config {
   mutagen3Contract: Address;
   stakingContract: Address;
   apiKey: string;
+  oaycBaseUri: string;
+  moaycBaseUri: string;
 }
 
 const DEV_CONFIG: Config = {
@@ -31,6 +34,9 @@ const DEV_CONFIG: Config = {
   mutagen3Contract: "0x2AA79C491b13715932201301efFCb627878621a2",
   stakingContract: "0xD9b84c0Afe499672a434e78ed02EC553D9694CbE",
   apiKey: "uT747kUZYmny3_vJDtaxPjtzlMPHLn7W",
+
+  oaycBaseUri: "https://oayc.io:3000/",
+  moaycBaseUri: "https://oayc.io:3001/",
 };
 
 const PROD_CONFIG: Config = {
@@ -43,7 +49,11 @@ const PROD_CONFIG: Config = {
   mutagen1Contract: "0xa2350dbc3dab591e1fb5ba7dc9ae4a587c80e575",
   mutagen2Contract: "0x19287b85b215c043974860361f8559a3ce1c3543",
   mutagen3Contract: "0xf68f8d089f2a1efe2395aca82288753dc2cea8a4",
+  stakingContract: "0x",
   apiKey: "Kdb9I1fanjK6qJPSCUaGCa4KH9XOv3xP",
+
+  oaycBaseUri: "https://oayc.io:3000/",
+  moaycBaseUri: "https://oayc.io:3001/",
 };
 
 const getConfig = (): Config => {
