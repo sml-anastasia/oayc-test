@@ -79,6 +79,8 @@ export const AddToStaking = () => {
 
       <ImageSelector data={nfts} onSelected={setSelectedNft} />
 
+      {selectedNft.length > 0 && <p>Selected: {selectedNft.length} nfts</p>}
+
       <StyledTabs
         value={selectedDepositType}
         tabs={["STAKE", "LOCK"]}
