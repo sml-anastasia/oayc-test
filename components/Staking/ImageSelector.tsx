@@ -18,6 +18,7 @@ const ImageSelectorContainer = styled.div`
   align-content: flex-start;
   gap: 8px;
   position: relative;
+  margin-bottom: 20px;
 
   ::-webkit-scrollbar {
     width: 3px;

@@ -12,6 +12,11 @@ import { useAccount } from "wagmi";
 import { ManageNFTModal } from "../components/Staking/step-modals/ManageNFTModal";
 import { Positions } from "../components/Staking/Positions/Positions";
 import { StakeMode } from "../types/Staking";
+import ImageSelector from "../components/Staking/ImageSelector";
+import { useOaycNftsOfAddress } from "../hooks/contract/util/useOaycNftsOfAddress";
+import { AddressZero } from "@ethersproject/constants";
+import { useMoaycNftsOfAddress } from "../hooks/contract/util/useMoaycNftsOfAddress";
+import { NftInfo } from "../types/NFT";
 
 const Container = styled.div`
   position: relative;
@@ -33,6 +38,13 @@ const ContentContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   margin: 0 auto;
+`;
+
+const ContentContainer2 = styled(ContentContainer)`
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StyledStakingContainer = styled.div`
@@ -66,6 +78,14 @@ const StyledText2 = styled.div`
   color: transparent;
 `;
 
+const StyledText3 = styled.div`
+  color: #ff0420;
+  font-size: 52px;
+  font-family: "Rubik", serif;
+  font-style: italic;
+  font-weight: 700;
+`;
+
 const StyledButtons = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -91,16 +111,26 @@ const StyledApe = styled.div`
   height: 520px;
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Staking: NextPage = () => {
   useEagerConnect();
   useChangeNetwork();
   const { connect } = useDefaultConnect();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
 
   const [stakeMode, setStakeMode] = useState<StakeMode>("none");
   const handleOpenWithdraw = () => setStakeMode("widthraw");
   const handleOpenStaking = () => setStakeMode("stake");
   const handleClose = () => setStakeMode("none");
+  const { oaycNfts } = useOaycNftsOfAddress(address ?? AddressZero);
+  const { moaycNfts } = useMoaycNftsOfAddress(address ?? AddressZero);
+  const [selectedNft, setSelectedNft] = useState<NftInfo[]>([]);
+
+  const nfts = [...oaycNfts, ...moaycNfts];
 
   return (
     <>
@@ -157,6 +187,17 @@ const Staking: NextPage = () => {
             height="300px"
           />
         </StyledOAYCText>
+        <ContentContainer2>
+          <Wrapper>
+            <StyledText3>YOUR STAKED NFTS</StyledText3>
+            <ImageSelector data={nfts} onSelected={setSelectedNft} />
+          </Wrapper>
+          <Wrapper>
+            <StyledText3>YOUR LOCKED NFTS</StyledText3>
+            <ImageSelector data={nfts} onSelected={setSelectedNft} />
+            <StyledText>Selected: {selectedNft.length} nfts</StyledText>
+          </Wrapper>
+        </ContentContainer2>
         <StyledApe>
           <Image src="/images/oayc_bg.png" width={384} height={520} alt={""} />
         </StyledApe>

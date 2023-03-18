@@ -14,10 +14,10 @@ import { BigNumber } from "ethers";
 
 const StyledContainer = styled.div`
   display: flex;
+  overflow: auto;
   flex-grow: 1;
   justify-content: space-between;
   align-items: center;
-  overflow: auto;
   flex-direction: column;
 `;
 
@@ -29,7 +29,14 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  padding-top: 40px;
+  padding-top: 15px;
+  text-transform: uppercase;
+`;
+
+const StyledText = styled(Title)`
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
 `;
 
 const StyledTabs = styled(Tabs)`
@@ -101,11 +108,13 @@ export const AddToStaking = () => {
 
   return (
     <StyledContainer>
-      <Title>Add</Title>
+      <Title>Add nft</Title>
 
       <ImageSelector data={nfts} onSelected={setSelectedNft} />
 
-      {selectedNft.length > 0 && <p>Selected: {selectedNft.length} nfts</p>}
+      {selectedNft.length > 0 && (
+        <StyledText>Selected: {selectedNft.length} nfts</StyledText>
+      )}
 
       <StyledTabs
         value={selectedDepositType}

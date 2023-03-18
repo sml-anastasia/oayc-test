@@ -19,6 +19,7 @@ const StyledModal = styled(Modal)`
   border: none;
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 export const ManageNFTModal = (props: ManageNFTModalProps) => {
@@ -29,7 +30,7 @@ export const ManageNFTModal = (props: ManageNFTModalProps) => {
   // }, [stakeWait.isSuccess]);
 
   return (
-    <StyledModal isOpen={isOpen} width={688} height={550} onClose={onClose}>
+    <StyledModal isOpen={isOpen} width={688} onClose={onClose}>
       <RedRoundCloseButton onClose={onClose} />
       {mode === "stake" && <AddToStaking />}
       {mode === "widthraw" && <WidthrawStakedNft />}

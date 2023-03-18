@@ -1,7 +1,13 @@
 import MoaycButton from "../common/buttons/MoaycButton";
 import styled, { css } from "styled-components";
 
-export const StakingButton = styled(MoaycButton)`
+// Добавьте интерфейс для пропсов StakingButton
+interface StakingButtonProps {
+  size?: "small";
+  disabled?: boolean;
+}
+
+export const StakingButton = styled(MoaycButton)<StakingButtonProps>`
   background: #ff0420;
   color: white;
   height: 64px;
@@ -12,12 +18,21 @@ export const StakingButton = styled(MoaycButton)`
   justify-content: center;
   align-items: center;
   line-break: revert;
-  min-width: 237px;
+  width: 50%;
+  height: 56px;
+  margin-bottom: 15px;
 
   ${(props) =>
     props.size === "small" &&
     css`
       height: unset;
       min-width: unset;
+    `}
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+      opacity: 0.5;
     `}
 `;
