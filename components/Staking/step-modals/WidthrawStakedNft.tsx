@@ -2,15 +2,9 @@ import React, { useState } from "react";
 import { useStaking } from "../../../hooks/contract/useStaking";
 import { BigNumber } from "ethers";
 import styled from "styled-components";
-import ImageSelector from "../ImageSelector";
-import { NftInfo } from "../../../types/NFT";
 import { StakingButton } from "../../Button/StakingButton";
-import { useAccount } from "wagmi";
-import { useOaycNftsOfAddress } from "../../../hooks/contract/util/useOaycNftsOfAddress";
-import { AddressZero } from "@ethersproject/constants";
-import { useMoaycNftsOfAddress } from "../../../hooks/contract/util/useMoaycNftsOfAddress";
-import { Tabs } from "../Tabs/Tabs";
 import { Positions } from "../Positions/Positions";
+import { StatusModals } from "../StatusModals/StatusModals";
 
 const Title = styled.div`
   font-size: 42px;
@@ -44,9 +38,9 @@ const StyledText = styled.div`
   text-align: center;
 `;
 
-const StyledTabs = styled(Tabs)`
-  margin: 0 auto 20px;
-`;
+// const StyledTabs = styled(Tabs)`
+//   margin: 0 auto 20px;
+// `;
 
 const StyledBalance = styled.div`
   display: flex;
@@ -61,22 +55,26 @@ const ClaimButton = styled(StakingButton)`
   width: 200px;
 `;
 
-enum DepositType {
-  staking,
-  lock,
-}
+// enum DepositType {
+//   staking,
+//   lock,
+// }
 
 export const WidthrawStakedNft = () => {
   const [selectedPosition, setSelectedPosition] = useState<number | null>(null);
-  const { address } = useAccount();
-  const { oaycNfts } = useOaycNftsOfAddress(address ?? AddressZero);
-  const { moaycNfts } = useMoaycNftsOfAddress(address ?? AddressZero);
-  const [selectedNft, setSelectedNft] = useState<NftInfo[]>([]);
-
-  const [selectedDepositType, setSelectedDepositType] = useState<DepositType>(
-    DepositType.staking
-  );
-  const { claim, claimAll, positions } = useStaking({
+  // const [selectedDepositType, setSelectedDepositType] = useState<DepositType>(
+  //   DepositType.staking
+  // );
+  const {
+    claim,
+    claimAll,
+    positions,
+    isLoading,
+    isError,
+    isSuccess,
+    dismissSuccess,
+    dismissError,
+  } = useStaking({
     claimPositionId:
       selectedPosition !== null ? BigNumber.from(selectedPosition) : undefined,
   });
@@ -88,62 +86,44 @@ export const WidthrawStakedNft = () => {
     ) /
     10 ** 18;
 
-  const nfts = [...oaycNfts, ...moaycNfts];
-
   return (
     <StyledContainer>
       <Title>Withdraw</Title>
       <Positions onSelect={(id) => setSelectedPosition(id)} />
       selectedPosition {selectedPosition}
-      <StyledTabs
+      {/* <StyledTabs
         value={selectedDepositType}
         tabs={["STAKED", "LOCKED"]}
         onChange={setSelectedDepositType}
       />
-      <ImageSelector data={nfts} onSelected={setSelectedNft} />
-      {selectedNft.length > 0 && (
-        <StyledText>Selected: {selectedNft.length} nfts</StyledText>
-      )}
+   */}
       <StakingButton
         size="small"
         onClick={() => {
           claim.write?.();
         }}
-        disabled={!selectedNft.length}
+        disabled={!selectedPosition}
       >
-        {selectedDepositType === DepositType.staking ? "UnStake" : "UnLock"}
+        Unstake
+        {/* {selectedDepositType === DepositType.staking ? "UnStake" : "UnLock"} */}
       </StakingButton>
-      {/* <Tabs
-              selectedId={selectedTabId}
-              tabs={tabs}
-              onClick={setSelectedTabId}
-            /> */}
-      {/* <div className={styles.tabPageContent}>
-              {selectedTabId === tabs[0].id && <div></div>}
-              {selectedTabId === tabs[1].id && <div></div>}
-            </div> */}
-      {/*<Positions onSelect={(id) => setSelectedPosition(id)} />*/}
-      {/* {staked?.map((nft: any) => {
-              return (
-                <button key={nft} className={styles.item}>
-                  {nft} <img src={nft.uri} />
-                </button>
-              );
-            })} */}
-      {/*selectedPosition {selectedPosition}*/}
       <StyledText>
         WARNING!<br></br>In case of premature withdrawal, the penalty is 100%
       </StyledText>
       <StyledBalance>
         <StyledText>BALANCE</StyledText>
         <StyledText>{totalReward} $OAYC</StyledText>
-        <ClaimButton
-          onClick={() => claimAll.write?.()}
-          disabled={!selectedNft.length}
-        >
+        <ClaimButton onClick={() => claimAll.write?.()} disabled={!totalReward}>
           Claim all
         </ClaimButton>
       </StyledBalance>
+      <StatusModals
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        isError={isError}
+        dismissSuccess={dismissSuccess}
+        dismissError={dismissError}
+      />
     </StyledContainer>
   );
 };

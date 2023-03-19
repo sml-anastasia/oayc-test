@@ -87,6 +87,36 @@ export const useStaking = ({
     onMutate() {
       setIsLoading(true);
     },
+    onError(error) {
+      /* eslint-disable-next-line */
+      // @ts-ignore
+      if (error.code !== "ACTION_REJECTED") {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    },
+  });
+  const claim = useContractWrite({
+    ...claimPrepare.config,
+    onMutate() {
+      setIsLoading(true);
+    },
+    onError(error) {
+      /* eslint-disable-next-line */
+      // @ts-ignore
+      if (error.code !== "ACTION_REJECTED") {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    },
+  });
+  const claimAll = useContractWrite({
+    ...claimAllPrepare.config,
+    onMutate() {
+      setIsLoading(true);
+    },
     onError() {
       /* eslint-disable-next-line */
       // @ts-ignore
@@ -97,8 +127,6 @@ export const useStaking = ({
       setIsLoading(false);
     },
   });
-  const claim = useContractWrite(claimPrepare.config);
-  const claimAll = useContractWrite(claimAllPrepare.config);
 
   const lockWait = useWaitForTransaction({
     hash: lockWrite.data?.hash,
@@ -113,11 +141,13 @@ export const useStaking = ({
 
   const stakeWait = useWaitForTransaction({
     hash: stakeWrite.data?.hash,
+    onSettled() {
+      setIsLoading(false);
+    },
     onSuccess: async () => {
       await refetchAllPositionsInfo();
     },
     onError() {
-      setIsLoading(false);
       setIsError(true);
     },
   });

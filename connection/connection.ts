@@ -32,7 +32,7 @@ const DEV_CONFIG: Config = {
   mutagen1Contract: "0xB1c9acFB939E746E6c7E17AbD23109ADf99ef602",
   mutagen2Contract: "0x34297C67bAdf235fB9bf95a27d8da51BC826b2C9",
   mutagen3Contract: "0x2AA79C491b13715932201301efFCb627878621a2",
-  stakingContract: "0xD9b84c0Afe499672a434e78ed02EC553D9694CbE",
+  stakingContract: "0x71E3BE6Df2aABFA03d41847E2036cEE4a315f2d5",
   apiKey: "uT747kUZYmny3_vJDtaxPjtzlMPHLn7W",
 
   oaycBaseUri: "https://oayc.io:3000/",

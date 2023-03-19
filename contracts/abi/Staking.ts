@@ -1,35 +1,53 @@
 export const stakingAbi = [
   {
     inputs: [
-      { internalType: "contract IOAYC", name: "OAYC_", type: "address" },
-      { internalType: "contract IMOAYC", name: "MOAYC_", type: "address" },
+      { internalType: "contract IERC721Ape", name: "OAYC_", type: "address" },
+      { internalType: "contract IERC721Ape", name: "MOAYC_", type: "address" },
       { internalType: "contract IERC20", name: "token_", type: "address" },
-      { internalType: "address", name: "owner_", type: "address" },
-      { internalType: "uint256", name: "rewardRate_", type: "uint256" },
-      { internalType: "uint256", name: "pairMulti_", type: "uint256" },
-      { internalType: "uint256", name: "notPairMulti_", type: "uint256" },
-      { internalType: "uint256", name: "oneOneMulti_", type: "uint256" },
+      { internalType: "uint256[]", name: "params", type: "uint256[]" },
       {
         internalType: "uint256[]",
         name: "availablePeriods_",
         type: "uint256[]",
       },
-      { internalType: "uint256[]", name: "oayc1x1_", type: "uint256[]" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
     inputs: [],
     name: "MOAYC",
-    outputs: [{ internalType: "contract IMOAYC", name: "", type: "address" }],
+    outputs: [
+      { internalType: "contract IERC721Ape", name: "", type: "address" },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "OAYC",
-    outputs: [{ internalType: "contract IOAYC", name: "", type: "address" }],
+    outputs: [
+      { internalType: "contract IERC721Ape", name: "", type: "address" },
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -60,17 +78,6 @@ export const stakingAbi = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "uint256[]", name: "_oaycIds", type: "uint256[]" },
-      { internalType: "uint256[]", name: "_moaycIds", type: "uint256[]" },
-      { internalType: "address", name: "_sender", type: "address" },
-    ],
-    name: "checkOwner",
-    outputs: [],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "claimAllRewards",
     outputs: [],
@@ -86,6 +93,13 @@ export const stakingAbi = [
   },
   {
     inputs: [],
+    name: "counterPositions",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "flipStarted",
     outputs: [],
     stateMutability: "nonpayable",
@@ -97,11 +111,16 @@ export const stakingAbi = [
     outputs: [
       {
         components: [
+          { internalType: "address", name: "owner", type: "address" },
           { internalType: "uint256", name: "accruedReward", type: "uint256" },
           { internalType: "uint256", name: "maximumReward", type: "uint256" },
           { internalType: "uint256", name: "stakedPeriod", type: "uint256" },
           { internalType: "uint256", name: "remainingPeriod", type: "uint256" },
-          { internalType: "bool", name: "positionKind", type: "bool" },
+          {
+            internalType: "enum Staking.PositionKind",
+            name: "positionKind",
+            type: "uint8",
+          },
           {
             internalType: "uint256[]",
             name: "arrayIdsOayc",
@@ -111,12 +130,6 @@ export const stakingAbi = [
             internalType: "uint256[]",
             name: "arrayIdsMoayc",
             type: "uint256[]",
-          },
-          { internalType: "string[]", name: "oaycTokenURIs", type: "string[]" },
-          {
-            internalType: "string[]",
-            name: "moaycTokenURIs",
-            type: "string[]",
           },
         ],
         internalType: "struct Staking.PositionInfo[]",
@@ -128,10 +141,7 @@ export const stakingAbi = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "_owner", type: "address" },
-      { internalType: "uint256", name: "_index", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "_index", type: "uint256" }],
     name: "getMaximumRewardPerPosition",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
@@ -146,11 +156,16 @@ export const stakingAbi = [
     outputs: [
       {
         components: [
+          { internalType: "address", name: "owner", type: "address" },
           { internalType: "uint256", name: "accruedReward", type: "uint256" },
           { internalType: "uint256", name: "maximumReward", type: "uint256" },
           { internalType: "uint256", name: "stakedPeriod", type: "uint256" },
           { internalType: "uint256", name: "remainingPeriod", type: "uint256" },
-          { internalType: "bool", name: "positionKind", type: "bool" },
+          {
+            internalType: "enum Staking.PositionKind",
+            name: "positionKind",
+            type: "uint8",
+          },
           {
             internalType: "uint256[]",
             name: "arrayIdsOayc",
@@ -160,12 +175,6 @@ export const stakingAbi = [
             internalType: "uint256[]",
             name: "arrayIdsMoayc",
             type: "uint256[]",
-          },
-          { internalType: "string[]", name: "oaycTokenURIs", type: "string[]" },
-          {
-            internalType: "string[]",
-            name: "moaycTokenURIs",
-            type: "string[]",
           },
         ],
         internalType: "struct Staking.PositionInfo",
@@ -177,8 +186,10 @@ export const stakingAbi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "_owner", type: "address" }],
-    name: "getPositionsByOwner",
+    inputs: [
+      { internalType: "uint256[]", name: "_indexes", type: "uint256[]" },
+    ],
+    name: "getPositionsByIndexes",
     outputs: [
       {
         components: [
@@ -186,7 +197,11 @@ export const stakingAbi = [
           { internalType: "uint256", name: "startTimestamp", type: "uint256" },
           { internalType: "uint256", name: "endTimestamp", type: "uint256" },
           { internalType: "uint256", name: "tokens", type: "uint256" },
-          { internalType: "bool", name: "positionKind", type: "bool" },
+          {
+            internalType: "enum Staking.PositionKind",
+            name: "positionKind",
+            type: "uint8",
+          },
           {
             internalType: "uint256[]",
             name: "arrayIdsOayc",
@@ -207,30 +222,55 @@ export const stakingAbi = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "_owner", type: "address" },
-      { internalType: "uint256", name: "_index", type: "uint256" },
+    inputs: [{ internalType: "address", name: "_owner", type: "address" }],
+    name: "getPositionsByOwner",
+    outputs: [
+      {
+        components: [
+          { internalType: "address", name: "owner", type: "address" },
+          { internalType: "uint256", name: "startTimestamp", type: "uint256" },
+          { internalType: "uint256", name: "endTimestamp", type: "uint256" },
+          { internalType: "uint256", name: "tokens", type: "uint256" },
+          {
+            internalType: "enum Staking.PositionKind",
+            name: "positionKind",
+            type: "uint8",
+          },
+          {
+            internalType: "uint256[]",
+            name: "arrayIdsOayc",
+            type: "uint256[]",
+          },
+          {
+            internalType: "uint256[]",
+            name: "arrayIdsMoayc",
+            type: "uint256[]",
+          },
+        ],
+        internalType: "struct Staking.Position[]",
+        name: "",
+        type: "tuple[]",
+      },
     ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_index", type: "uint256" }],
     name: "getRewardAmount",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "_owner", type: "address" },
-      { internalType: "uint256", name: "_index", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "_index", type: "uint256" }],
     name: "getStakingPertiod",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "_owner", type: "address" },
-      { internalType: "uint256", name: "_index", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "_index", type: "uint256" }],
     name: "isActive",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
@@ -255,6 +295,27 @@ export const stakingAbi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "lockFine",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lvl2Multi",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lvl3Multi",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "uint256", name: "_tokenId", type: "uint256" }],
     name: "moaycRatio",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -265,6 +326,13 @@ export const stakingAbi = [
     inputs: [],
     name: "notPairMulti",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "oayc1x1",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
@@ -290,28 +358,50 @@ export const stakingAbi = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "", type: "address" },
-      { internalType: "uint256", name: "", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     name: "positions",
     outputs: [
       { internalType: "address", name: "owner", type: "address" },
       { internalType: "uint256", name: "startTimestamp", type: "uint256" },
       { internalType: "uint256", name: "endTimestamp", type: "uint256" },
       { internalType: "uint256", name: "tokens", type: "uint256" },
-      { internalType: "bool", name: "positionKind", type: "bool" },
+      {
+        internalType: "enum Staking.PositionKind",
+        name: "positionKind",
+        type: "uint8",
+      },
     ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "_userAddress", type: "address" },
-    ],
+    inputs: [{ internalType: "address", name: "_owner", type: "address" }],
     name: "positionsOf",
-    outputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    outputs: [
+      { internalType: "uint256[]", name: "indexes", type: "uint256[]" },
+    ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_newTokenId", type: "uint256" }],
+    name: "removeOayc1x1",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_index", type: "uint256" }],
+    name: "removeStakePosition",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -335,6 +425,27 @@ export const stakingAbi = [
     type: "function",
   },
   {
+    inputs: [{ internalType: "uint256", name: "_newFine", type: "uint256" }],
+    name: "setLockFine",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_newMulti", type: "uint256" }],
+    name: "setLvl2Multi",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_newMulti", type: "uint256" }],
+    name: "setLvl3Multi",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "uint256", name: "_newMulti", type: "uint256" }],
     name: "setNotPairMulti",
     outputs: [],
@@ -344,13 +455,6 @@ export const stakingAbi = [
   {
     inputs: [{ internalType: "uint256", name: "_newMulti", type: "uint256" }],
     name: "setOneOnOneMulti",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "_newOwner", type: "address" }],
-    name: "setOwner",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -372,6 +476,13 @@ export const stakingAbi = [
     type: "function",
   },
   {
+    inputs: [{ internalType: "uint256", name: "_newFine", type: "uint256" }],
+    name: "setStakeFine",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       { internalType: "uint256[]", name: "_oaycIds", type: "uint256[]" },
       { internalType: "uint256[]", name: "_moaycIds", type: "uint256[]" },
@@ -384,24 +495,45 @@ export const stakingAbi = [
   },
   {
     inputs: [],
+    name: "stakeFine",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "stakedMoayc",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "stakedOayc",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "token",
     outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "uint256[]", name: "_oaycIds", type: "uint256[]" },
-      { internalType: "uint256[]", name: "_moaycIds", type: "uint256[]" },
-    ],
-    name: "transferPosition",
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
+    name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "userPositionsAmount",
+    inputs: [
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "uint256", name: "", type: "uint256" },
+    ],
+    name: "userPositions",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",

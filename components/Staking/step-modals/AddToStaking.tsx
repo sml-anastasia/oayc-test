@@ -96,12 +96,20 @@ export const AddToStaking = () => {
         (!isMoyac ? oyacs : moyacs).push(BigNumber.from(+nft.id));
       });
 
-      // const maxLength = Math.max(oyacs.length, moyacs.length);
+      // if (oyacs.length !== moyacs.length) {
+      //   const maxLength = Math.max(oyacs.length, moyacs.length);
 
-      if (oyacs.length !== moaycNfts.length) {
-        // temp
-        alert("lenght not correct");
-      }
+      //   for (let i = 0; i < maxLength; i++) {
+      //     const element = array[i];
+
+      //   }
+
+      // }
+
+      // // if (oyacs.length !== moaycNfts.length) {
+      // //   // temp
+      // //   alert("lenght not correct");
+      // // }
 
       return [oyacs, moyacs, BigNumber.from(selectedPeriod)];
       // function filterSelected(selectedNft: NftInfo[]) {}
