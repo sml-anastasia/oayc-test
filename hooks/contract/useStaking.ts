@@ -217,8 +217,8 @@ export const useStaking = ({
   return {
     stake: stakeWrite.write,
     lock: lockWrite.write,
-    claimWait,
     stakeWait,
+    claimWait,
     lockWait,
     isStarted,
     claim,
