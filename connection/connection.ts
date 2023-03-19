@@ -49,7 +49,8 @@ const PROD_CONFIG: Config = {
   mutagen1Contract: "0xa2350dbc3dab591e1fb5ba7dc9ae4a587c80e575",
   mutagen2Contract: "0x19287b85b215c043974860361f8559a3ce1c3543",
   mutagen3Contract: "0xf68f8d089f2a1efe2395aca82288753dc2cea8a4",
-  stakingContract: "0x",
+  // TODO: change, for staging
+  stakingContract: "0xC6Db8e8D84B18af7e7df44e6C389a3272dC74966",
   apiKey: "Kdb9I1fanjK6qJPSCUaGCa4KH9XOv3xP",
 
   oaycBaseUri: "https://oayc.io:3000/",
