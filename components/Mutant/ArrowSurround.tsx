@@ -1,14 +1,11 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 
-
-const StyledArrowsIcon = styled.div`
-
+const StyledArrowsIcon = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
 `;
 
 const InnerLayer = styled.div`
@@ -47,28 +44,31 @@ const RightArrow = styled.div`
   margin-left: 25px;
 `;
 
-
 interface ArrowSurroundProps {
-    sideArrows?: boolean;
+  sideArrows?: boolean;
 }
 
 const ArrowSurround = ({
-                           children,
-                           sideArrows = true,
-                           ...rest
-                       }: React.HTMLAttributes<HTMLDivElement> & ArrowSurroundProps) => {
-    return (
-        <StyledArrowsIcon {...rest}>
-            <TopArrow/>
-            {sideArrows ? <InnerLayer>
-                <LeftArrow/>
-                {children}
-                <RightArrow/>
-            </InnerLayer> : children}
+  children,
+  sideArrows = true,
+  ...rest
+}: React.HTMLAttributes<HTMLButtonElement> & ArrowSurroundProps) => {
+  return (
+    <StyledArrowsIcon {...rest}>
+      <TopArrow />
+      {sideArrows ? (
+        <InnerLayer>
+          <LeftArrow />
+          {children}
+          <RightArrow />
+        </InnerLayer>
+      ) : (
+        children
+      )}
 
-            <BottomArrow/>
-        </StyledArrowsIcon>
-    );
+      <BottomArrow />
+    </StyledArrowsIcon>
+  );
 };
 
 export default ArrowSurround;

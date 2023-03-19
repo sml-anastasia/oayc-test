@@ -192,7 +192,7 @@ export const useStaking = ({
 
         for (const i of position.arrayIdsOayc) {
           stakedNfts.push({
-            id: i.toNumber(),
+            id: i.toString(),
             uri: `${config.oaycBaseUri}${i}.png`,
             level: 0,
           });
@@ -200,7 +200,7 @@ export const useStaking = ({
 
         for (const i of position.arrayIdsMoayc) {
           stakedNfts.push({
-            id: i.toNumber(),
+            id: i.toString(),
             uri: `${config.moaycBaseUri}${i}.png`,
             level: 1,
           });

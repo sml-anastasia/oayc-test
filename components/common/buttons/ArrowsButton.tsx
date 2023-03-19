@@ -5,7 +5,7 @@ import ArrowSurround from "../../Mutant/ArrowSurround";
 const ArrowsButton = ({
   children,
   ...rest
-}: React.HTMLAttributes<HTMLDivElement>) => {
+}: React.HTMLAttributes<HTMLButtonElement>) => {
   return (
     <ArrowSurround>
       <MoaycButton {...rest}>{children}</MoaycButton>
