@@ -49,7 +49,6 @@ enum DepositType {
 }
 
 enum StakingPeriod {
-  _1h,
   _1d,
   _1w,
   _1m,
@@ -76,7 +75,7 @@ export const AddToStaking = ({ closeModal }: Props) => {
     DepositType.staking
   );
   const [selectedPeriod, setSelectedPeriod] = useState<StakingPeriod>(
-    StakingPeriod._1h
+    StakingPeriod._1d
   );
 
   const nfts = [...oaycNfts, ...moaycNfts];
@@ -164,7 +163,7 @@ export const AddToStaking = ({ closeModal }: Props) => {
 
       <StyledTabs
         value={selectedPeriod}
-        tabs={["1 hour", "1 day", "7 days", "28 days"]}
+        tabs={["1 day", "7 days", "28 days"]}
         onChange={setSelectedPeriod}
       />
 

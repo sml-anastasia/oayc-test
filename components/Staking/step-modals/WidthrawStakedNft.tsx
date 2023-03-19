@@ -90,7 +90,6 @@ export const WidthrawStakedNft = () => {
     <StyledContainer>
       <Title>Withdraw</Title>
       <Positions onSelect={(id) => setSelectedPosition(id)} />
-      selectedPosition {selectedPosition}
       {/* <StyledTabs
         value={selectedDepositType}
         tabs={["STAKED", "LOCKED"]}
@@ -110,6 +109,8 @@ export const WidthrawStakedNft = () => {
       <StyledText>
         WARNING!<br></br>In case of premature withdrawal, the penalty is 100%
       </StyledText>
+
+      <hr />
       <StyledBalance>
         <StyledText>BALANCE</StyledText>
         <StyledText>{totalReward} $OAYC</StyledText>
