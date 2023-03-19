@@ -29,18 +29,22 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  padding-top: 15px;
+  padding: 15px 0px 15px;
   text-transform: uppercase;
 `;
 
 const StyledText = styled(Title)`
   font-size: 18px;
-  margin: 0;
+  margin: 15px auto 0px;
   padding: 0;
 `;
 
 const StyledTabs = styled(Tabs)`
-  margin: 0 auto 20px;
+  margin: 15px auto 15px;
+`;
+
+const StyledTabs2 = styled(StyledTabs)`
+  margin: 0px auto 15px;
 `;
 
 enum DepositType {
@@ -142,6 +146,7 @@ export const AddToStaking = ({ closeModal }: Props) => {
       <Title>Add nft</Title>
 
       <ImageSelector
+        twoColumns={false}
         data={nfts.filter(({ id, level }) => {
           // TODO: maybe refactor for optimization
           return !stakedNfts.find((stakedNft) => {
@@ -161,7 +166,7 @@ export const AddToStaking = ({ closeModal }: Props) => {
         onChange={setSelectedDepositType}
       />
 
-      <StyledTabs
+      <StyledTabs2
         value={selectedPeriod}
         tabs={["1 day", "7 days", "28 days"]}
         onChange={setSelectedPeriod}

@@ -22,12 +22,15 @@ const Icon = styled.div`
 
 const Text = styled.div`
   font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
+  font-size: 42px;
+  line-height: 90%;
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #ff0420;
   line-height: 95.7%;
   text-align: center;
   letter-spacing: -0.035em;
-  color: #6684a8;
   margin-bottom: 40px;
 `;
 

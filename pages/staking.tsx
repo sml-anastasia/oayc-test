@@ -12,11 +12,6 @@ import { useAccount } from "wagmi";
 import { ManageNFTModal } from "../components/Staking/step-modals/ManageNFTModal";
 import { Positions } from "../components/Staking/Positions/Positions";
 import { StakeMode } from "../types/Staking";
-import ImageSelector from "../components/Staking/ImageSelector";
-import { useOaycNftsOfAddress } from "../hooks/contract/util/useOaycNftsOfAddress";
-import { AddressZero } from "@ethersproject/constants";
-import { useMoaycNftsOfAddress } from "../hooks/contract/util/useMoaycNftsOfAddress";
-import { NftInfo } from "../types/NFT";
 import { useStaking } from "../hooks/contract/useStaking";
 
 const Container = styled.div`
@@ -115,31 +110,41 @@ const StyledApe = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+`;
+
+const StyledUnstakeButton = styled(StakingButton)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1.5px solid #ff0420;
+  background-color: transparent;
+  color: #ff0420;
+  border-radius: 100px;
+  width: 187px;
+  padding: 10px 1px 10px 10px;
+  line-height: 90%;
+  height: 30px;
+  margin-top: 20px;
+  font-size: 11px;
+`;
+
+const Icon = styled(Image)`
+  padding-right: 20px;
 `;
 
 const Staking: NextPage = () => {
   useEagerConnect();
   useChangeNetwork();
   const { connect } = useDefaultConnect();
-  const { isConnected, address } = useAccount();
+  const { isConnected } = useAccount();
 
   const [stakeMode, setStakeMode] = useState<StakeMode>("none");
   const handleOpenWithdraw = () => setStakeMode("widthraw");
   const handleOpenStaking = () => setStakeMode("stake");
   const handleClose = () => setStakeMode("none");
-  const { oaycNfts } = useOaycNftsOfAddress(
-    address ?? AddressZero,
-    isConnected
-  );
-  const { moaycNfts } = useMoaycNftsOfAddress(
-    address ?? AddressZero,
-    isConnected
-  );
-  const [selectedNft, setSelectedNft] = useState<NftInfo[]>([]);
 
   const { isStarted } = useStaking({});
-
-  const nfts = [...oaycNfts, ...moaycNfts];
 
   return (
     <>
@@ -186,7 +191,6 @@ const Staking: NextPage = () => {
               </StyledButtons>
             )}
           </StyledStakingContainer>
-          <Positions />
         </ContentContainer>
         <StyledOAYCText>
           <Image
@@ -198,13 +202,17 @@ const Staking: NextPage = () => {
         </StyledOAYCText>
         <ContentContainer2>
           <Wrapper>
-            <StyledText3>YOUR STAKED NFTS</StyledText3>
-            <ImageSelector data={nfts} onSelected={setSelectedNft} />
-          </Wrapper>
-          <Wrapper>
-            <StyledText3>YOUR LOCKED NFTS</StyledText3>
-            <ImageSelector data={nfts} onSelected={setSelectedNft} />
-            <StyledText>Selected: {selectedNft.length} nfts</StyledText>
+            <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
+            <Positions />
+            <StyledUnstakeButton>
+              UNSTAKE & CLAIM ALL
+              <Icon
+                src="/images/svg/claiminfo.svg"
+                alt="claim button"
+                width={22}
+                height={22}
+              />
+            </StyledUnstakeButton>
           </Wrapper>
         </ContentContainer2>
         <StyledApe>

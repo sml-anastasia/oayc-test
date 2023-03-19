@@ -5,20 +5,22 @@ interface ImageSelectorProps<T> extends React.HTMLAttributes<HTMLDivElement> {
   data: T[];
   onSelected?: (selected: T[]) => void;
   selectable?: boolean;
+  twoColumns?: boolean;
 }
 
-const ImageSelectorContainer = styled.div`
-  max-width: 520px;
-  min-width: 520px;
-  max-height: 315px;
-  min-height: 315px;
+const ImageSelectorContainer = styled.div<{ twoColumns?: boolean }>`
   overflow-y: auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  display: grid;
+  grid-template-columns: ${({ twoColumns }) =>
+    twoColumns ? "repeat(2, 1fr)" : "repeat(auto-fit, minmax(60px, 1fr))"};
+  grid-auto-rows: 60px;
   gap: 8px;
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 20px
+  min-width: ${({ twoColumns }) => (twoColumns ? "auto" : "520px")};
+  max-width: ${({ twoColumns }) => (twoColumns ? "100%" : "520px")};
+  min-height: ${({ twoColumns }) => (twoColumns ? "auto" : "315px")};
+  max-height: ${({ twoColumns }) => (twoColumns ? "auto" : "315px")};
 
   ::-webkit-scrollbar {
     width: 3px;
@@ -36,15 +38,14 @@ const ImageSelectorContainer = styled.div`
 const StyledImage = styled.img`
   border-radius: 5px;
   filter: light(0);
-  width: 78px;
-  height: 78px;
+  width: 60px;
+  height: 60px;
 `;
 
 const ImageContainer = styled.div<{ selected: boolean }>`
   position: relative;
-
-  width: 78px;
-  height: 78px;
+  width: 60px;
+  height: 60px;
 
   & > img {
     ${(props) =>
@@ -59,8 +60,8 @@ const ImageContainer = styled.div<{ selected: boolean }>`
     content: "";
     top: 0;
     left: 0;
-    width: 78px;
-    height: 78px;
+    width: 60px;
+    height: 60px;
     display: block;
     position: absolute;
     background: linear-gradient(159.53deg, #ff0420 1.07%, #87cc00 72.47%);
@@ -78,6 +79,7 @@ const ImageSelector = <T extends { id: string | number; uri: string }>({
   data,
   onSelected,
   selectable = true,
+  twoColumns = true,
   ...props
 }: ImageSelectorProps<T>) => {
   const [selected, setSelected] = useState<T[]>([]);
@@ -102,7 +104,7 @@ const ImageSelector = <T extends { id: string | number; uri: string }>({
   }, [selected, onSelected, selectable]);
 
   return (
-    <ImageSelectorContainer {...props}>
+    <ImageSelectorContainer twoColumns={twoColumns} {...props}>
       {data.map((i, index) => (
         <ImageContainer
           selected={selected.includes(i)}
