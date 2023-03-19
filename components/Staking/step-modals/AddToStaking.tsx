@@ -43,6 +43,45 @@ const StyledTabs = styled(Tabs)`
   margin: 0 auto 20px;
 `;
 
+// chatGPT func
+function sortArraysBySameValues(
+  arr1: number[],
+  arr2: number[]
+): [number[], number[]] {
+  const maxLength = Math.max(arr1.length, arr2.length);
+  const sortedArr1: number[] = new Array(maxLength).fill(0);
+  const sortedArr2: number[] = new Array(maxLength).fill(0);
+
+  const commonValues = arr1.filter((val) => arr2.includes(val));
+  commonValues.sort((a, b) => a - b);
+
+  const uniqueArr1 = arr1
+    .filter((val) => !arr2.includes(val))
+    .sort((a, b) => a - b);
+  const uniqueArr2 = arr2
+    .filter((val) => !arr1.includes(val))
+    .sort((a, b) => a - b);
+
+  let idx1 = 0;
+  let idx2 = 0;
+  for (let i = 0; i < maxLength; i++) {
+    if (commonValues.length > 0) {
+      const commonVal = commonValues.shift()!;
+      sortedArr1[i] = commonVal;
+      sortedArr2[i] = commonVal;
+    } else {
+      if (uniqueArr1[idx1] !== undefined) {
+        sortedArr1[i] = uniqueArr1[idx1++];
+      }
+      if (uniqueArr2[idx2] !== undefined) {
+        sortedArr2[i] = uniqueArr2[idx2++];
+      }
+    }
+  }
+
+  return [sortedArr1, sortedArr2];
+}
+
 enum DepositType {
   staking,
   lock,
@@ -93,32 +132,22 @@ export const AddToStaking = ({ closeModal }: Props) => {
     lockWait,
   } = useStaking({
     depositArgs: (() => {
-      const oaycs: BigNumber[] = [];
-      const moaycs: BigNumber[] = [];
+      const oaycs: number[] = [];
+      const moaycs: number[] = [];
 
       selectedNft.forEach((nft) => {
         const isMoayc = nft.level !== 0;
 
-        (!isMoayc ? oaycs : moaycs).push(BigNumber.from(+nft.id));
+        (!isMoayc ? oaycs : moaycs).push(+nft.id);
       });
 
-      // if (oyacs.length !== moyacs.length) {
-      //   const maxLength = Math.max(oyacs.length, moyacs.length);
+      const [o, mo] = sortArraysBySameValues(oaycs, moaycs);
 
-      //   for (let i = 0; i < maxLength; i++) {
-      //     const element = array[i];
-
-      //   }
-
-      // }
-
-      // // if (oyacs.length !== moaycNfts.length) {
-      // //   // temp
-      // //   alert("lenght not correct");
-      // // }
-
-      return [oaycs, moaycs, BigNumber.from(selectedPeriod)];
-      // function filterSelected(selectedNft: NftInfo[]) {}
+      return [
+        o.map((i) => BigNumber.from(i)),
+        mo.map((i) => BigNumber.from(i)),
+        BigNumber.from(selectedPeriod),
+      ];
     })(),
   });
 
