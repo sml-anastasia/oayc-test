@@ -1,5 +1,5 @@
 export interface NftInfo {
-  id: string;
+  id: number;
   uri: string;
   level: number;
 }

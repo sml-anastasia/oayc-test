@@ -10,6 +10,12 @@ import { useMemo, useState } from "react";
 import { stakingAbi } from "../../contracts";
 import { BigNumber } from "ethers";
 import { AddressZero } from "@ethersproject/constants";
+import { NftInfo } from "../../types/NFT";
+
+const contractConfig = {
+  address: config.stakingContract,
+  abi: stakingAbi,
+};
 
 export const useStaking = ({
   depositArgs,
@@ -27,40 +33,41 @@ export const useStaking = ({
   const dismissSuccess = () => setIsSuccess(false);
 
   const stakePrepare = usePrepareContractWrite({
-    address: config.stakingContract,
-    abi: stakingAbi,
+    ...contractConfig,
     functionName: "stake",
     args: depositArgs,
     enabled: !!depositArgs && isConnected,
   });
 
   const lockPrepare = usePrepareContractWrite({
-    address: config.stakingContract,
-    abi: stakingAbi,
+    ...contractConfig,
     functionName: "lock",
     args: depositArgs,
     enabled: !!depositArgs && isConnected,
   });
 
   const claimPrepare = usePrepareContractWrite({
-    address: config.stakingContract,
-    abi: stakingAbi,
+    ...contractConfig,
     functionName: "claimReward",
     args: [claimPositionId ?? BigNumber.from(0)],
     enabled: isConnected,
   });
 
   const claimAllPrepare = usePrepareContractWrite({
-    address: config.stakingContract,
-    abi: stakingAbi,
+    ...contractConfig,
     functionName: "claimAllRewards",
+    enabled: isConnected,
+  });
+
+  const { data: isStarted } = useContractRead({
+    ...contractConfig,
+    functionName: "isStarted",
     enabled: isConnected,
   });
 
   const { data: positionsRaw, refetch: refetchAllPositionsInfo } =
     useContractRead({
-      address: config.stakingContract,
-      abi: stakingAbi,
+      ...contractConfig,
       functionName: "getAllPositionsInfo",
       args: [address ?? AddressZero],
       enabled: isConnected,
@@ -130,11 +137,14 @@ export const useStaking = ({
 
   const lockWait = useWaitForTransaction({
     hash: lockWrite.data?.hash,
-    onSuccess: async () => {
-      await refetchAllPositionsInfo();
+    onSettled() {
+      setIsLoading(false);
+    },
+    onSuccess() {
+      setIsSuccess(true);
+      refetchAllPositionsInfo();
     },
     onError() {
-      setIsLoading(false);
       setIsError(true);
     },
   });
@@ -144,8 +154,9 @@ export const useStaking = ({
     onSettled() {
       setIsLoading(false);
     },
-    onSuccess: async () => {
-      await refetchAllPositionsInfo();
+    onSuccess() {
+      setIsSuccess(true);
+      refetchAllPositionsInfo();
     },
     onError() {
       setIsError(true);
@@ -177,7 +188,7 @@ export const useStaking = ({
   const positions = useMemo(
     () =>
       (positionsRaw ?? []).map((position) => {
-        const stakedNfts = [];
+        const stakedNfts: NftInfo[] = [];
 
         for (const i of position.arrayIdsOayc) {
           stakedNfts.push({
@@ -209,6 +220,7 @@ export const useStaking = ({
     claimWait,
     stakeWait,
     lockWait,
+    isStarted,
     claim,
     claimAllWait,
     claimAll,

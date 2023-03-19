@@ -112,6 +112,7 @@ export const stakingAbi = [
       {
         components: [
           { internalType: "address", name: "owner", type: "address" },
+          { internalType: "uint256", name: "positionId", type: "uint256" },
           { internalType: "uint256", name: "accruedReward", type: "uint256" },
           { internalType: "uint256", name: "maximumReward", type: "uint256" },
           { internalType: "uint256", name: "stakedPeriod", type: "uint256" },
@@ -148,15 +149,13 @@ export const stakingAbi = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "user", type: "address" },
-      { internalType: "uint256", name: "index", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "index", type: "uint256" }],
     name: "getPositionInfo",
     outputs: [
       {
         components: [
           { internalType: "address", name: "owner", type: "address" },
+          { internalType: "uint256", name: "positionId", type: "uint256" },
           { internalType: "uint256", name: "accruedReward", type: "uint256" },
           { internalType: "uint256", name: "maximumReward", type: "uint256" },
           { internalType: "uint256", name: "stakedPeriod", type: "uint256" },

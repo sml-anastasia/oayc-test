@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useOaycNftsOfAddress } from "../../../hooks/contract/util/useOaycNftsOfAddress";
 import { AddressZero } from "@ethersproject/constants";
@@ -55,7 +55,11 @@ enum StakingPeriod {
   _1m,
 }
 
-export const AddToStaking = () => {
+interface Props {
+  closeModal: () => void;
+}
+
+export const AddToStaking = ({ closeModal }: Props) => {
   const { address, isConnected } = useAccount();
 
   const { oaycNfts } = useOaycNftsOfAddress(
@@ -83,17 +87,20 @@ export const AddToStaking = () => {
     isLoading,
     dismissSuccess,
     dismissError,
+    positions,
     stake,
     lock,
+    stakeWait,
+    lockWait,
   } = useStaking({
     depositArgs: (() => {
-      const oyacs: BigNumber[] = [];
-      const moyacs: BigNumber[] = [];
+      const oaycs: BigNumber[] = [];
+      const moaycs: BigNumber[] = [];
 
       selectedNft.forEach((nft) => {
-        const isMoyac = nft.level !== 0;
+        const isMoayc = nft.level !== 0;
 
-        (!isMoyac ? oyacs : moyacs).push(BigNumber.from(+nft.id));
+        (!isMoayc ? oaycs : moaycs).push(BigNumber.from(+nft.id));
       });
 
       // if (oyacs.length !== moyacs.length) {
@@ -111,20 +118,39 @@ export const AddToStaking = () => {
       // //   alert("lenght not correct");
       // // }
 
-      return [oyacs, moyacs, BigNumber.from(selectedPeriod)];
+      return [oaycs, moaycs, BigNumber.from(selectedPeriod)];
       // function filterSelected(selectedNft: NftInfo[]) {}
     })(),
   });
+
+  useEffect(() => {
+    if (stakeWait.isSuccess || lockWait.isSuccess) {
+      closeModal();
+    }
+  }, [stakeWait.isSuccess, lockWait.isSuccess]);
 
   function submit() {
     (selectedDepositType === DepositType.staking ? stake : lock)?.();
   }
 
+  const stakedNfts = positions.reduce<NftInfo[]>((all, position) => {
+    all.push(...position.stakedNfts);
+    return all;
+  }, []);
+
   return (
     <StyledContainer>
       <Title>Add nft</Title>
 
-      <ImageSelector data={nfts} onSelected={setSelectedNft} />
+      <ImageSelector
+        data={nfts.filter(({ id, level }) => {
+          // TODO: maybe refactor for optimization
+          return !stakedNfts.find((stakedNft) => {
+            return stakedNft.id === id && stakedNft.level === level;
+          });
+        })}
+        onSelected={setSelectedNft}
+      />
 
       {selectedNft.length > 0 && (
         <StyledText>Selected: {selectedNft.length} nfts</StyledText>

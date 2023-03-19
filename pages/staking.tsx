@@ -17,6 +17,7 @@ import { useOaycNftsOfAddress } from "../hooks/contract/util/useOaycNftsOfAddres
 import { AddressZero } from "@ethersproject/constants";
 import { useMoaycNftsOfAddress } from "../hooks/contract/util/useMoaycNftsOfAddress";
 import { NftInfo } from "../types/NFT";
+import { useStaking } from "../hooks/contract/useStaking";
 
 const Container = styled.div`
   position: relative;
@@ -136,6 +137,8 @@ const Staking: NextPage = () => {
   );
   const [selectedNft, setSelectedNft] = useState<NftInfo[]>([]);
 
+  const { isStarted } = useStaking({});
+
   const nfts = [...oaycNfts, ...moaycNfts];
 
   return (
@@ -172,7 +175,7 @@ const Staking: NextPage = () => {
                 </StakingButton>
               </StyledButtons>
             )}
-            {isConnected && (
+            {isConnected && isStarted && (
               <StyledButtons>
                 <StakingButton onClick={handleOpenStaking}>
                   Add Nft
