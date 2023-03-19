@@ -1,6 +1,4 @@
-import React from 'react';
 import styled from "styled-components";
-
 
 const MintAmount = styled.input`
   border-radius: 100px;
@@ -16,9 +14,8 @@ const MintAmount = styled.input`
   font-family: "Rubik", serif;
 
   &:focus {
-    outline-color: #FF0420;
+    outline-color: #ff0420;
   }
 `;
-
 
 export default MintAmount;

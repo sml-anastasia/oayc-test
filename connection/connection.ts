@@ -1,6 +1,6 @@
 import { InjectedConnector } from "@wagmi/core";
 import { Address, Chain, configureChains } from "wagmi";
-import { optimism, polygonMumbai } from "@wagmi/core/chains";
+import { polygonMumbai } from "@wagmi/core/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
@@ -39,29 +39,30 @@ const DEV_CONFIG: Config = {
   moaycBaseUri: "https://oayc.io:3001/",
 };
 
-const PROD_CONFIG: Config = {
-  defaultChain: optimism,
-  goldenBananaContract: "0xA4921a23AF154eDd14926a9F50e74cd2A1EFF0C4",
-  silverBananaContract: "0xA89EcbF1a89A9B6501F3651e2725fDc46C6AF20c",
-  tokenContract: "0x4200000000000000000000000000000000000042",
-  moaycContract: "0x1Ff8382E43F5Cb5064044C2833CA4f1070Da5d51",
-  oaycContract: "0x0deaAc29d8A3d4EbBAAa3eCd3cC97C9deF00f720",
-  mutagen1Contract: "0xa2350dbc3dab591e1fb5ba7dc9ae4a587c80e575",
-  mutagen2Contract: "0x19287b85b215c043974860361f8559a3ce1c3543",
-  mutagen3Contract: "0xf68f8d089f2a1efe2395aca82288753dc2cea8a4",
-  stakingContract: "0x",
-  apiKey: "Kdb9I1fanjK6qJPSCUaGCa4KH9XOv3xP",
+// const PROD_CONFIG: Config = {
+//   defaultChain: optimism,
+//   goldenBananaContract: "0xA4921a23AF154eDd14926a9F50e74cd2A1EFF0C4",
+//   silverBananaContract: "0xA89EcbF1a89A9B6501F3651e2725fDc46C6AF20c",
+//   tokenContract: "0x4200000000000000000000000000000000000042",
+//   moaycContract: "0x1Ff8382E43F5Cb5064044C2833CA4f1070Da5d51",
+//   oaycContract: "0x0deaAc29d8A3d4EbBAAa3eCd3cC97C9deF00f720",
+//   mutagen1Contract: "0xa2350dbc3dab591e1fb5ba7dc9ae4a587c80e575",
+//   mutagen2Contract: "0x19287b85b215c043974860361f8559a3ce1c3543",
+//   mutagen3Contract: "0xf68f8d089f2a1efe2395aca82288753dc2cea8a4",
+//   // TODO: change, for staging
+//   stakingContract: "0xC6Db8e8D84B18af7e7df44e6C389a3272dC74966",
+//   apiKey: "Kdb9I1fanjK6qJPSCUaGCa4KH9XOv3xP",
 
-  oaycBaseUri: "https://oayc.io:3000/",
-  moaycBaseUri: "https://oayc.io:3001/",
-};
+//   oaycBaseUri: "https://oayc.io:3000/",
+//   moaycBaseUri: "https://oayc.io:3001/",
+// };
 
 const getConfig = (): Config => {
   switch (process.env.NODE_ENV) {
     case "development":
       return DEV_CONFIG;
     case "production":
-      return PROD_CONFIG;
+      return DEV_CONFIG;
     case "test":
       return DEV_CONFIG;
     default:

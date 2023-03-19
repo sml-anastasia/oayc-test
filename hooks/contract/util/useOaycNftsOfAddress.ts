@@ -33,7 +33,7 @@ export const useOaycNftsOfAddress = (address: Address, enabled = true) => {
   const oaycNfts = useMemo(
     () =>
       oaycNftsRaw?.map((i) => ({
-        id: +i.toString(),
+        id: i.toString(),
         uri: `https://oayc.io:3000/${i.toString()}.png`,
         level: 0,
       })) ?? [],

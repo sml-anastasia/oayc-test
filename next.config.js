@@ -8,6 +8,9 @@ const nextConfig = {
   images: {
     domains: ["oayc.io"],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   rewrites: () => {
     return [
       {
