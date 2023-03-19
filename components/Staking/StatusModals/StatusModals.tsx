@@ -38,8 +38,16 @@ export const StatusModals = (props: StatusModalsProps) => {
   return (
     <StyledModal isOpen={isOpen} onClose={dismiss}>
       {isLoading && <Processing />}
-      {isSuccess && <Success onClose={dismiss} />}
-      {isError && <Fail onClose={dismiss} />}
+      {isSuccess && (
+        <Success
+        // onClose={dismiss}
+        />
+      )}
+      {isError && (
+        <Fail
+        // onClose={dismiss}
+        />
+      )}
     </StyledModal>
   );
 };
