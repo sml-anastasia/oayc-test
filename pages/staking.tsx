@@ -56,6 +56,10 @@ const StyledStakingContainer = styled.div`
   line-height: 90%;
   gap: 20px;
   margin-top: 145px;
+
+  @media (max-width: 480px) {
+    margin-top: 10px;
+  }
 `;
 
 const StyledHead = styled.div`
@@ -64,13 +68,51 @@ const StyledHead = styled.div`
   align-items: flex-start;
   flex-direction: column;
   text-transform: uppercase;
+
+  @media (max-width: 960px) {
+    font-size: 120px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 90px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 80px;
+    align-items: center;
+    margin: 0 20px;
+  }
+
+  @media (max-width: 375px) {
+    font-size: 80px;
+    align-items: center;
+    margin: 0 10px;
+  }
 `;
 
-const StyledText = styled.div`
+const SharedTextStyles = styled.div`
+  @media (max-width: 960px) {
+    height: 130px;
+  }
+
+  @media (max-width: 768px) {
+    height: 100px;
+  }
+
+  @media (max-width: 480px) {
+    height: 80px;
+  }
+
+  @media (max-width: 375px) {
+    height: 70px;
+  }
+`;
+
+const StyledText = styled(SharedTextStyles)`
   color: #ff0420;
 `;
 
-const StyledText2 = styled.div`
+const StyledText2 = styled(SharedTextStyles)`
   -webkit-text-stroke: 3px rgba(245, 152, 154, 1);
   color: transparent;
 `;
@@ -81,6 +123,18 @@ const StyledText3 = styled.div`
   font-family: "Rubik", serif;
   font-style: italic;
   font-weight: 700;
+
+  @media (max-width: 480px) {
+    margin: 0px 20px;
+    height: 140px;
+    line-height: 95%;
+    text-align: center;
+  }
+
+  @media (max-width: 375px) {
+    height: 100px;
+    font-size: 42px;
+  }
 `;
 
 const StyledButtons = styled.div`
@@ -90,6 +144,13 @@ const StyledButtons = styled.div`
   align-items: flex-start;
   flex-direction: row;
   text-transform: uppercase;
+
+  @media (max-width: 480px) {
+    margin-top: 350px;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const StyledOAYCText = styled.div`
@@ -98,6 +159,23 @@ const StyledOAYCText = styled.div`
   justify-content: center;
   padding-top: 160px;
   padding-bottom: 170px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+`;
+
+const StyledSignMobile = styled.div`
+  display: none;
+
+  @media (max-width: 480px) {
+    display: flex;
+    width: 440px;
+    height: 190px;
+    margin: 20px auto;
+    background: url("/images/svg/small_oayc_sign.svg") no-repeat center center;
+    background-size: contain;
+  }
 `;
 
 const StyledApe = styled.div`
@@ -106,6 +184,28 @@ const StyledApe = styled.div`
   top: 100px;
   width: 384px;
   height: 520px;
+
+  @media (max-width: 768px) {
+    width: 300px;
+    height: 400px;
+  }
+
+  @media (max-width: 480px) {
+    width: 300px;
+    height: 300px;
+    top: 250px;
+  }
+
+  @media (max-width: 375px) {
+    width: 300px;
+    height: 300px;
+    top: 220px;
+  }
+`;
+
+const StyledSignContainer = styled.div`
+  position: relative;
+  width: 100%;
 `;
 
 const Wrapper = styled.div`
@@ -128,6 +228,18 @@ const StyledUnstakeButton = styled(StakingButton)`
   height: 30px;
   margin-top: 20px;
   font-size: 11px;
+
+  @media (max-width: 480px) {
+    width: 335px;
+    height: 50px;
+    margin: 20px auto;
+    font-size: 18px;
+  }
+
+  @media (max-width: 375px) {
+    width: 350px;
+    margin: 20px 10px;
+  }
 `;
 
 const Icon = styled(Image)`
@@ -136,6 +248,17 @@ const Icon = styled(Image)`
 
 const StyledStakingButton = styled(StakingButton)`
   width: 237px;
+  margin-top: 20px;
+
+  @media (max-width: 480px) {
+    width: 400px;
+    margin: 20px 10px;
+  }
+
+  @media (max-width: 375px) {
+    width: 350px;
+    margin: 20px 10px;
+  }
 `;
 
 const Staking: NextPage = () => {
@@ -205,18 +328,24 @@ const Staking: NextPage = () => {
             )}
           </StyledStakingContainer>
         </ContentContainer>
-        <StyledOAYCText>
-          <Image
-            src="/images/oayc_sign.svg"
-            alt="oayc sign"
-            width="1600px"
-            height="300px"
-          />
-        </StyledOAYCText>
+        <StyledSignContainer>
+          <StyledOAYCText>
+            <Image
+              src="/images/oayc_sign.svg"
+              alt="oayc sign"
+              width="1600px"
+              height="300px"
+            />
+          </StyledOAYCText>
+          <StyledSignMobile />
+        </StyledSignContainer>
+
         <ContentContainer2>
           {positions.length > 0 && (
             <Wrapper>
-              <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
+              <StyledText3>
+                YOUR STAKED <br></br>&<br></br>LOCKED NFTS
+              </StyledText3>
               <Positions />
               <StyledUnstakeButton onClick={() => claimAll.write?.()}>
                 UNSTAKE & CLAIM ALL

@@ -74,6 +74,17 @@ const PositionsContainer = styled.div`
   font-style: italic;
   font-weight: 700;
   font-size: 14px;
+
+  @media (max-width: 480px) {
+    align-items: center;
+    justify-content: center;
+    margin: 0px auto;
+  }
+
+  @media (max-width: 375px) {
+    width: 350px;
+    margin: 20px 10px;
+  }
 `;
 
 const InfoContainer = styled.div`
