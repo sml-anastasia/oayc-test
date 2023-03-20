@@ -20,6 +20,7 @@ const StyledModal = styled(Modal)`
   border: none;
   display: flex;
   flex-direction: column;
+  z-index: 20;
 `;
 
 export const StatusModals = (props: StatusModalsProps) => {
