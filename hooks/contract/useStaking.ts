@@ -11,6 +11,8 @@ import { stakingAbi } from "../../contracts";
 import { BigNumber } from "ethers";
 import { AddressZero } from "@ethersproject/constants";
 import { NftInfo } from "../../types/NFT";
+import { useOaycStakingApprove } from "./useOaycStakingApprove";
+import { useMoaycStakingApprove } from "./useMoaycStakingApprove";
 
 const contractConfig = {
   address: config.stakingContract,
@@ -31,6 +33,9 @@ export const useStaking = ({
 
   const dismissError = () => setIsError(false);
   const dismissSuccess = () => setIsSuccess(false);
+
+  const oaycApprove = useOaycStakingApprove();
+  const moaycApprove = useMoaycStakingApprove();
 
   const stakePrepare = usePrepareContractWrite({
     ...contractConfig,
@@ -226,12 +231,18 @@ export const useStaking = ({
     [positionsRaw]
   );
 
+  function approve() {
+    oaycApprove.approve();
+    moaycApprove.approve();
+  }
+
   // console.log(positions, claimPositionId);
 
   return {
     stake: stakeWrite.write,
     lock: lockWrite.write,
     stakeWait,
+    approve,
     claimWait,
     lockWait,
     claimAllWait,
@@ -242,6 +253,8 @@ export const useStaking = ({
     isSuccess,
     isError,
     isLoading,
+    isApproveNeeded:
+      !oaycApprove.isApprovedForAll || !moaycApprove.isApprovedForAll,
     dismissError,
     dismissSuccess,
   };

@@ -126,6 +126,8 @@ export const AddToStaking = ({ closeModal }: Props) => {
   const {
     isSuccess,
     isError,
+    isApproveNeeded,
+    approve,
     isLoading,
     dismissSuccess,
     dismissError,
@@ -178,7 +180,6 @@ export const AddToStaking = ({ closeModal }: Props) => {
   return (
     <StyledContainer>
       <Title>Add nft</Title>
-
       {availableForStaking.length > 0 ? (
         <ImageSelector
           twoColumns={false}
@@ -188,26 +189,34 @@ export const AddToStaking = ({ closeModal }: Props) => {
       ) : (
         "no nft for staking"
       )}
-
       {selectedNft.length > 0 && (
         <StyledText>Selected: {selectedNft.length} nfts</StyledText>
       )}
-
       <StyledTabs
         value={selectedDepositType}
         tabs={["STAKE", "LOCK"]}
         onChange={setSelectedDepositType}
       />
-
       <StyledTabs2
         value={selectedPeriod}
         tabs={["1 day", "7 days", "28 days"]}
         onChange={setSelectedPeriod}
       />
 
-      <StakingButton onClick={submit} disabled={!selectedNft.length}>
-        {selectedDepositType === DepositType.staking ? "Stake" : "Lock"}
-      </StakingButton>
+      {selectedDepositType === DepositType.lock && isApproveNeeded ? (
+        <StakingButton
+          onClick={() => {
+            approve();
+          }}
+          disabled={!selectedNft.length}
+        >
+          {"Approve"}
+        </StakingButton>
+      ) : (
+        <StakingButton onClick={submit} disabled={!selectedNft.length}>
+          {selectedDepositType === DepositType.staking ? "Stake" : "Lock"}
+        </StakingButton>
+      )}
 
       <StatusModals
         isLoading={isLoading}
