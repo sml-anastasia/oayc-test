@@ -120,7 +120,7 @@ export const Positions = ({ onSelect }: Props) => {
   const [selected, setSelected] = useState<number | null>(null);
   const [showInfo, setShowInfo] = useState<number | null>(null);
 
-  const { positions } = useStaking({});
+  const { positions, claim } = useStaking({});
 
   function handleSelect(id: number) {
     setSelected(id);
@@ -174,7 +174,13 @@ export const Positions = ({ onSelect }: Props) => {
                     </span>
                   </InfoTooltip>
                 ) : (
-                  <UnstakeButton>Unstake</UnstakeButton>
+                  <UnstakeButton
+                    onClick={() => {
+                      claim.write?.();
+                    }}
+                  >
+                    Unstake
+                  </UnstakeButton>
                 )}
               </InfoContainer>
             </StyledItem>

@@ -144,7 +144,7 @@ const Staking: NextPage = () => {
   const handleOpenStaking = () => setStakeMode("stake");
   const handleClose = () => setStakeMode("none");
 
-  const { isStarted } = useStaking({});
+  const { isStarted, claimAll } = useStaking({});
 
   return (
     <>
@@ -204,7 +204,7 @@ const Staking: NextPage = () => {
           <Wrapper>
             <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
             <Positions />
-            <StyledUnstakeButton>
+            <StyledUnstakeButton onClick={() => claimAll.write?.()}>
               UNSTAKE & CLAIM ALL
               <Icon
                 src="/images/svg/claiminfo.svg"
