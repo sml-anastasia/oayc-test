@@ -179,8 +179,14 @@ export const useStaking = ({
 
   const claimAllWait = useWaitForTransaction({
     hash: claimAll.data?.hash,
-    onError() {
+    onSuccess: () => {
+      setIsSuccess(true);
+      refetchAllPositionsInfo();
+    },
+    onSettled() {
       setIsLoading(false);
+    },
+    onError() {
       setIsError(true);
     },
   });
@@ -191,19 +197,25 @@ export const useStaking = ({
         const stakedNfts: NftInfo[] = [];
 
         for (const i of position.arrayIdsOayc) {
-          stakedNfts.push({
-            id: i.toString(),
-            uri: `${config.oaycBaseUri}${i}.png`,
-            level: 0,
-          });
+          const id = i.toString();
+
+          id !== "0" &&
+            stakedNfts.push({
+              id: i.toString(),
+              uri: `${config.oaycBaseUri}${i}.png`,
+              level: 0,
+            });
         }
 
         for (const i of position.arrayIdsMoayc) {
-          stakedNfts.push({
-            id: i.toString(),
-            uri: `${config.moaycBaseUri}${i}.png`,
-            level: 1,
-          });
+          const id = i.toString();
+
+          id !== "0" &&
+            stakedNfts.push({
+              id: i.toString(),
+              uri: `${config.moaycBaseUri}${i}.png`,
+              level: 1,
+            });
         }
 
         return {
@@ -214,14 +226,16 @@ export const useStaking = ({
     [positionsRaw]
   );
 
+  // console.log(positions, claimPositionId);
+
   return {
     stake: stakeWrite.write,
     lock: lockWrite.write,
     stakeWait,
     claimWait,
     lockWait,
-    isStarted,
     claimAllWait,
+    isStarted,
     claim,
     claimAll,
     positions,

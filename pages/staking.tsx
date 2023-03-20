@@ -13,6 +13,7 @@ import { ManageNFTModal } from "../components/Staking/step-modals/ManageNFTModal
 import { Positions } from "../components/Staking/Positions/Positions";
 import { StakeMode } from "../types/Staking";
 import { useStaking } from "../hooks/contract/useStaking";
+import { StatusModals } from "../components/Staking/StatusModals/StatusModals";
 
 const Container = styled.div`
   position: relative;
@@ -140,11 +141,19 @@ const Staking: NextPage = () => {
   const { isConnected } = useAccount();
 
   const [stakeMode, setStakeMode] = useState<StakeMode>("none");
-  const handleOpenWithdraw = () => setStakeMode("widthraw");
   const handleOpenStaking = () => setStakeMode("stake");
   const handleClose = () => setStakeMode("none");
 
-  const { isStarted, claimAll } = useStaking({});
+  const {
+    isSuccess,
+    isError,
+    isStarted,
+    claimAll,
+    isLoading,
+    positions,
+    dismissSuccess,
+    dismissError,
+  } = useStaking({});
 
   return (
     <>
@@ -185,9 +194,9 @@ const Staking: NextPage = () => {
                 <StakingButton onClick={handleOpenStaking}>
                   Add Nft
                 </StakingButton>
-                <StakingButton onClick={handleOpenWithdraw}>
+                {/* <StakingButton onClick={handleOpenWithdraw}>
                   Withdraw
-                </StakingButton>
+                </StakingButton> */}
               </StyledButtons>
             )}
           </StyledStakingContainer>
@@ -201,19 +210,21 @@ const Staking: NextPage = () => {
           />
         </StyledOAYCText>
         <ContentContainer2>
-          <Wrapper>
-            <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
-            <Positions />
-            <StyledUnstakeButton onClick={() => claimAll.write?.()}>
-              UNSTAKE & CLAIM ALL
-              <Icon
-                src="/images/svg/claiminfo.svg"
-                alt="claim button"
-                width={22}
-                height={22}
-              />
-            </StyledUnstakeButton>
-          </Wrapper>
+          {positions.length > 0 && (
+            <Wrapper>
+              <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
+              <Positions />
+              <StyledUnstakeButton onClick={() => claimAll.write?.()}>
+                UNSTAKE & CLAIM ALL
+                <Icon
+                  src="/images/svg/claiminfo.svg"
+                  alt="claim button"
+                  width={22}
+                  height={22}
+                />
+              </StyledUnstakeButton>
+            </Wrapper>
+          )}
         </ContentContainer2>
         <StyledApe>
           <Image src="/images/oayc_bg.png" width={384} height={520} alt={""} />
@@ -224,6 +235,14 @@ const Staking: NextPage = () => {
         mode={stakeMode}
         isOpen={stakeMode !== "none"}
         onClose={handleClose}
+      />
+
+      <StatusModals
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        isError={isError}
+        dismissSuccess={dismissSuccess}
+        dismissError={dismissError}
       />
     </>
   );

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useStaking } from "../../../hooks/contract/useStaking";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import ImageSelector from "../ImageSelector";
 import styled from "styled-components";
 import InfoIcon from "./InfoIcon";
 import Image from "next/image";
+import { StatusModals } from "../StatusModals/StatusModals";
 
 const StyledPositionList = styled(ImageSelector)`
   display: grid;
@@ -120,7 +121,17 @@ export const Positions = ({ onSelect }: Props) => {
   const [selected, setSelected] = useState<number | null>(null);
   const [showInfo, setShowInfo] = useState<number | null>(null);
 
-  const { positions, claim } = useStaking({});
+  const {
+    positions,
+    claim,
+    isSuccess,
+    isError,
+    isLoading,
+    dismissSuccess,
+    dismissError,
+  } = useStaking({
+    claimPositionId: selected !== null ? BigNumber.from(selected) : undefined,
+  });
 
   function handleSelect(id: number) {
     setSelected(id);
@@ -136,7 +147,7 @@ export const Positions = ({ onSelect }: Props) => {
             <StyledItem
               key={id}
               onClick={() => {
-                onSelect && handleSelect(id);
+                handleSelect(id);
               }}
               active={id === selected}
             >
@@ -176,7 +187,11 @@ export const Positions = ({ onSelect }: Props) => {
                 ) : (
                   <UnstakeButton
                     onClick={() => {
-                      claim.write?.();
+                      claim.write?.({
+                        recklesslySetUnpreparedArgs: [
+                          BigNumber.from(positionId),
+                        ],
+                      });
                     }}
                   >
                     Unstake
@@ -187,6 +202,14 @@ export const Positions = ({ onSelect }: Props) => {
           );
         }
       )}
+
+      <StatusModals
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        isError={isError}
+        dismissSuccess={dismissSuccess}
+        dismissError={dismissError}
+      />
     </PositionsContainer>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAccount } from "wagmi";
 import { useOaycNftsOfAddress } from "../../../hooks/contract/util/useOaycNftsOfAddress";
 import { AddressZero } from "@ethersproject/constants";
@@ -132,8 +132,6 @@ export const AddToStaking = ({ closeModal }: Props) => {
     positions,
     stake,
     lock,
-    stakeWait,
-    lockWait,
   } = useStaking({
     depositArgs: (() => {
       const oaycs: number[] = [];
@@ -155,11 +153,11 @@ export const AddToStaking = ({ closeModal }: Props) => {
     })(),
   });
 
-  useEffect(() => {
-    if (stakeWait.isSuccess || lockWait.isSuccess) {
-      closeModal();
-    }
-  }, [stakeWait.isSuccess, lockWait.isSuccess]);
+  // useEffect(() => {
+  //   if (stakeWait.isSuccess || lockWait.isSuccess) {
+  //     closeModal();
+  //   }
+  // }, [stakeWait.isSuccess, lockWait.isSuccess]);
 
   function submit() {
     (selectedDepositType === DepositType.staking ? stake : lock)?.();
@@ -170,20 +168,26 @@ export const AddToStaking = ({ closeModal }: Props) => {
     return all;
   }, []);
 
+  const availableForStaking = nfts.filter(({ id, level }) => {
+    // TODO: maybe refactor for optimization
+    return !stakedNfts.find((stakedNft) => {
+      return stakedNft.id === id && stakedNft.level === level;
+    });
+  });
+
   return (
     <StyledContainer>
       <Title>Add nft</Title>
 
-      <ImageSelector
-        twoColumns={false}
-        data={nfts.filter(({ id, level }) => {
-          // TODO: maybe refactor for optimization
-          return !stakedNfts.find((stakedNft) => {
-            return stakedNft.id === id && stakedNft.level === level;
-          });
-        })}
-        onSelected={setSelectedNft}
-      />
+      {availableForStaking.length > 0 ? (
+        <ImageSelector
+          twoColumns={false}
+          data={availableForStaking}
+          onSelected={setSelectedNft}
+        />
+      ) : (
+        "no nft for staking"
+      )}
 
       {selectedNft.length > 0 && (
         <StyledText>Selected: {selectedNft.length} nfts</StyledText>
@@ -209,7 +213,10 @@ export const AddToStaking = ({ closeModal }: Props) => {
         isLoading={isLoading}
         isSuccess={isSuccess}
         isError={isError}
-        dismissSuccess={dismissSuccess}
+        dismissSuccess={() => {
+          dismissSuccess();
+          closeModal();
+        }}
         dismissError={dismissError}
       />
     </StyledContainer>
