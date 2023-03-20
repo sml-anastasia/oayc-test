@@ -19,8 +19,8 @@ const ImageSelectorContainer = styled.div<{ twoColumns?: boolean }>`
   margin-bottom: 20px
   min-width: ${({ twoColumns }) => (twoColumns ? "auto" : "520px")};
   max-width: ${({ twoColumns }) => (twoColumns ? "100%" : "520px")};
-  min-height: ${({ twoColumns }) => (twoColumns ? "auto" : "315px")};
-  max-height: ${({ twoColumns }) => (twoColumns ? "auto" : "315px")};
+  min-height: ${({ twoColumns }) => (twoColumns ? "auto" : "100%")};
+  max-height: ${({ twoColumns }) => (twoColumns ? "auto" : "200px")};
 
   ::-webkit-scrollbar {
     width: 3px;

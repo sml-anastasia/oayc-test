@@ -53,6 +53,7 @@ const StyledTab = styled.div<{ selected: boolean; fullWidth?: boolean }>`
 
   @media (max-width: 768px) {
     height: 60px;
+    padding: 16px 40px;
   }
 
   @media (max-width: 480px) {
