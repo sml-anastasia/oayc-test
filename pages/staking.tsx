@@ -1,19 +1,19 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import React, { useState } from "react";
-import { StakingButton } from "../components/Button/StakingButton";
+import { StakingButton } from "../src/components/Button/StakingButton";
 import styled from "styled-components";
-import TopBar from "../components/Mutant/TopBar";
-import { useDefaultConnect } from "../hooks/web3/useDefaultConnect";
-import useEagerConnect from "../hooks/web3/useEagerConnect";
-import useChangeNetwork from "../hooks/web3/useChangeNetwork";
+import TopBar from "../src/components/Mutant/TopBar";
+import { useDefaultConnect } from "../src/hooks/web3/useDefaultConnect";
+import useEagerConnect from "../src/hooks/web3/useEagerConnect";
+import useChangeNetwork from "../src/hooks/web3/useChangeNetwork";
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import { ManageNFTModal } from "../components/Staking/step-modals/ManageNFTModal";
-import { Positions } from "../components/Staking/Positions/Positions";
-import { StakeMode } from "../types/Staking";
-import { useStaking } from "../hooks/contract/useStaking";
-import { StatusModals } from "../components/Staking/StatusModals/StatusModals";
+import { StakeMode } from "../src/web3/types/Staking";
+import { useStakingStatus } from "../src/hooks/contract/staking/useStakingStatus";
+import { StakedNfts } from "../src/components/Staking/StakedNfts";
+import { ContentContainer } from "../src/components/Staking/components/Styled/ContentContainer";
+import { AddToStaking } from "../src/components/Staking/AddToStaking";
 
 const Container = styled.div`
   position: relative;
@@ -25,23 +25,6 @@ const Container = styled.div`
   flex-direction: column;
 
   font-family: "Rubik", serif;
-`;
-
-const ContentContainer = styled.div`
-  display: flex;
-  max-width: 1200px;
-  width: 100%;
-  align-items: start;
-  flex-direction: column;
-  flex-grow: 1;
-  margin: 0 auto;
-`;
-
-const ContentContainer2 = styled(ContentContainer)`
-  flex-direction: row;
-  gap: 40px;
-  align-items: center;
-  justify-content: center;
 `;
 
 const StyledStakingContainer = styled.div`
@@ -115,30 +98,6 @@ const StyledText = styled(SharedTextStyles)`
 const StyledText2 = styled(SharedTextStyles)`
   -webkit-text-stroke: 3px rgba(245, 152, 154, 1);
   color: transparent;
-`;
-
-const StyledText3 = styled.div`
-  color: #ff0420;
-  font-size: 52px;
-  font-family: "Rubik", serif;
-  font-style: italic;
-  font-weight: 700;
-
-  @media (max-width: 768px) {
-    font-size: 40px;
-  }
-
-  @media (max-width: 480px) {
-    margin: 0px 20px;
-    height: 140px;
-    line-height: 95%;
-    text-align: center;
-  }
-
-  @media (max-width: 375px) {
-    height: 100px;
-    font-size: 42px;
-  }
 `;
 
 const StyledButtons = styled.div`
@@ -228,44 +187,6 @@ const StyledSignContainer = styled.div`
   width: 100%;
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const StyledUnstakeButton = styled(StakingButton)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: 1.5px solid #ff0420;
-  background-color: transparent;
-  color: #ff0420;
-  border-radius: 100px;
-  width: 187px;
-  padding: 10px 1px 10px 10px;
-  line-height: 90%;
-  height: 30px;
-  margin-top: 20px;
-  font-size: 11px;
-
-  @media (max-width: 480px) {
-    width: 335px;
-    height: 50px;
-    margin: 20px auto;
-    font-size: 18px;
-  }
-
-  @media (max-width: 375px) {
-    width: 350px;
-    margin: 20px 10px;
-  }
-`;
-
-const Icon = styled(Image)`
-  padding-right: 20px;
-`;
-
 const StyledStakingButton = styled(StakingButton)`
   width: 237px;
   margin-top: 20px;
@@ -284,17 +205,17 @@ const StyledStakingButton = styled(StakingButton)`
 const StyledStakingButton2 = styled(StyledStakingButton)`
   @media (max-width: 480px) {
     width: 400px;
-    margin: 10px 20px 0px;
+    margin: 10px 20px 0;
   }
 
   @media (max-width: 375px) {
     width: 350px;
-    margin: 10px 20px 0px;
+    margin: 10px 20px 0;
   }
 
   @media (max-width: 375px) {
     gap: 10px;
-    margin: 0px auto;
+    margin: 0 auto;
   }
 `;
 
@@ -307,17 +228,7 @@ const Staking: NextPage = () => {
   const [stakeMode, setStakeMode] = useState<StakeMode>("none");
   const handleOpenStaking = () => setStakeMode("stake");
   const handleClose = () => setStakeMode("none");
-
-  const {
-    isSuccess,
-    isError,
-    isStarted,
-    claimAll,
-    isLoading,
-    positions,
-    dismissSuccess,
-    dismissError,
-  } = useStaking({});
+  const { isStarted } = useStakingStatus();
 
   return (
     <>
@@ -358,9 +269,9 @@ const Staking: NextPage = () => {
                 <StyledStakingButton onClick={handleOpenStaking}>
                   Add Nft
                 </StyledStakingButton>
-                {/* <StakingButton onClick={handleOpenWithdraw}>
-                  Withdraw
-                </StakingButton> */}
+                {/*<StakingButton onClick={handleOpenWithdraw}>*/}
+                {/*  Withdraw*/}
+                {/*</StakingButton>*/}
               </StyledButtons>
             )}
           </StyledStakingContainer>
@@ -376,42 +287,16 @@ const Staking: NextPage = () => {
           </StyledOAYCText>
           <StyledSignMobile />
         </StyledSignContainer>
-
-        <ContentContainer2>
-          {positions.length > 0 && (
-            <Wrapper>
-              <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
-              <Positions />
-              <StyledUnstakeButton onClick={() => claimAll.write?.()}>
-                UNSTAKE & CLAIM ALL
-                <Icon
-                  src="/images/svg/claiminfo.svg"
-                  alt="claim button"
-                  width={22}
-                  height={22}
-                />
-              </StyledUnstakeButton>
-            </Wrapper>
-          )}
-        </ContentContainer2>
+        <StakedNfts />
         <StyledApe>
           <Image src="/images/oayc_bg.png" width={384} height={520} alt={""} />
         </StyledApe>
       </Container>
 
-      <ManageNFTModal
-        mode={stakeMode}
-        isOpen={stakeMode !== "none"}
-        onClose={handleClose}
-      />
-
-      <StatusModals
-        isLoading={isLoading}
-        isSuccess={isSuccess}
-        isError={isError}
-        dismissSuccess={dismissSuccess}
-        dismissError={dismissError}
-      />
+      {stakeMode !== "none" && (
+        // TODO: create proper modal
+        <AddToStaking onClose={handleClose} isOpen={true} />
+      )}
     </>
   );
 };
