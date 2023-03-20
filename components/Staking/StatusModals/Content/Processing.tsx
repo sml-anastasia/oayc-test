@@ -5,10 +5,10 @@ const StyledContainer = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
-
+  padding: 150px 50px;
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
 `;
 
 const Icon = styled.div`

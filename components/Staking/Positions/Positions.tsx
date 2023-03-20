@@ -65,7 +65,7 @@ const PositionsContainer = styled.div`
   padding: 20px;
   width: 100%;
   max-width: 800px;
-  height: 400px;
+  height: 100%;
   overflow-y: auto;
   flex-direction: row;
   gap: 20px;

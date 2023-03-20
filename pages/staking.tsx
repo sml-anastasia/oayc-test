@@ -134,6 +134,10 @@ const Icon = styled(Image)`
   padding-right: 20px;
 `;
 
+const StyledStakingButton = styled(StakingButton)`
+  width: 237px;
+`;
+
 const Staking: NextPage = () => {
   useEagerConnect();
   useChangeNetwork();
@@ -191,9 +195,9 @@ const Staking: NextPage = () => {
             )}
             {isConnected && isStarted && (
               <StyledButtons>
-                <StakingButton onClick={handleOpenStaking}>
+                <StyledStakingButton onClick={handleOpenStaking}>
                   Add Nft
-                </StakingButton>
+                </StyledStakingButton>
                 {/* <StakingButton onClick={handleOpenWithdraw}>
                   Withdraw
                 </StakingButton> */}

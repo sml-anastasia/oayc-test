@@ -186,7 +186,7 @@ export const AddToStaking = ({ closeModal }: Props) => {
           onSelected={setSelectedNft}
         />
       ) : (
-        "no nft for staking"
+        <StyledText>no nft for staking</StyledText>
       )}
 
       {selectedNft.length > 0 && (

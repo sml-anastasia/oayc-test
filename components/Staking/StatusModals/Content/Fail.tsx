@@ -1,49 +1,47 @@
 import React from "react";
 import styled from "styled-components";
+import Image from "next/image";
 
 const StyledContainer = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
+  padding: 65px 50px;
 
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 `;
 
-const Icon = styled.div`
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 83px;
-  height: 81px;
+const Icon = styled(Image)`
+  padding: 50px;
 `;
 
 const Text = styled.div`
-  font-family: "Chalkboard SE", serif;
+  margin-top: 42px;
   font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
+  font-size: 42px;
+  line-height: 90%;
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #ff0420;
   line-height: 95.7%;
-  /* or 15px */
-
   text-align: center;
   letter-spacing: -0.035em;
-
-  color: #c08484;
-  margin-bottom: 21px;
 `;
 
-const CloseButtonContainer = styled.div`
+const Text2 = styled(Text)`
+  margin-top: 10px;
+  font-size: 16px;
+`;
+
+const CloseButtonContainer = styled.button`
   position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: end;
-  width: 100%;
-  padding: 10px;
+  top: 5px;
+  right: 3px;
+  border: none;
 `;
 
 // interface FailProps {
@@ -53,9 +51,22 @@ const CloseButtonContainer = styled.div`
 const Fail = () => {
   return (
     <StyledContainer>
-      <CloseButtonContainer></CloseButtonContainer>
-      <Icon />
+      <CloseButtonContainer>
+        <Icon
+          src="/images/svg/close-red-icon.svg"
+          alt="oayc success"
+          width="29px"
+          height="29px"
+        />
+      </CloseButtonContainer>
+      <Icon
+        src="/images/svg/fail.svg"
+        alt="oayc fail"
+        width="73px"
+        height="73px"
+      />
       <Text>Fail...</Text>
+      <Text2>SOMETHING WENT WRONG</Text2>
     </StyledContainer>
   );
 };
