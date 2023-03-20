@@ -41,10 +41,50 @@ const StyledText = styled(Title)`
 
 const StyledTabs = styled(Tabs)`
   margin: 15px auto 15px;
+
+  @media (max-width: 960px) {
+  }
+
+  @media (max-width: 768px) {
+  }
+
+  @media (max-width: 480px) {
+  }
+
+  @media (max-width: 375px) {
+    height: 60px;
+  }
 `;
 
 const StyledTabs2 = styled(StyledTabs)`
   margin: 0px auto 15px;
+
+  @media (max-width: 960px) {
+  }
+
+  @media (max-width: 768px) {
+    width: 450px;
+    height: 60px;
+  }
+
+  @media (max-width: 480px) {
+    width: 340px;
+  }
+
+  @media (max-width: 375px) {
+    width: 300px;
+    height: 60px;
+  }
+`;
+
+const StyledStakingButton = styled(StakingButton)`
+  @media (max-width: 480px) {
+    width: 350px;
+  }
+
+  @media (max-width: 375px) {
+    width: 300px;
+  }
 `;
 
 // chatGPT func
@@ -204,18 +244,18 @@ export const AddToStaking = ({ closeModal }: Props) => {
       />
 
       {selectedDepositType === DepositType.lock && isApproveNeeded ? (
-        <StakingButton
+        <StyledStakingButton
           onClick={() => {
             approve();
           }}
           disabled={!selectedNft.length}
         >
           {"Approve"}
-        </StakingButton>
+        </StyledStakingButton>
       ) : (
-        <StakingButton onClick={submit} disabled={!selectedNft.length}>
+        <StyledStakingButton onClick={submit} disabled={!selectedNft.length}>
           {selectedDepositType === DepositType.staking ? "Stake" : "Lock"}
-        </StakingButton>
+        </StyledStakingButton>
       )}
 
       <StatusModals

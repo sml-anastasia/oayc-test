@@ -33,6 +33,21 @@ const ImageSelectorContainer = styled.div<{ twoColumns?: boolean }>`
   ::-webkit-scrollbar-thumb {
     background: #ff0420;
   }
+
+  @media (max-width: 960px) {
+  }
+
+  @media (max-width: 768px) {
+    width: 450px;
+  }
+
+  @media (max-width: 480px) {
+    width: 350px;
+  }
+
+  @media (max-width: 375px) {
+    width: 300px;
+  }
 `;
 
 const StyledImage = styled.img`

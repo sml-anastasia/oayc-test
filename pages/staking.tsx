@@ -124,6 +124,10 @@ const StyledText3 = styled.div`
   font-style: italic;
   font-weight: 700;
 
+  @media (max-width: 768px) {
+    font-size: 40px;
+  }
+
   @media (max-width: 480px) {
     margin: 0px 20px;
     height: 140px;
@@ -146,10 +150,11 @@ const StyledButtons = styled.div`
   text-transform: uppercase;
 
   @media (max-width: 480px) {
-    margin-top: 350px;
+    margin-top: 370px;
     align-items: center;
     flex-direction: column;
     width: 100%;
+    gap: 10px;
   }
 `;
 
@@ -159,6 +164,16 @@ const StyledOAYCText = styled.div`
   justify-content: center;
   padding-top: 160px;
   padding-bottom: 170px;
+
+  @media (max-width: 960px) {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
 
   @media (max-width: 480px) {
     display: none;
@@ -175,6 +190,11 @@ const StyledSignMobile = styled.div`
     margin: 20px auto;
     background: url("/images/svg/small_oayc_sign.svg") no-repeat center center;
     background-size: contain;
+  }
+
+  @media (max-width: 375px) {
+    margin: 20px auto;
+    width: 375px;
   }
 `;
 
@@ -261,6 +281,23 @@ const StyledStakingButton = styled(StakingButton)`
   }
 `;
 
+const StyledStakingButton2 = styled(StyledStakingButton)`
+  @media (max-width: 480px) {
+    width: 400px;
+    margin: 10px 20px 0px;
+  }
+
+  @media (max-width: 375px) {
+    width: 350px;
+    margin: 10px 20px 0px;
+  }
+
+  @media (max-width: 375px) {
+    gap: 10px;
+    margin: 0px auto;
+  }
+`;
+
 const Staking: NextPage = () => {
   useEagerConnect();
   useChangeNetwork();
@@ -302,10 +339,10 @@ const Staking: NextPage = () => {
             </StyledHead>
             {!isConnected && (
               <StyledButtons>
-                <StakingButton onClick={() => connect()}>
+                <StyledStakingButton2 onClick={() => connect()}>
                   Connect Wallet
-                </StakingButton>
-                <StakingButton>
+                </StyledStakingButton2>
+                <StyledStakingButton2>
                   <span>Rules and conditions</span>
                   <Image
                     src="/images/svg/read_conditions.svg"
@@ -313,7 +350,7 @@ const Staking: NextPage = () => {
                     width={41}
                     height={41}
                   />
-                </StakingButton>
+                </StyledStakingButton2>
               </StyledButtons>
             )}
             {isConnected && isStarted && (
@@ -343,9 +380,7 @@ const Staking: NextPage = () => {
         <ContentContainer2>
           {positions.length > 0 && (
             <Wrapper>
-              <StyledText3>
-                YOUR STAKED <br></br>&<br></br>LOCKED NFTS
-              </StyledText3>
+              <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
               <Positions />
               <StyledUnstakeButton onClick={() => claimAll.write?.()}>
                 UNSTAKE & CLAIM ALL

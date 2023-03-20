@@ -75,15 +75,22 @@ const PositionsContainer = styled.div`
   font-weight: 700;
   font-size: 14px;
 
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
   @media (max-width: 480px) {
     align-items: center;
     justify-content: center;
-    margin: 0px auto;
+    margin: 0px 5px;
+    padding: 0px;
   }
 
   @media (max-width: 375px) {
     width: 350px;
-    margin: 20px 10px;
+    margin: 20px 0px;
+    padding: 0px;
   }
 `;
 

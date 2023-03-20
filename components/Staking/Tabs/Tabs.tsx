@@ -50,6 +50,19 @@ const StyledTab = styled.div<{ selected: boolean; fullWidth?: boolean }>`
   &:hover {
     opacity: 0.8;
   }
+
+  @media (max-width: 768px) {
+    height: 60px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px 26px;
+  }
+
+  @media (max-width: 375px) {
+    height: 60px;
+    padding: 16px 18px;
+  }
 `;
 
 export const Tabs: React.FC<TabsProps> = ({
