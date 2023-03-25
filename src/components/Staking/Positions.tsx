@@ -20,7 +20,7 @@ const StyledItem = styled.div<{ active: boolean }>`
   position: relative;
   width: 165px;
   height: 165px;
-  border: 1.5px solid #ff0420;
+  border: 2px solid #ff0420;
 
   border-radius: 10px;
   padding: 15px;
@@ -30,7 +30,6 @@ const StyledItem = styled.div<{ active: boolean }>`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  z-index: 2;
 
   &:hover {
     border-color: #ff0420;
@@ -48,7 +47,7 @@ const UnstakeButton = styled.button`
   color: #ff0420;
   text-transform: uppercase;
   font-weight: bold;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 8px 8px;
   cursor: pointer;
   transition: background-color 0.3s;
 
@@ -99,13 +98,11 @@ const InfoContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  z-index: 11;
 `;
 
 const StyledInfoIcon = styled(InfoIcon)`
   cursor: pointer;
   transition: color 0.3s;
-  z-index: 10;
 
   &:hover {
     color: #ff0420;
@@ -115,10 +112,10 @@ const StyledInfoIcon = styled(InfoIcon)`
 const InfoTooltip = styled.div`
   position: absolute;
   background-color: #f0ebdf;
-  border-radius: 0 0 5px 5px;
+  border-radius: 10px 10px 8px 8px;
   padding: 5px 10px;
   font-size: 14px;
-  border: 1px solid #ff0420;
+  border: 2px solid #ff0420;
   color: #ff0420;
   white-space: nowrap;
   bottom: 0;
@@ -131,11 +128,21 @@ const InfoTooltip = styled.div`
   align-items: flex-start;
 `;
 
+enum DepositType {
+  staking,
+  lock,
+}
+
 // TODO: make user first select then claim position to make sure id is settled
 
 export const Positions = () => {
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<{
+    id: number;
+    depositType: DepositType;
+  } | null>(null);
   const [showInfo, setShowInfo] = useState<number | null>(null);
+  const [selectedDepositType /*setSelectedDepositType*/] =
+    useState<DepositType>(DepositType.staking);
 
   const {
     positions,
@@ -147,8 +154,8 @@ export const Positions = () => {
     dismissError,
   } = useUnstaking(selected !== null ? BigNumber.from(selected) : undefined);
 
-  function handleSelect(id: number) {
-    setSelected(id);
+  function handleSelect(id: number, depositType: DepositType) {
+    setSelected({ id, depositType });
   }
 
   return (
@@ -156,11 +163,13 @@ export const Positions = () => {
       {positions.map(
         ({ positionId, stakedNfts, accruedReward, remainingPeriod }) => {
           const id = +positionId.toString();
+          const depositType = selectedDepositType;
+
           return (
             <StyledItem
               key={id}
-              onClick={() => handleSelect(id)}
-              active={id === selected}
+              onClick={() => handleSelect(id, depositType)}
+              active={selected?.id === id}
             >
               <StyledInfoIcon
                 handleMouseEnter={() => setShowInfo(id)}
@@ -196,7 +205,11 @@ export const Positions = () => {
                     </span>
                   </InfoTooltip>
                 ) : (
-                  <UnstakeButton onClick={claim}>Unstake</UnstakeButton>
+                  <UnstakeButton onClick={claim}>
+                    {selected?.depositType === DepositType.staking
+                      ? "Unstake"
+                      : "Unlock"}
+                  </UnstakeButton>
                 )}
               </InfoContainer>
             </StyledItem>

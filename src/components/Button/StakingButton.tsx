@@ -19,7 +19,6 @@ export const StakingButton = styled(MoaycButton)<StakingButtonProps>`
   line-break: revert;
   width: 50%;
   height: 56px;
-  margin-bottom: 15px;
 
   ${(props) =>
     props.size === "small" &&

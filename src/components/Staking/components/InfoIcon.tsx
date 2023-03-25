@@ -9,7 +9,6 @@ const StyledSvg = styled.svg`
   height: 24px;
   cursor: pointer;
   transition: fill 0.3s;
-  z-index: 11;
 
   &:hover {
     fill: #ff0420;
