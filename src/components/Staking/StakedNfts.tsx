@@ -132,7 +132,7 @@ export const StakedNfts = () => {
               />
               {isHovered && (
                 <WarningText>
-                  WARNING! In case of premature withdrawal, the penalty is 50%
+                  WARNING! In case of premature withdrawal, the penalty is 100%
                 </WarningText>
               )}
             </StyledUnstakeButton>
