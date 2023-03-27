@@ -17,8 +17,6 @@ const ImageSelectorContainer = styled.div<{ twoColumns?: boolean }>`
   gap: 8px;
   position: relative;
   margin-bottom: 20px;
-  min-width: ${({ twoColumns }) => (twoColumns ? "auto" : "520px")};
-  max-width: ${({ twoColumns }) => (twoColumns ? "100%" : "520px")};
   min-height: ${({ twoColumns }) => (twoColumns ? "auto" : "100%")};
   max-height: ${({ twoColumns }) => (twoColumns ? "auto" : "200px")};
 
@@ -34,20 +32,7 @@ const ImageSelectorContainer = styled.div<{ twoColumns?: boolean }>`
     background: #ff0420;
   }
 
-  @media (max-width: 960px) {
-  }
-
-  @media (max-width: 768px) {
-    width: 450px;
-  }
-
-  @media (max-width: 480px) {
-    width: 350px;
-  }
-
-  @media (max-width: 375px) {
-    width: 300px;
-  }
+  width: 100%;
 `;
 
 const StyledImage = styled.img`

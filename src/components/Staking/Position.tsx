@@ -104,7 +104,7 @@ export const Position = (props: PositionProps) => {
         data={position.stakedNfts}
         selectable={false}
       />
-      <StyledInfoIcon ref={infoRef} onClick={() => setShowInfo(true)} />
+      <StyledInfoIcon ref={infoRef} onClick={() => setShowInfo(!showInfo)} />
       <InfoContainer>
         <PositionInfoTooltip
           show={showInfo}

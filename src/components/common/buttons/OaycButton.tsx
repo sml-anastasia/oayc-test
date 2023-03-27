@@ -21,6 +21,7 @@ export const OaycStyledButton = styled.button<ButtonProps>`
   width: ${({ fullWidth }) => fullWidth && "100%"};
   padding: 15px 45px;
   justify-content: center;
+  align-items: center;
   border: none;
 
   ${(props) =>

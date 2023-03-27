@@ -10,6 +10,7 @@ import Modal from "../common/ovarlays/Modal";
 import { RedRoundCloseButton } from "./components/RedRoundCloseButton";
 import OaycButton from "../common/buttons/OaycButton";
 import { sortArraysBySameValues } from "./utils/sorting";
+import { device } from "../../styles/device";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -18,6 +19,14 @@ const StyledContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  padding: 20px;
+
+  width: 420px;
+  transition: 0.3s;
+
+  @media screen and ${device.tablet} {
+    width: 600px;
+  }
 `;
 
 const Title = styled.div`
@@ -49,41 +58,7 @@ const StyledModal = styled(Modal)`
 `;
 
 const StyledTabs = styled(Tabs)`
-  margin: 15px auto 15px;
-
-  @media (max-width: 960px) {
-  }
-
-  @media (max-width: 768px) {
-  }
-
-  @media (max-width: 480px) {
-  }
-
-  @media (max-width: 375px) {
-    height: 60px;
-  }
-`;
-
-const StyledTabs2 = styled(StyledTabs)`
-  margin: 0 auto 15px;
-
-  @media (max-width: 960px) {
-  }
-
-  @media (max-width: 768px) {
-    width: 450px;
-    height: 60px;
-  }
-
-  @media (max-width: 480px) {
-    width: 340px;
-  }
-
-  @media (max-width: 375px) {
-    width: 300px;
-    height: 60px;
-  }
+  margin: 5px auto;
 `;
 
 const StyledStakingButton = styled(OaycButton)`
@@ -159,7 +134,7 @@ export const AddToStaking = ({ onClose, isOpen }: AddToStakingProps) => {
   );
 
   return (
-    <StyledModal isOpen={isOpen} width={688} onClose={onClose}>
+    <StyledModal isOpen={isOpen} onClose={onClose}>
       <RedRoundCloseButton onClose={onClose} />
       <StyledContainer>
         <Title>Add nft</Title>
@@ -181,7 +156,7 @@ export const AddToStaking = ({ onClose, isOpen }: AddToStakingProps) => {
           tabs={["STAKE", "LOCK"]}
           onChange={setSelectedDepositType}
         />
-        <StyledTabs2
+        <StyledTabs
           value={selectedPeriod}
           tabs={["1 day", "7 days", "28 days"]}
           onChange={setSelectedPeriod}
