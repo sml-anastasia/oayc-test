@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
-import styled from "styled-components";
-import { device } from "../../styles/device";
+import styled, { useTheme } from "styled-components";
+import { device } from "../../../styles/device";
 import { useAccount, useDisconnect } from "wagmi";
-import { Balance } from "../Staking/components/Balance";
-import MoaycButton from "../common/buttons/MoaycButton";
-import { StakingButton } from "../Button/StakingButton";
+import { Balance } from "../../Staking/components/Balance";
+import OaycButton from "../buttons/OaycButton";
+import { Style } from "../../../theme";
 
 const StyledTopBar = styled.div`
   display: flex;
@@ -33,13 +33,13 @@ const StyledLogo = styled.div<{ logoUrl: string }>`
   }
 `;
 
-const MoaycText = styled.div<{ connected: boolean }>`
+const TopBarText = styled.div`
   font-family: "Rubik", sans-serif;
   font-style: italic;
   font-weight: 700;
   line-height: 90%;
 
-  display: ${(props) => (props.connected ? "none" : "flex")};
+  display: flex;
   align-items: center;
   text-align: right;
   text-transform: uppercase;
@@ -70,7 +70,7 @@ const CenterContainer = styled.div`
   }
 `;
 
-const AccountAddress = styled.div<{ green: boolean }>`
+const AccountAddress = styled.div`
   font-family: "Rubik", sans-serif;
   font-style: italic;
   font-weight: 700;
@@ -81,10 +81,7 @@ const AccountAddress = styled.div<{ green: boolean }>`
   align-items: center;
   text-transform: uppercase;
 
-  background: ${(props) =>
-    props.green
-      ? `linear-gradient(159.53deg, #b4d109 1.07%, #87cc00 72.47%)`
-      : "#FF0420"};
+  background: ${({ theme }) => theme.textClipColor};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
@@ -133,13 +130,13 @@ interface TopBarProps {
   displayText?: string;
   logoUrl: string;
   balance?: string;
-  pageType?: "moayc" | "staking";
 }
 
-const TopBar = ({ socials, displayText, logoUrl, pageType }: TopBarProps) => {
+const TopBar = ({ socials, displayText, logoUrl }: TopBarProps) => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-  const isStakingPage = pageType === "staking";
+
+  const { style } = useTheme();
 
   const accountAddress = useMemo(() => {
     return `${address?.substring(0, 6)}...${address?.substring(
@@ -153,23 +150,14 @@ const TopBar = ({ socials, displayText, logoUrl, pageType }: TopBarProps) => {
       {isConnected && (
         <>
           <CenterContainer>
-            {/* TODO: add themes to styled components, sha uzhe zajeblasa*/}
-            <AccountAddress green={!isStakingPage}>
-              {accountAddress}{" "}
-            </AccountAddress>
-            {isStakingPage ? (
-              <StakingButton size="small" onClick={() => disconnect()}>
-                Disconnect
-              </StakingButton>
-            ) : (
-              <MoaycButton size="small" onClick={() => disconnect()}>
-                Disconnect
-              </MoaycButton>
-            )}
+            <AccountAddress>{accountAddress} </AccountAddress>
+            <OaycButton size="small" onClick={() => disconnect()}>
+              Disconnect
+            </OaycButton>
           </CenterContainer>
         </>
       )}
-      <MoaycText connected={isConnected}>{displayText}</MoaycText>
+      <TopBarText hidden={!isConnected}>{displayText}</TopBarText>
       {!isConnected && socials && (
         <StyledSocialsContainer>
           <TwitterSocial
@@ -182,7 +170,7 @@ const TopBar = ({ socials, displayText, logoUrl, pageType }: TopBarProps) => {
           />
         </StyledSocialsContainer>
       )}
-      {isConnected && isStakingPage && <Balance />}
+      {isConnected && style === Style.DEFAULT && <Balance />}
     </StyledTopBar>
   );
 };

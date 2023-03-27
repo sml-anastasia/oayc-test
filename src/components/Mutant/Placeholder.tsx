@@ -1,5 +1,5 @@
 import React from "react";
-import ArrowSurround from "./ArrowSurround";
+import ArrowSurround from "../common/surrounds/ArrowSurround";
 import { MintStatus, MutationWindowContainer } from "./MutantMintWindow";
 import { useWindowSize } from "../../hooks/utils/useWindowSize";
 

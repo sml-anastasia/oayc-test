@@ -1,9 +1,8 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import React, { useState } from "react";
-import { StakingButton } from "../src/components/Button/StakingButton";
 import styled from "styled-components";
-import TopBar from "../src/components/Mutant/TopBar";
+import TopBar from "../src/components/common/layout/TopBar";
 import { useDefaultConnect } from "../src/hooks/web3/useDefaultConnect";
 import useEagerConnect from "../src/hooks/web3/useEagerConnect";
 import useChangeNetwork from "../src/hooks/web3/useChangeNetwork";
@@ -14,6 +13,7 @@ import { useStakingStatus } from "../src/hooks/contract/staking/useStakingStatus
 import { StakedNfts } from "../src/components/Staking/StakedNfts";
 import { ContentContainer } from "../src/components/Staking/components/Styled/ContentContainer";
 import { AddToStaking } from "../src/components/Staking/AddToStaking";
+import OaycButton from "../src/components/common/buttons/OaycButton";
 
 const Container = styled.div`
   position: relative;
@@ -187,7 +187,7 @@ const StyledSignContainer = styled.div`
   width: 100%;
 `;
 
-const StyledStakingButton = styled(StakingButton)`
+const StyledStakingButton = styled(OaycButton)`
   width: 237px;
   margin-top: 20px;
 
@@ -237,11 +237,7 @@ const Staking: NextPage = () => {
         <link rel="icon" href="/main/favicons/red.svg" />
       </Head>
       <Container>
-        <TopBar
-          logoUrl="/main/favicons/red.svg"
-          socials={true}
-          pageType="staking"
-        />
+        <TopBar logoUrl="/main/favicons/red.svg" socials={true} />
         <ContentContainer>
           <StyledStakingContainer>
             <StyledHead>

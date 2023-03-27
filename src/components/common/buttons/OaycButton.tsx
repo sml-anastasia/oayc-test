@@ -3,21 +3,22 @@ import styled, { css } from "styled-components";
 
 interface ButtonProps {
   size?: "small" | "large" | "x-small";
+  fullWidth?: boolean;
 }
 
-export const MoaycStyledButton = styled.button<ButtonProps>`
+export const OaycStyledButton = styled.button<ButtonProps>`
   display: flex;
-  background: linear-gradient(159.53deg, #b4d109 1.07%, #87cc00 72.47%);
-  border-radius: 25px;
+  background: ${({ theme }) => theme.primaryBackground};
+  color: ${({ theme }) => theme.secondaryTextColor};
+  border-radius: 100px;
   font-family: "Rubik", sans-serif;
   font-style: italic;
   font-weight: 700;
   font-size: 16px;
   line-height: 90%;
   text-transform: uppercase;
-  color: #191919;
   transition: 0.3s;
-  width: 100%;
+  width: ${({ fullWidth }) => fullWidth && "100%"};
   padding: 15px 45px;
   justify-content: center;
   border: none;
@@ -40,16 +41,16 @@ export const MoaycStyledButton = styled.button<ButtonProps>`
   }
 `;
 
-const MoaycButton = ({
+const OaycButton = ({
   children,
   size = "large",
   ...rest
-}: React.HTMLAttributes<HTMLButtonElement> & ButtonProps) => {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps) => {
   return (
-    <MoaycStyledButton size={size} {...rest}>
+    <OaycStyledButton size={size} {...rest}>
       {children}
-    </MoaycStyledButton>
+    </OaycStyledButton>
   );
 };
 
-export default MoaycButton;
+export default OaycButton;

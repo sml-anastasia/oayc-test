@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { Tabs } from "./components/Tabs";
 import ImageSelector from "./components/ImageSelector";
 import { NftInfo } from "../../web3/types/NFT";
-import { StakingButton } from "../Button/StakingButton";
 import { StatusModals } from "./components/StatusModals/StatusModals";
 import { useStaking } from "../../hooks/contract/staking/useStaking";
 import { BigNumber } from "ethers";
 import Modal from "../common/ovarlays/Modal";
 import { RedRoundCloseButton } from "./components/RedRoundCloseButton";
+import OaycButton from "../common/buttons/OaycButton";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -85,7 +85,7 @@ const StyledTabs2 = styled(StyledTabs)`
   }
 `;
 
-const StyledStakingButton = styled(StakingButton)`
+const StyledStakingButton = styled(OaycButton)`
   @media (max-width: 480px) {
     width: 350px;
   }

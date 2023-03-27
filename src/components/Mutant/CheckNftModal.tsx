@@ -6,7 +6,7 @@ import { SearchBar } from "./SearchBar";
 import styled from "styled-components";
 import { useAccount, useContractRead } from "wagmi";
 import { MintStatus } from "./Styled/MintStatus";
-import { MoaycStyledButton } from "../common/buttons/MoaycButton";
+import { OaycStyledButton } from "../common/buttons/OaycButton";
 import { config } from "../../web3/config";
 import { mutantContractAbi } from "../../web3/contracts";
 import { BigNumber } from "ethers";
@@ -43,7 +43,7 @@ const NotMutatedStatus = styled(MutatedStatus)`
   background: linear-gradient(159.53deg, #b4d109 1.07%, #87cc00 72.47%);
 `;
 
-export const CheckNftButton = styled(MoaycStyledButton)`
+export const CheckNftButton = styled(OaycStyledButton)`
   padding: 12px 37px;
   background: transparent;
   border: 1.5px solid #87cc01;

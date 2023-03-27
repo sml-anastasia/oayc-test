@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StatusModals } from "./components/StatusModals/StatusModals";
 import styled from "styled-components";
 import { Positions } from "./Positions";
@@ -50,7 +50,26 @@ const Wrapper = styled.div`
   margin-bottom: 100px;
 `;
 
-const StyledUnstakeButton = styled(StakingButton)<{ isHovered: boolean }>`
+const Icon = styled(Image)`
+  padding: 0 20px;
+`;
+
+const WarningText = styled.div`
+  display: flex;
+  align-items: center;
+  width: 187px;
+  left: -1.5px;
+  height: 76px;
+  margin: 0;
+  position: absolute;
+  top: 27px;
+  border-radius: 0 0 10px 10px;
+  font-size: 12px;
+  border: 1.5px solid #ff0420;
+  color: #ff0420;
+`;
+
+const StyledUnstakeButton = styled(StakingButton)`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -58,8 +77,7 @@ const StyledUnstakeButton = styled(StakingButton)<{ isHovered: boolean }>`
   border: 1.5px solid #ff0420;
   background-color: transparent;
   color: #ff0420;
-  border-radius: ${({ isHovered }) =>
-    isHovered ? "15px 15px 0px 0px" : "100px"};
+  border-radius: 15px 15px 0 0;
   transition: height 0.1s, border-radius 0.1s;
   width: 187px;
   padding: 10px 1px 10px 10px;
@@ -81,25 +99,6 @@ const StyledUnstakeButton = styled(StakingButton)<{ isHovered: boolean }>`
   }
 `;
 
-const Icon = styled(Image)`
-  padding: 0px 20px;
-`;
-
-const WarningText = styled.div`
-  display: flex;
-  align-items: center;
-  width: 187px;
-  left: -1.5px;
-  height: 76px;
-  margin: 0px;
-  position: absolute;
-  top: 27px;
-  border-radius: 0px 0px 10px 10px;
-  font-size: 12px;
-  border: 1.5px solid #ff0420;
-  color: #ff0420;
-`;
-
 export const StakedNfts = () => {
   const {
     isSuccess,
@@ -111,30 +110,26 @@ export const StakedNfts = () => {
     claimAll,
   } = useUnstaking();
 
-  const [isHovered, setIsHovered] = useState(false);
+  const hasActivePositions = positions.length > 0;
 
   return (
     <>
       <ContentContainer2>
-        {positions.length > 0 && (
+        {hasActivePositions && (
           <Wrapper>
             <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
             <Positions />
-            <StyledUnstakeButton onClick={claimAll} isHovered={isHovered}>
+            <StyledUnstakeButton onClick={claimAll}>
               <StyledText>UNSTAKE & CLAIM ALL</StyledText>
               <Icon
                 src="/images/svg/claiminfo.svg"
                 alt="claim button"
                 width={22}
                 height={22}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
               />
-              {isHovered && (
-                <WarningText>
-                  WARNING! In case of premature withdrawal, the penalty is 100%
-                </WarningText>
-              )}
+              <WarningText>
+                WARNING! In case of premature withdrawal, the penalty is 100%
+              </WarningText>
             </StyledUnstakeButton>
           </Wrapper>
         )}

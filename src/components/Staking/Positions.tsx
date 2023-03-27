@@ -1,61 +1,9 @@
-import React, { useState } from "react";
-import { BigNumber, ethers } from "ethers";
-import ImageSelector from "./components/ImageSelector";
+import React from "react";
+import { BigNumber } from "ethers";
 import styled from "styled-components";
-import InfoIcon from "./components/InfoIcon";
-import Image from "next/image";
 import { StatusModals } from "./components/StatusModals/StatusModals";
 import { useUnstaking } from "../../hooks/contract/staking/useUnstaking";
-
-const StyledPositionList = styled(ImageSelector)`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 60px;
-  gap: 5px;
-  justify-items: center;
-  align-items: center;
-`;
-
-const StyledItem = styled.div<{ active: boolean }>`
-  position: relative;
-  width: 165px;
-  height: 165px;
-  border: 2px solid #ff0420;
-
-  border-radius: 10px;
-  padding: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s, border-color 0.3s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-
-  &:hover {
-    border-color: #ff0420;
-  }
-`;
-
-const UnstakeButton = styled.button`
-  position: absolute;
-  border: 1px solid #ff0420;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 30px;
-  background-color: #f0ebdf;
-  color: #ff0420;
-  text-transform: uppercase;
-  font-weight: bold;
-  border-radius: 0 0 8px 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #ff0420;
-    color: white;
-  }
-`;
+import { Position } from "./Position";
 
 const PositionsContainer = styled.div`
   display: flex;
@@ -93,57 +41,7 @@ const PositionsContainer = styled.div`
   }
 `;
 
-const InfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-`;
-
-const StyledInfoIcon = styled(InfoIcon)`
-  cursor: pointer;
-  transition: color 0.3s;
-
-  &:hover {
-    color: #ff0420;
-  }
-`;
-
-const InfoTooltip = styled.div`
-  position: absolute;
-  background-color: #f0ebdf;
-  border-radius: 10px 10px 8px 8px;
-  padding: 5px 10px;
-  font-size: 14px;
-  border: 2px solid #ff0420;
-  color: #ff0420;
-  white-space: nowrap;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-`;
-
-enum DepositType {
-  staking,
-  lock,
-}
-
-// TODO: make user first select then claim position to make sure id is settled
-
 export const Positions = () => {
-  const [selected, setSelected] = useState<{
-    id: number;
-    depositType: DepositType;
-  } | null>(null);
-  const [showInfo, setShowInfo] = useState<number | null>(null);
-  const [selectedDepositType /*setSelectedDepositType*/] =
-    useState<DepositType>(DepositType.staking);
-
   const {
     positions,
     claim,
@@ -152,69 +50,31 @@ export const Positions = () => {
     isLoading,
     dismissSuccess,
     dismissError,
-  } = useUnstaking(selected !== null ? BigNumber.from(selected) : undefined);
+  } = useUnstaking();
 
-  function handleSelect(id: number, depositType: DepositType) {
-    setSelected({ id, depositType });
-  }
+  const handleClaim = (position: BigNumber) => {
+    claim?.({ recklesslySetUnpreparedArgs: [position] });
+  };
 
   return (
     <PositionsContainer>
       {positions.map(
-        ({ positionId, stakedNfts, accruedReward, remainingPeriod }) => {
-          const id = +positionId.toString();
-          const depositType = selectedDepositType;
-
-          return (
-            <StyledItem
-              key={id}
-              onClick={() => handleSelect(id, depositType)}
-              active={selected?.id === id}
-            >
-              <StyledInfoIcon
-                handleMouseEnter={() => setShowInfo(id)}
-                handleMouseLeave={() => setShowInfo(null)}
-              />
-              <StyledPositionList
-                twoColumns={true}
-                data={stakedNfts}
-                selectable={false}
-              />
-              <InfoContainer>
-                {showInfo === id ? (
-                  <InfoTooltip>
-                    <Image
-                      src="/images/svg/money.svg"
-                      alt="money"
-                      width="12px"
-                      height="12px"
-                    />
-                    {parseFloat(
-                      ethers.utils.formatEther(accruedReward)
-                    ).toFixed(4)}{" "}
-                    $OAYC
-                    <br />
-                    <span>
-                      <Image
-                        src="/images/svg/time.svg"
-                        alt="time"
-                        width="10px"
-                        height="10px"
-                      />{" "}
-                      {(+remainingPeriod.toString() / 60).toFixed(1)} mins
-                    </span>
-                  </InfoTooltip>
-                ) : (
-                  <UnstakeButton onClick={claim}>
-                    {selected?.depositType === DepositType.staking
-                      ? "Unstake"
-                      : "Unlock"}
-                  </UnstakeButton>
-                )}
-              </InfoContainer>
-            </StyledItem>
-          );
-        }
+        ({
+          positionId,
+          stakedNfts,
+          accruedReward,
+          positionKind,
+          remainingPeriod,
+        }) => (
+          <Position
+            key={positionId.toString()}
+            positionKind={positionKind}
+            stakedNfts={stakedNfts}
+            accruedReward={accruedReward}
+            remainingPeriod={remainingPeriod}
+            claim={() => handleClaim(positionId)}
+          />
+        )
       )}
 
       <StatusModals

@@ -1,4 +1,4 @@
-import MoaycButton from "../common/buttons/MoaycButton";
+import OaycButton from "../common/buttons/OaycButton";
 import styled, { css } from "styled-components";
 
 // Добавьте интерфейс для пропсов StakingButton
@@ -7,7 +7,7 @@ interface StakingButtonProps {
   disabled?: boolean;
 }
 
-export const StakingButton = styled(MoaycButton)<StakingButtonProps>`
+export const StakingButton = styled(OaycButton)<StakingButtonProps>`
   background: #ff0420;
   color: white;
   border-radius: 100px;

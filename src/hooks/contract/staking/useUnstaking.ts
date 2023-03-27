@@ -7,10 +7,9 @@ import {
 import { config } from "../../../web3/config";
 import { useState } from "react";
 import { stakingAbi } from "../../../web3/contracts";
-import { BigNumber } from "ethers";
 import { usePositions } from "./usePositions";
 
-export const useUnstaking = (claimPositionId?: BigNumber) => {
+export const useUnstaking = () => {
   const { isConnected } = useAccount();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -21,14 +20,6 @@ export const useUnstaking = (claimPositionId?: BigNumber) => {
 
   const { positions, refetchAllPositionsInfo } = usePositions();
 
-  const claimPrepare = usePrepareContractWrite({
-    address: config.stakingContract,
-    abi: stakingAbi,
-    functionName: "claimReward",
-    args: [claimPositionId ?? BigNumber.from(0)],
-    enabled: !!claimPositionId && isConnected,
-  });
-
   const claimAllPrepare = usePrepareContractWrite({
     address: config.stakingContract,
     abi: stakingAbi,
@@ -37,7 +28,10 @@ export const useUnstaking = (claimPositionId?: BigNumber) => {
   });
 
   const claimWrite = useContractWrite({
-    ...claimPrepare.config,
+    address: config.stakingContract,
+    abi: stakingAbi,
+    functionName: "claimReward",
+    mode: "recklesslyUnprepared",
     onError: setErrorState,
   });
 
@@ -66,14 +60,12 @@ export const useUnstaking = (claimPositionId?: BigNumber) => {
 
   const isLoading = claimWait.isLoading || claimAllWait.isLoading;
 
-  const claim = () => claimWrite.write?.();
-
   const claimAll = () => claimAllWrite.write?.();
 
   return {
     claimWait,
     claimAllWait,
-    claim,
+    claim: claimWrite.write,
     claimAll,
     positions,
     isSuccess,

@@ -4,7 +4,7 @@ import Head from "next/head";
 import React from "react";
 import ArrowsButton from "../src/components/common/buttons/ArrowsButton";
 import styled from "styled-components";
-import TopBar from "../src/components/Mutant/TopBar";
+import TopBar from "../src/components/common/layout/TopBar";
 import Footer from "../src/components/Mutant/Footer";
 import { useDefaultConnect } from "../src/hooks/web3/useDefaultConnect";
 import useEagerConnect from "../src/hooks/web3/useEagerConnect";

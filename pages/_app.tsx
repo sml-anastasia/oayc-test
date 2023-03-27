@@ -8,6 +8,7 @@ import {
   provider,
   webSocketProvider,
 } from "../src/web3/config";
+import { ThemedRouteProvider } from "../src/providers/ThemedRouteProvider";
 
 const client = createClient({
   autoConnect: false,
@@ -18,9 +19,11 @@ const client = createClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={client}>
-      <Component {...pageProps} />
-    </WagmiConfig>
+    <ThemedRouteProvider>
+      <WagmiConfig client={client}>
+        <Component {...pageProps} />
+      </WagmiConfig>
+    </ThemedRouteProvider>
   );
 }
 

@@ -30,11 +30,6 @@ const Text = styled.div`
   letter-spacing: -0.035em;
 `;
 
-const Text2 = styled(Text)`
-  margin-top: 10px;
-  font-size: 16px;
-`;
-
 const CloseButtonContainer = styled.button`
   position: absolute;
   top: 5px;
@@ -65,7 +60,6 @@ const Success = ({ onClose }: SuccessProps) => {
         height="73px"
       />
       <Text>Success!</Text>
-      <Text2>YOUR NFTS WERE STAKED</Text2>
     </StyledContainer>
   );
 };
