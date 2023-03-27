@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Positions } from "./Positions";
 import { useUnstaking } from "../../hooks/contract/staking/useUnstaking";
 import { ContentContainer } from "./components/Styled/ContentContainer";
-import { UnstakeAllButton } from "./components/UnstakeAllButton";
+// import { UnstakeAllButton } from "./components/UnstakeAllButton";
 import { BigNumber } from "ethers";
 
 const ContentContainer2 = styled(ContentContainer)`
@@ -14,7 +14,7 @@ const ContentContainer2 = styled(ContentContainer)`
   justify-content: center;
 `;
 
-const StyledText3 = styled.div`
+const StyledText = styled.div`
   color: #ff0420;
   font-size: 52px;
   font-family: "Rubik", serif;
@@ -40,9 +40,17 @@ const StyledText3 = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
+  align-items: start;
+  margin-bottom: 100px;
+  gap: 100px;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const NftContainer = styled.div`
+  display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 100px;
 `;
 
 export const StakedNfts = () => {
@@ -53,8 +61,9 @@ export const StakedNfts = () => {
     positions,
     dismissSuccess,
     dismissError,
-    claimAll,
     claim,
+    lockedPositions,
+    stakedPositions,
   } = useUnstaking();
 
   const hasActivePositions = positions.length > 0;
@@ -66,11 +75,19 @@ export const StakedNfts = () => {
     <>
       <ContentContainer2>
         {hasActivePositions && (
-          <Wrapper>
-            <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
-            <Positions positions={positions} claim={handleClaim} />
-            <UnstakeAllButton claimAll={claimAll} />
-          </Wrapper>
+          <>
+            <Wrapper>
+              <NftContainer>
+                <StyledText>YOUR STAKED NFTS</StyledText>
+                <Positions positions={stakedPositions} claim={handleClaim} />
+              </NftContainer>
+              <NftContainer>
+                <StyledText>YOUR LOCKED NFTS</StyledText>
+                <Positions positions={lockedPositions} claim={handleClaim} />
+              </NftContainer>
+            </Wrapper>
+            {/*<UnstakeAllButton claimAll={claimAll} />*/}
+          </>
         )}
       </ContentContainer2>
       <StatusModals

@@ -49,6 +49,7 @@ const UnstakeButton = styled.button`
   border-radius: 0 0 8px 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-style: italic;
 
   &:hover {
     background-color: #ff0420;

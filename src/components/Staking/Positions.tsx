@@ -6,20 +6,14 @@ import { PositionData } from "../../web3/types/NFT";
 
 const PositionsContainer = styled.div`
   display: flex;
-  border-radius: 10px;
   flex-wrap: wrap;
   padding: 20px;
   width: 100%;
-  max-width: 800px;
-  height: 100%;
+  max-width: 580px;
   overflow-y: auto;
   flex-direction: row;
   gap: 20px;
   margin-top: 20px;
-  font-family: "Rubik", serif;
-  font-style: italic;
-  font-weight: 700;
-  font-size: 14px;
 
   @media (max-width: 768px) {
     align-items: flex-start;

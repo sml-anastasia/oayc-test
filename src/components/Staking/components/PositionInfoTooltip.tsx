@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import Image from "next/image";
 import { BigNumber, ethers } from "ethers";
 import styled from "styled-components";
+import { toHHMMSS } from "../utils/time";
 
 interface PositionInfoTooltipProps {
   show: boolean;
@@ -27,25 +28,9 @@ const InfoTooltip = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  font-style: italic;
+  font-weight: 700;
 `;
-
-const toHHMMSS = (secs: string) => {
-  const sec_num = parseInt(secs, 10);
-  let hours: string | number = Math.floor(sec_num / 3600);
-  let minutes: string | number = Math.floor((sec_num - hours * 3600) / 60);
-  let seconds: string | number = sec_num - hours * 3600 - minutes * 60;
-
-  if (hours < 10) {
-    hours = "0" + hours;
-  }
-  if (minutes < 10) {
-    minutes = "0" + minutes;
-  }
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
-  return hours + ":" + minutes + ":" + seconds;
-};
 
 // eslint-disable-next-line react/display-name
 export const PositionInfoTooltip = memo((props: PositionInfoTooltipProps) => {
@@ -65,7 +50,7 @@ export const PositionInfoTooltip = memo((props: PositionInfoTooltipProps) => {
           alt="money"
           width="12px"
           height="12px"
-        />
+        />{" "}
         {formattedReward} $OAYC
       </span>
       <span>

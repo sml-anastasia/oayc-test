@@ -18,7 +18,12 @@ export const useUnstaking = () => {
   const dismissError = () => setIsError(false);
   const dismissSuccess = () => setIsSuccess(false);
 
-  const { positions, refetchAllPositionsInfo } = usePositions();
+  const {
+    positions,
+    lockedPositions,
+    stakedPositions,
+    refetchAllPositionsInfo,
+  } = usePositions();
 
   const claimAllPrepare = usePrepareContractWrite({
     address: config.stakingContract,
@@ -68,6 +73,8 @@ export const useUnstaking = () => {
     claim: claimWrite.write,
     claimAll,
     positions,
+    lockedPositions,
+    stakedPositions,
     isSuccess,
     isError,
     isLoading,
