@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import { CloseModalButton } from "../CloseModalButton";
 
 const StyledContainer = styled.div`
   position: relative;
@@ -15,7 +16,7 @@ const StyledContainer = styled.div`
 `;
 
 const Icon = styled(Image)`
-  padding: 50px;
+  //padding: 50px;
 `;
 
 const Text = styled.div`
@@ -35,38 +36,25 @@ const Text2 = styled(Text)`
   font-size: 16px;
 `;
 
-const CloseButtonContainer = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 3px;
-  border: none;
-`;
-
 interface FailProps {
   onClose: () => void;
 }
 
 const Fail = ({ onClose }: FailProps) => {
   return (
-    <StyledContainer>
-      <CloseButtonContainer>
+    <>
+      <StyledContainer>
         <Icon
-          onClick={onClose}
-          src="/images/svg/close-red-icon.svg"
-          alt="oayc success"
-          width="29px"
-          height="29px"
+          src="/images/svg/fail.svg"
+          alt="oayc fail"
+          width="73px"
+          height="73px"
         />
-      </CloseButtonContainer>
-      <Icon
-        src="/images/svg/fail.svg"
-        alt="oayc fail"
-        width="73px"
-        height="73px"
-      />
-      <Text>Fail...</Text>
-      <Text2>SOMETHING WENT WRONG</Text2>
-    </StyledContainer>
+        <Text>Fail...</Text>
+        <Text2>SOMETHING WENT WRONG</Text2>
+      </StyledContainer>
+      <CloseModalButton onClick={onClose} />
+    </>
   );
 };
 

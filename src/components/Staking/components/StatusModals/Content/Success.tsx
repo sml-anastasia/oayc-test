@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import { CloseModalButton } from "../CloseModalButton";
 
 const StyledContainer = styled.div`
   position: relative;
@@ -30,37 +31,24 @@ const Text = styled.div`
   letter-spacing: -0.035em;
 `;
 
-const CloseButtonContainer = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 3px;
-  border: none;
-`;
-
 interface SuccessProps {
   onClose: () => void;
 }
 
 const Success = ({ onClose }: SuccessProps) => {
   return (
-    <StyledContainer>
-      <CloseButtonContainer>
+    <>
+      <StyledContainer>
         <Icon
-          onClick={onClose}
-          src="/images/svg/close-red-icon.svg"
+          src="/images/svg/success.svg"
           alt="oayc success"
-          width="29px"
-          height="29px"
+          width="73px"
+          height="73px"
         />
-      </CloseButtonContainer>
-      <Icon
-        src="/images/svg/success.svg"
-        alt="oayc success"
-        width="73px"
-        height="73px"
-      />
-      <Text>Success!</Text>
-    </StyledContainer>
+        <Text>Success!</Text>
+      </StyledContainer>
+      <CloseModalButton onClick={onClose} />
+    </>
   );
 };
 

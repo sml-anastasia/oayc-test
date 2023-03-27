@@ -21,9 +21,11 @@ const StyledModal = styled(Modal)`
   display: flex;
   flex-direction: column;
   z-index: 20;
+  min-height: 300px;
+  min-width: 300px;
+  max-height: 300px;
+  max-width: 300px;
 `;
-
-//TODO: refactor
 
 export const StatusModals = (props: StatusModalsProps) => {
   const { isLoading, isSuccess, isError, dismissSuccess, dismissError } = props;
