@@ -8,7 +8,7 @@ import { useWindowSize } from "../../hooks/utils/useWindowSize";
 import { device } from "../../styles/device";
 import Modal from "../common/ovarlays/Modal";
 import Fail from "./TxStatusModal/Fail";
-import ArrowSurround from "./ArrowSurround";
+import ArrowSurround from "../common/surrounds/ArrowSurround";
 import { useMoaycStatus } from "../../hooks/contract/moayc-mint/useMoaycStatus";
 import { useMoaycPublicMint } from "../../hooks/contract/moayc-mint/useMoaycPublicMint";
 import Processing from "./TxStatusModal/Processing";

@@ -2,10 +2,10 @@ import React from "react";
 import { StatusModals } from "./components/StatusModals/StatusModals";
 import styled from "styled-components";
 import { Positions } from "./Positions";
-import { StakingButton } from "../Button/StakingButton";
-import Image from "next/image";
 import { useUnstaking } from "../../hooks/contract/staking/useUnstaking";
 import { ContentContainer } from "./components/Styled/ContentContainer";
+// import { UnstakeAllButton } from "./components/UnstakeAllButton";
+import { BigNumber } from "ethers";
 
 const ContentContainer2 = styled(ContentContainer)`
   flex-direction: row;
@@ -14,7 +14,7 @@ const ContentContainer2 = styled(ContentContainer)`
   justify-content: center;
 `;
 
-const StyledText3 = styled.div`
+const StyledText = styled.div`
   color: #ff0420;
   font-size: 52px;
   font-family: "Rubik", serif;
@@ -40,40 +40,17 @@ const StyledText3 = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
+  align-items: start;
+  margin-bottom: 100px;
+  gap: 100px;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const NftContainer = styled.div`
+  display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const StyledUnstakeButton = styled(StakingButton)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: 1.5px solid #ff0420;
-  background-color: transparent;
-  color: #ff0420;
-  border-radius: 100px;
-  width: 187px;
-  padding: 10px 1px 10px 10px;
-  line-height: 90%;
-  height: 30px;
-  margin-top: 20px;
-  font-size: 11px;
-
-  @media (max-width: 480px) {
-    width: 335px;
-    height: 50px;
-    margin: 20px auto;
-    font-size: 18px;
-  }
-
-  @media (max-width: 375px) {
-    width: 350px;
-    margin: 20px 10px;
-  }
-`;
-
-const Icon = styled(Image)`
-  padding-right: 20px;
 `;
 
 export const StakedNfts = () => {
@@ -84,26 +61,33 @@ export const StakedNfts = () => {
     positions,
     dismissSuccess,
     dismissError,
-    claimAll,
+    claim,
+    lockedPositions,
+    stakedPositions,
   } = useUnstaking();
+
+  const hasActivePositions = positions.length > 0;
+  const handleClaim = (position: BigNumber) => {
+    claim?.({ recklesslySetUnpreparedArgs: [position] });
+  };
 
   return (
     <>
       <ContentContainer2>
-        {positions.length > 0 && (
-          <Wrapper>
-            <StyledText3>YOUR STAKED & LOCKED NFTS</StyledText3>
-            <Positions />
-            <StyledUnstakeButton onClick={claimAll}>
-              UNSTAKE & CLAIM ALL
-              <Icon
-                src="/images/svg/claiminfo.svg"
-                alt="claim button"
-                width={22}
-                height={22}
-              />
-            </StyledUnstakeButton>
-          </Wrapper>
+        {hasActivePositions && (
+          <>
+            <Wrapper>
+              <NftContainer>
+                <StyledText>YOUR STAKED NFTS</StyledText>
+                <Positions positions={stakedPositions} claim={handleClaim} />
+              </NftContainer>
+              <NftContainer>
+                <StyledText>YOUR LOCKED NFTS</StyledText>
+                <Positions positions={lockedPositions} claim={handleClaim} />
+              </NftContainer>
+            </Wrapper>
+            {/*<UnstakeAllButton claimAll={claimAll} />*/}
+          </>
         )}
       </ContentContainer2>
       <StatusModals

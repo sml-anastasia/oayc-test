@@ -3,12 +3,14 @@ import styled from "styled-components";
 import { Tabs } from "./components/Tabs";
 import ImageSelector from "./components/ImageSelector";
 import { NftInfo } from "../../web3/types/NFT";
-import { StakingButton } from "../Button/StakingButton";
 import { StatusModals } from "./components/StatusModals/StatusModals";
 import { useStaking } from "../../hooks/contract/staking/useStaking";
 import { BigNumber } from "ethers";
 import Modal from "../common/ovarlays/Modal";
 import { RedRoundCloseButton } from "./components/RedRoundCloseButton";
+import OaycButton from "../common/buttons/OaycButton";
+import { sortArraysBySameValues } from "./utils/sorting";
+import { device } from "../../styles/device";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -17,6 +19,14 @@ const StyledContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  padding: 20px;
+
+  width: 420px;
+  transition: 0.3s;
+
+  @media screen and ${device.tablet} {
+    width: 600px;
+  }
 `;
 
 const Title = styled.div`
@@ -48,44 +58,10 @@ const StyledModal = styled(Modal)`
 `;
 
 const StyledTabs = styled(Tabs)`
-  margin: 15px auto 15px;
-
-  @media (max-width: 960px) {
-  }
-
-  @media (max-width: 768px) {
-  }
-
-  @media (max-width: 480px) {
-  }
-
-  @media (max-width: 375px) {
-    height: 60px;
-  }
+  margin: 5px auto;
 `;
 
-const StyledTabs2 = styled(StyledTabs)`
-  margin: 0 auto 15px;
-
-  @media (max-width: 960px) {
-  }
-
-  @media (max-width: 768px) {
-    width: 450px;
-    height: 60px;
-  }
-
-  @media (max-width: 480px) {
-    width: 340px;
-  }
-
-  @media (max-width: 375px) {
-    width: 300px;
-    height: 60px;
-  }
-`;
-
-const StyledStakingButton = styled(StakingButton)`
+const StyledStakingButton = styled(OaycButton)`
   @media (max-width: 480px) {
     width: 350px;
   }
@@ -94,46 +70,6 @@ const StyledStakingButton = styled(StakingButton)`
     width: 300px;
   }
 `;
-
-// chatGPT func
-function sortArraysBySameValues(
-  arr1: number[],
-  arr2: number[]
-): [number[], number[]] {
-  const maxLength = Math.max(arr1.length, arr2.length);
-  const sortedArr1: number[] = new Array(maxLength).fill(0);
-  const sortedArr2: number[] = new Array(maxLength).fill(0);
-
-  const commonValues = arr1.filter((val) => arr2.includes(val));
-  commonValues.sort((a, b) => a - b);
-
-  const uniqueArr1 = arr1
-    .filter((val) => !arr2.includes(val))
-    .sort((a, b) => a - b);
-  const uniqueArr2 = arr2
-    .filter((val) => !arr1.includes(val))
-    .sort((a, b) => a - b);
-
-  let idx1 = 0;
-  let idx2 = 0;
-  for (let i = 0; i < maxLength; i++) {
-    if (commonValues.length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const commonVal = commonValues.shift()!;
-      sortedArr1[i] = commonVal;
-      sortedArr2[i] = commonVal;
-    } else {
-      if (uniqueArr1[idx1] !== undefined) {
-        sortedArr1[i] = uniqueArr1[idx1++];
-      }
-      if (uniqueArr2[idx2] !== undefined) {
-        sortedArr2[i] = uniqueArr2[idx2++];
-      }
-    }
-  }
-
-  return [sortedArr1, sortedArr2];
-}
 
 enum DepositType {
   staking,
@@ -198,7 +134,7 @@ export const AddToStaking = ({ onClose, isOpen }: AddToStakingProps) => {
   );
 
   return (
-    <StyledModal isOpen={isOpen} width={688} onClose={onClose}>
+    <StyledModal isOpen={isOpen} onClose={onClose}>
       <RedRoundCloseButton onClose={onClose} />
       <StyledContainer>
         <Title>Add nft</Title>
@@ -220,7 +156,7 @@ export const AddToStaking = ({ onClose, isOpen }: AddToStakingProps) => {
           tabs={["STAKE", "LOCK"]}
           onChange={setSelectedDepositType}
         />
-        <StyledTabs2
+        <StyledTabs
           value={selectedPeriod}
           tabs={["1 day", "7 days", "28 days"]}
           onChange={setSelectedPeriod}

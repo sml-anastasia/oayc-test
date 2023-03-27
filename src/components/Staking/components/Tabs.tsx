@@ -17,6 +17,7 @@ const StyledTabsContainer = styled.div<{ fullWidth?: boolean }>`
   border: 1.5px solid #f5989a;
   border-radius: 500px;
   width: max-content;
+  height: min-content;
   ${(props) =>
     props.fullWidth &&
     css`
@@ -35,9 +36,7 @@ const StyledTab = styled.div<{ selected: boolean; fullWidth?: boolean }>`
   font-style: italic;
   font-weight: 700;
   font-size: 18px;
-
   margin: -1.5px;
-  padding: 16px 54px;
 
   border-radius: 100px;
   color: ${(props) => (props.selected ? `white` : `red`)};
@@ -50,20 +49,7 @@ const StyledTab = styled.div<{ selected: boolean; fullWidth?: boolean }>`
   &:hover {
     opacity: 0.8;
   }
-
-  @media (max-width: 768px) {
-    height: 60px;
-    padding: 16px 40px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 16px 26px;
-  }
-
-  @media (max-width: 375px) {
-    height: 60px;
-    padding: 16px 18px;
-  }
+  padding: 10px 30px;
 `;
 
 export const Tabs: React.FC<TabsProps> = ({

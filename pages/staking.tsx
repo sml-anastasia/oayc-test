@@ -1,9 +1,8 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import React, { useState } from "react";
-import { StakingButton } from "../src/components/Button/StakingButton";
 import styled from "styled-components";
-import TopBar from "../src/components/Mutant/TopBar";
+import TopBar from "../src/components/common/layout/TopBar";
 import { useDefaultConnect } from "../src/hooks/web3/useDefaultConnect";
 import useEagerConnect from "../src/hooks/web3/useEagerConnect";
 import useChangeNetwork from "../src/hooks/web3/useChangeNetwork";
@@ -12,8 +11,9 @@ import { useAccount } from "wagmi";
 import { StakeMode } from "../src/web3/types/Staking";
 import { useStakingStatus } from "../src/hooks/contract/staking/useStakingStatus";
 import { StakedNfts } from "../src/components/Staking/StakedNfts";
-import { ContentContainer } from "../src/components/Staking/components/Styled/ContentContainer";
 import { AddToStaking } from "../src/components/Staking/AddToStaking";
+import OaycButton from "../src/components/common/buttons/OaycButton";
+import { device } from "../src/styles/device";
 
 const Container = styled.div`
   position: relative;
@@ -29,19 +29,22 @@ const Container = styled.div`
 
 const StyledStakingContainer = styled.div`
   display: flex;
-  justify-content: flex-start;
-  align-items: start;
   flex-direction: column;
-  font-family: "Rubik", serif;
+
   font-style: italic;
   font-weight: 700;
   font-size: 160px;
   line-height: 90%;
-  gap: 20px;
-  margin-top: 145px;
 
-  @media (max-width: 480px) {
-    margin-top: 10px;
+  margin-top: 10px;
+
+  max-width: 1260px;
+  padding: 0 30px;
+  width: 100%;
+  z-index: 1;
+
+  @media screen and ${device.tablet} {
+    margin: 145px auto 0 auto;
   }
 `;
 
@@ -102,18 +105,20 @@ const StyledText2 = styled(SharedTextStyles)`
 
 const StyledButtons = styled.div`
   display: flex;
-  justify-content: flex-start;
-  gap: 30px;
-  align-items: flex-start;
-  flex-direction: row;
-  text-transform: uppercase;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin-top: 300px;
+  gap: 20px;
 
-  @media (max-width: 480px) {
-    margin-top: 370px;
-    align-items: center;
-    flex-direction: column;
+  @media screen and ${device.tablet} {
+    display: flex;
+    justify-content: flex-start;
+
+    margin-top: 20px;
     width: 100%;
-    gap: 10px;
+    gap: 30px;
+    height: 80px;
   }
 `;
 
@@ -160,25 +165,14 @@ const StyledSignMobile = styled.div`
 const StyledApe = styled.div`
   position: absolute;
   right: 0;
-  top: 100px;
-  width: 384px;
-  height: 520px;
+  top: 250px;
 
-  @media (max-width: 768px) {
-    width: 300px;
-    height: 400px;
-  }
+  width: 300px;
+  height: 300px;
 
-  @media (max-width: 480px) {
-    width: 300px;
-    height: 300px;
-    top: 250px;
-  }
-
-  @media (max-width: 375px) {
-    width: 300px;
-    height: 300px;
-    top: 220px;
+  @media screen and ${device.tablet} {
+    width: 384px;
+    height: 520px;
   }
 `;
 
@@ -187,9 +181,10 @@ const StyledSignContainer = styled.div`
   width: 100%;
 `;
 
-const StyledStakingButton = styled(StakingButton)`
+const StyledStakingButton = styled(OaycButton)`
   width: 237px;
   margin-top: 20px;
+  height: 60px;
 
   @media (max-width: 480px) {
     width: 400px;
@@ -199,23 +194,6 @@ const StyledStakingButton = styled(StakingButton)`
   @media (max-width: 375px) {
     width: 350px;
     margin: 20px 10px;
-  }
-`;
-
-const StyledStakingButton2 = styled(StyledStakingButton)`
-  @media (max-width: 480px) {
-    width: 400px;
-    margin: 10px 20px 0;
-  }
-
-  @media (max-width: 375px) {
-    width: 350px;
-    margin: 10px 20px 0;
-  }
-
-  @media (max-width: 375px) {
-    gap: 10px;
-    margin: 0 auto;
   }
 `;
 
@@ -237,45 +215,38 @@ const Staking: NextPage = () => {
         <link rel="icon" href="/main/favicons/red.svg" />
       </Head>
       <Container>
-        <TopBar
-          logoUrl="/main/favicons/red.svg"
-          socials={true}
-          pageType="staking"
-        />
-        <ContentContainer>
-          <StyledStakingContainer>
-            <StyledHead>
-              <StyledText>Stake</StyledText>
-              <StyledText2>or lock</StyledText2>
-            </StyledHead>
-            {!isConnected && (
-              <StyledButtons>
-                <StyledStakingButton2 onClick={() => connect()}>
-                  Connect Wallet
-                </StyledStakingButton2>
-                <StyledStakingButton2>
-                  <span>Rules and conditions</span>
-                  <Image
-                    src="/images/svg/read_conditions.svg"
-                    alt="Rules and Conditions"
-                    width={41}
-                    height={41}
-                  />
-                </StyledStakingButton2>
-              </StyledButtons>
-            )}
-            {isConnected && isStarted && (
-              <StyledButtons>
-                <StyledStakingButton onClick={handleOpenStaking}>
-                  Add Nft
-                </StyledStakingButton>
-                {/*<StakingButton onClick={handleOpenWithdraw}>*/}
-                {/*  Withdraw*/}
-                {/*</StakingButton>*/}
-              </StyledButtons>
-            )}
-          </StyledStakingContainer>
-        </ContentContainer>
+        <TopBar logoUrl="/main/favicons/red.svg" socials={true} />
+
+        <StyledStakingContainer>
+          <StyledHead>
+            <StyledText>Stake</StyledText>
+            <StyledText2>or lock</StyledText2>
+          </StyledHead>
+          {!isConnected && (
+            <StyledButtons>
+              <StyledStakingButton onClick={() => connect()}>
+                Connect Wallet
+              </StyledStakingButton>
+              <StyledStakingButton>
+                <span>Rules and conditions</span>
+                <Image
+                  src="/images/svg/read_conditions.svg"
+                  alt="Rules and Conditions"
+                  width={41}
+                  height={41}
+                />
+              </StyledStakingButton>
+            </StyledButtons>
+          )}
+          {isConnected && isStarted && (
+            <StyledButtons>
+              <StyledStakingButton onClick={handleOpenStaking}>
+                Add Nft
+              </StyledStakingButton>
+            </StyledButtons>
+          )}
+        </StyledStakingContainer>
+
         <StyledSignContainer>
           <StyledOAYCText>
             <Image
@@ -287,12 +258,13 @@ const Staking: NextPage = () => {
           </StyledOAYCText>
           <StyledSignMobile />
         </StyledSignContainer>
-        <StakedNfts />
+
         <StyledApe>
           <Image src="/images/oayc_bg.png" width={384} height={520} alt={""} />
         </StyledApe>
-      </Container>
 
+        <StakedNfts />
+      </Container>
       {stakeMode !== "none" && (
         // TODO: create proper modal
         <AddToStaking onClose={handleClose} isOpen={true} />

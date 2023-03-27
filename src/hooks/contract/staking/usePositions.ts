@@ -3,7 +3,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { config } from "../../../web3/config";
 import { stakingAbi } from "../../../web3/contracts";
 import { useMemo } from "react";
-import { NftInfo } from "../../../web3/types/NFT";
+import { DepositType, NftInfo } from "../../../web3/types/NFT";
 
 export const usePositions = () => {
   const { address = AddressZero, isConnected } = useAccount();
@@ -52,8 +52,20 @@ export const usePositions = () => {
     [positionsRaw]
   );
 
+  const stakedPositions = useMemo(
+    () => positions.filter((i) => i.positionKind === DepositType.staking),
+    [positions]
+  );
+
+  const lockedPositions = useMemo(
+    () => positions.filter((i) => i.positionKind === DepositType.lock),
+    [positions]
+  );
+
   return {
     positions,
+    stakedPositions,
+    lockedPositions,
     refetchAllPositionsInfo,
   };
 };

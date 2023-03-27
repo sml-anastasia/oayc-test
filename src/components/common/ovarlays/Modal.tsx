@@ -51,8 +51,10 @@ const Modal = ({
           justifyContent: "center",
           alignItems: "center",
           transition: "0.5s",
+          zIndex: 1000,
         },
         content: {
+          zIndex: 1001,
           width: width ?? "min-content",
           height: height ?? "min-content",
         },

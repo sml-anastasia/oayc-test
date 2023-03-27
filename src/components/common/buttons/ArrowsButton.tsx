@@ -1,6 +1,6 @@
 import React from "react";
-import MoaycButton from "./MoaycButton";
-import ArrowSurround from "../../Mutant/ArrowSurround";
+import OaycButton from "./OaycButton";
+import ArrowSurround from "../surrounds/ArrowSurround";
 
 const ArrowsButton = ({
   children,
@@ -8,7 +8,7 @@ const ArrowsButton = ({
 }: React.HTMLAttributes<HTMLButtonElement>) => {
   return (
     <ArrowSurround>
-      <MoaycButton {...rest}>{children}</MoaycButton>
+      <OaycButton {...rest}>{children}</OaycButton>
     </ArrowSurround>
   );
 };
