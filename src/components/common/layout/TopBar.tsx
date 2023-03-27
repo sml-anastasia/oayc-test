@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 import { device } from "../../../styles/device";
 import { useAccount, useDisconnect } from "wagmi";
-import { Balance } from "../../Staking/components/Balance";
+import { Balance } from "./Balance";
 import OaycButton from "../buttons/OaycButton";
 import { Style } from "../../../theme";
 

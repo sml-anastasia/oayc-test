@@ -265,9 +265,6 @@ const Staking: NextPage = () => {
                 <StyledStakingButton onClick={handleOpenStaking}>
                   Add Nft
                 </StyledStakingButton>
-                {/*<StakingButton onClick={handleOpenWithdraw}>*/}
-                {/*  Withdraw*/}
-                {/*</StakingButton>*/}
               </StyledButtons>
             )}
           </StyledStakingContainer>

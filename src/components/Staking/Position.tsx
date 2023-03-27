@@ -3,8 +3,7 @@ import { PositionInfoTooltip } from "./components/PositionInfoTooltip";
 import styled from "styled-components";
 import ImageSelector from "./components/ImageSelector";
 import { useOutsideClick } from "../../hooks/utils/useOutsideClick";
-import { NftInfo } from "../../web3/types/NFT";
-import { BigNumber } from "ethers";
+import { PositionData } from "../../web3/types/NFT";
 
 const StyledPositionList = styled(ImageSelector)`
   display: grid;
@@ -85,16 +84,12 @@ enum DepositType {
 }
 
 interface PositionProps {
-  stakedNfts: NftInfo[];
-  accruedReward: BigNumber;
-  remainingPeriod: BigNumber;
-  positionKind: DepositType;
   claim: () => void;
+  position: PositionData;
 }
 
 export const Position = (props: PositionProps) => {
-  const { stakedNfts, accruedReward, remainingPeriod, positionKind, claim } =
-    props;
+  const { position, claim } = props;
 
   const [showInfo, setShowInfo] = useState(false);
   const infoRef = useRef(null);
@@ -105,18 +100,18 @@ export const Position = (props: PositionProps) => {
     <StyledItem>
       <StyledPositionList
         twoColumns={true}
-        data={stakedNfts}
+        data={position.stakedNfts}
         selectable={false}
       />
       <StyledInfoIcon ref={infoRef} onClick={() => setShowInfo(true)} />
       <InfoContainer>
         <PositionInfoTooltip
           show={showInfo}
-          accruedReward={accruedReward}
-          remainingPeriod={remainingPeriod}
+          accruedReward={position.accruedReward}
+          remainingPeriod={position.remainingPeriod}
         />
         <UnstakeButton hidden={showInfo} onClick={claim}>
-          {positionKind === DepositType.staking ? "Unstake" : "Unlock"}
+          {position.positionKind === DepositType.staking ? "Unstake" : "Unlock"}
         </UnstakeButton>
       </InfoContainer>
     </StyledItem>

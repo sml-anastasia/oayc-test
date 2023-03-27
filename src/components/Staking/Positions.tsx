@@ -1,9 +1,8 @@
 import React from "react";
 import { BigNumber } from "ethers";
 import styled from "styled-components";
-import { StatusModals } from "./components/StatusModals/StatusModals";
-import { useUnstaking } from "../../hooks/contract/staking/useUnstaking";
 import { Position } from "./Position";
+import { PositionData } from "../../web3/types/NFT";
 
 const PositionsContainer = styled.div`
   display: flex;
@@ -41,49 +40,23 @@ const PositionsContainer = styled.div`
   }
 `;
 
-export const Positions = () => {
-  const {
-    positions,
-    claim,
-    isSuccess,
-    isError,
-    isLoading,
-    dismissSuccess,
-    dismissError,
-  } = useUnstaking();
+interface PositionsProps {
+  claim: (id: BigNumber) => void;
+  positions: PositionData[];
+}
 
-  const handleClaim = (position: BigNumber) => {
-    claim?.({ recklesslySetUnpreparedArgs: [position] });
-  };
+export const Positions = (props: PositionsProps) => {
+  const { claim, positions } = props;
 
   return (
     <PositionsContainer>
-      {positions.map(
-        ({
-          positionId,
-          stakedNfts,
-          accruedReward,
-          positionKind,
-          remainingPeriod,
-        }) => (
-          <Position
-            key={positionId.toString()}
-            positionKind={positionKind}
-            stakedNfts={stakedNfts}
-            accruedReward={accruedReward}
-            remainingPeriod={remainingPeriod}
-            claim={() => handleClaim(positionId)}
-          />
-        )
-      )}
-
-      <StatusModals
-        isLoading={isLoading}
-        isSuccess={isSuccess}
-        isError={isError}
-        dismissSuccess={dismissSuccess}
-        dismissError={dismissError}
-      />
+      {positions.map((position) => (
+        <Position
+          key={position.positionId.toString()}
+          position={position}
+          claim={() => claim(position.positionId)}
+        />
+      ))}
     </PositionsContainer>
   );
 };

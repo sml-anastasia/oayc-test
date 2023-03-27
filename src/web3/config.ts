@@ -17,6 +17,8 @@ interface Config {
   mutagen2Contract: Address;
   mutagen3Contract: Address;
   stakingContract: Address;
+  apedTokenContract: Address;
+
   apiKey: string;
   oaycBaseUri: string;
   moaycBaseUri: string;
@@ -33,6 +35,7 @@ const DEV_CONFIG: Config = {
   mutagen2Contract: "0x34297C67bAdf235fB9bf95a27d8da51BC826b2C9",
   mutagen3Contract: "0x2AA79C491b13715932201301efFCb627878621a2",
 
+  apedTokenContract: "0xd7f4F862ca5D164946E7D57b9B08D57d951b513B",
   stakingContract: "0xC6Db8e8D84B18af7e7df44e6C389a3272dC74966",
   apiKey: "uT747kUZYmny3_vJDtaxPjtzlMPHLn7W",
 
@@ -51,7 +54,8 @@ const PROD_CONFIG: Config = {
   mutagen2Contract: "0x19287b85b215c043974860361f8559a3ce1c3543",
   mutagen3Contract: "0xf68f8d089f2a1efe2395aca82288753dc2cea8a4",
 
-  stakingContract: "0xC6Db8e8D84B18af7e7df44e6C389a3272dC74966",
+  apedTokenContract: "0x",
+  stakingContract: "0x",
   apiKey: "Kdb9I1fanjK6qJPSCUaGCa4KH9XOv3xP",
 
   oaycBaseUri: "https://oayc.io:3000/",

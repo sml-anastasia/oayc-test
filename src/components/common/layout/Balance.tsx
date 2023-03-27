@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import { ethers } from "ethers";
-import { useAccount, useBalance } from "wagmi";
+import { useApedBalance } from "../../../hooks/contract/useApedBalance";
 
 const StyledBalance = styled.div`
   display: flex;
@@ -32,16 +32,12 @@ interface BalanceProps {
 }
 
 export const Balance = ({ decimals = 3 }: BalanceProps) => {
-  const { address } = useAccount();
-  const { data: balance } = useBalance({ addressOrName: address });
-
+  const { balance } = useApedBalance();
   return (
     <StyledBalance>
       <StyledName>Balance</StyledName>
       <StyledTokens>
-        {parseFloat(ethers.utils.formatEther(balance?.value ?? 0)).toFixed(
-          decimals
-        )}
+        {parseFloat(ethers.utils.formatEther(balance)).toFixed(decimals)}
         $OAYC
       </StyledTokens>
       <Image
