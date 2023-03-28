@@ -5,7 +5,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import { config } from "../../../web3/config";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { stakingAbi } from "../../../web3/contracts";
 import { BigNumber } from "ethers";
 import { useOaycStakingApprove } from "../oayc-mint/useOaycStakingApprove";
@@ -105,7 +105,7 @@ export const useStaking = (
     onError: setErrorState,
   });
 
-  const setApprovalForAll = () => {
+  const setApprovalForAll = async () => {
     oaycApprove.approve();
     moaycApprove.approve();
   };
@@ -114,6 +114,11 @@ export const useStaking = (
 
   const isApproveNeeded =
     !oaycApprove.isApprovedForAll || !moaycApprove.isApprovedForAll;
+
+  useEffect(() => {
+    stakePrepare.refetch();
+    lockPrepare.refetch();
+  }, [isApproveNeeded]);
 
   const stake = () => stakeWrite.write?.();
   const lock = () => lockWrite.write?.();

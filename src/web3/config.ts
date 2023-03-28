@@ -2,7 +2,6 @@ import { InjectedConnector } from "@wagmi/core";
 import { Address, Chain, configureChains } from "wagmi";
 import { optimism, polygonMumbai } from "@wagmi/core/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
 
 export const defaultConnector = new InjectedConnector();
 
@@ -78,5 +77,5 @@ export const config = getConfig();
 
 export const { chains, provider, webSocketProvider } = configureChains(
   [config.defaultChain],
-  [alchemyProvider({ apiKey: config.apiKey }), publicProvider()]
+  [alchemyProvider({ apiKey: config.apiKey })]
 );
