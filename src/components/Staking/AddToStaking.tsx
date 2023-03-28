@@ -162,7 +162,7 @@ export const AddToStaking = ({ onClose, isOpen }: AddToStakingProps) => {
           onChange={setSelectedPeriod}
         />
 
-        {selectedDepositType === DepositType.lock && isApproveNeeded ? (
+        {isApproveNeeded ? (
           <StyledStakingButton
             onClick={setApprovalForAll}
             disabled={!selectedNft.length}
