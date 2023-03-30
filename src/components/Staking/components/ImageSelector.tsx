@@ -12,13 +12,13 @@ const ImageSelectorContainer = styled.div<{ twoColumns?: boolean }>`
   overflow-y: auto;
   display: grid;
   grid-template-columns: ${({ twoColumns }) =>
-    twoColumns ? "repeat(2, 1fr)" : "repeat(auto-fit, minmax(60px, 1fr))"};
-  grid-auto-rows: 60px;
+    twoColumns ? "repeat(2, 1fr)" : "repeat(auto-fit, minmax(64px, 1fr))"};
+  grid-auto-rows: 64px;
   gap: 8px;
   position: relative;
-  margin-bottom: 20px;
+  margin: 50px 0 20px;
   min-height: ${({ twoColumns }) => (twoColumns ? "auto" : "100%")};
-  max-height: ${({ twoColumns }) => (twoColumns ? "auto" : "200px")};
+  max-height: ${({ twoColumns }) => (twoColumns ? "auto" : "208px")};
 
   ::-webkit-scrollbar {
     width: 3px;
@@ -38,14 +38,15 @@ const ImageSelectorContainer = styled.div<{ twoColumns?: boolean }>`
 const StyledImage = styled.img`
   border-radius: 5px;
   filter: light(0);
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
 `;
 
 const ImageContainer = styled.div<{ selected: boolean }>`
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
+  opacity: ${(props) => (props.selected ? 1 : 0.5)};
 
   & > img {
     ${(props) =>
@@ -60,18 +61,18 @@ const ImageContainer = styled.div<{ selected: boolean }>`
     content: "";
     top: 0;
     left: 0;
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     display: block;
     position: absolute;
-    background: linear-gradient(159.53deg, #ff0420 1.07%, #87cc00 72.47%);
-    opacity: ${(props) => (props.selected ? 0.35 : 0)};
+    /* background: linear-gradient(159.53deg, #ff0420 1.07%, #87cc00 72.47%); */
+    opacity: ${(props) => (props.selected ? 1 : 0)};
     border-radius: 5px;
   }
 
   &:hover::after {
     cursor: pointer;
-    opacity: 0.35;
+    /* opacity: 0.35; */
   }
 `;
 

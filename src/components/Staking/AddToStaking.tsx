@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import styled from "styled-components";
-import { Tabs } from "./components/Tabs";
 import ImageSelector from "./components/ImageSelector";
 import { NftInfo } from "../../web3/types/NFT";
 import { StatusModals } from "./components/StatusModals/StatusModals";
@@ -11,21 +10,26 @@ import { RedRoundCloseButton } from "./components/RedRoundCloseButton";
 import OaycButton from "../common/buttons/OaycButton";
 import { sortArraysBySameValues } from "./utils/sorting";
 import { device } from "../../styles/device";
+import { Select } from "./components/Select";
 
 const StyledContainer = styled.div`
+  width: 100%;
+  padding: 20px 10px;
+  margin: 0;
+
   display: flex;
   overflow: auto;
   flex-grow: 1;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
+  gap: 14px;
 
-  width: 420px;
   transition: 0.3s;
 
   @media screen and ${device.tablet} {
-    width: 600px;
+    width: 420px;
+    margin: 0 122px 61px;
   }
 `;
 
@@ -57,13 +61,17 @@ const StyledModal = styled(Modal)`
   height: 100%;
 `;
 
-const StyledTabs = styled(Tabs)`
-  margin: 5px auto;
+const SelectWrapper = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 8px;
 `;
 
 const StyledStakingButton = styled(OaycButton)`
+  width: 100%;
   @media (max-width: 480px) {
-    width: 350px;
+    width: 315px;
   }
 
   @media (max-width: 375px) {
@@ -151,16 +159,24 @@ export const AddToStaking = ({ onClose, isOpen }: AddToStakingProps) => {
           <StyledText>no nft for staking</StyledText>
         )}
 
-        <StyledTabs
-          value={selectedDepositType}
-          tabs={["STAKE", "LOCK"]}
-          onChange={setSelectedDepositType}
-        />
-        <StyledTabs
-          value={selectedPeriod}
-          tabs={["1 day", "7 days", "28 days"]}
-          onChange={setSelectedPeriod}
-        />
+        <SelectWrapper>
+          <Select
+            value={selectedDepositType}
+            options={["STAKE", "LOCK"]}
+            onChange={setSelectedDepositType}
+            selectedOption={["STAKE", "LOCK"].find(
+              (item: string, index: number) => selectedDepositType === index
+            )}
+          />
+          <Select
+            value={selectedPeriod}
+            options={["1 day", "7 days", "28 days"]}
+            onChange={setSelectedPeriod}
+            selectedOption={["1 day", "7 days", "28 days"].find(
+              (item: string, index: number) => selectedPeriod === index
+            )}
+          />
+        </SelectWrapper>
 
         {isApproveNeeded ? (
           <StyledStakingButton
